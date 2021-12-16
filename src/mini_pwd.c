@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini_func.c                                        :+:      :+:    :+:   */
+/*   mini_pwd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seongjki <seongjk@student.42seoul.k>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/16 10:20:36 by seongjki          #+#    #+#             */
-/*   Updated: 2021/12/16 12:44:51 by seongjki         ###   ########.fr       */
+/*   Created: 2021/12/16 16:41:16 by seongjki          #+#    #+#             */
+/*   Updated: 2021/12/16 16:41:27 by seongjki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,39 +28,4 @@ int	mini_pwd(void)
 	printf("%s\n", name);
 	free(name);
 	return (0);
-}
-
-int	mini_cd(const char *path)
-{
-	char	*err_msg;
-
-	if (chdir(path) == -1)
-	{
-		err_msg = strerror(errno);
-		printf("%s\n", err_msg);
-		return (errno);
-	}
-	return (0);
-}
-
-int	mini_env(char *envp[])
-{
-	int	idx;
-
-	idx = 0;
-	while (envp[idx])
-	{
-		printf("%s\n", envp[idx]);
-		idx++;
-	}
-	return (0);
-}
-
-int main(int argc, char *argv[], char *envp[])
-{
-	mini_pwd();
-	printf("exec cd...\n");
-	mini_cd("..");
-	mini_pwd();
-	mini_env(envp);
 }

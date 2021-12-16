@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   mini_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: seongjki <seongjk@student.42seoul.k>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/14 17:13:54 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/16 10:20:22 by seongjki         ###   ########.fr       */
+/*   Created: 2021/12/16 16:42:09 by seongjki          #+#    #+#             */
+/*   Updated: 2021/12/16 16:43:18 by seongjki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	minishell(char *envp[])
+int	mini_env(char *envp[])
 {
-	char	*input;
+	int	idx;
+	int	size;
 
-	while (1)
+	idx = 0;
+	while (envp[idx])
+		idx++;
+	size = idx;
+	idx = 0;
+	while (idx < size - 1)
 	{
-		input = readline("minishell $ ");
-		if (!input)
-			return (0);
-		add_history(input);
+		printf("%s\n", envp[idx]);
+		idx++;
 	}
-	return (1);
-}
-
-int main(int argc, char *argv[], char *envp[])
-{
-	printf("Hello minishell!\n");
-	minishell(envp);
-	return 0;
+	printf("_=usr/bin/env\n");
+	return (0);
 }
