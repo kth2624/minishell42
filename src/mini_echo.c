@@ -1,38 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini_env.c                                         :+:      :+:    :+:   */
+/*   mini_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seongjki <seongjk@student.42seoul.k>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/16 16:42:09 by seongjki          #+#    #+#             */
-/*   Updated: 2021/12/18 16:39:30 by seongjki         ###   ########.fr       */
+/*   Created: 2021/12/18 14:14:03 by seongjki          #+#    #+#             */
+/*   Updated: 2021/12/18 14:20:43 by seongjki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	mini_env(t_lst *env_lst)
+int	mini_echo(char *argv[], int flag)
 {
-	t_lst	*head;
-	int		size;
-	int		cnt;
+	int	idx;
 
-	size = mini_lstlen(env_lst);
-	cnt = 0;
-	while (cnt < size)
+	idx = 1;
+	while (argv[idx + 1])
 	{
-		head = env_lst;
-		while (head)
-		{
-			if (head->idx == cnt)
-			{
-				printf("%s=%s\n", head->key, head->value);
-				cnt++;
-			}
-			head = head->next;
-		}
+		printf("%s ", argv[idx]);
+		idx++;
 	}
-	printf("_=usr/bin/env\n");
+	printf("%s", argv[idx]);
+	if (flag == 1)
+		printf("\n");
 	return (0);
 }
