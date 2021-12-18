@@ -6,13 +6,13 @@
 /*   By: seongjki <seongjk@student.42seoul.k>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 14:28:51 by seongjki          #+#    #+#             */
-/*   Updated: 2021/12/16 17:31:09 by seongjki         ###   ########.fr       */
+/*   Updated: 2021/12/18 14:01:37 by seongjki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_lst	*mini_lstnew(char *key, char *value)
+t_lst	*mini_lstnew(char *key, char *value, int idx)
 {
 	t_lst	*new;
 
@@ -21,6 +21,7 @@ t_lst	*mini_lstnew(char *key, char *value)
 		return (0);
 	new->key = key;
 	new->value = value;
+	new->idx = idx;
 	new->next = 0;
 	return (new);
 }

@@ -6,13 +6,13 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:13:54 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/16 18:04:31 by seongjki         ###   ########.fr       */
+/*   Updated: 2021/12/18 14:07:09 by seongjki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_lst	*split_key_value(char *str)
+t_lst	*split_key_value(char *str, int lst_idx)
 {
 	char	*value;
 	char	*key;
@@ -27,7 +27,7 @@ t_lst	*split_key_value(char *str)
 	ptr[idx] = 0;
 	key = ptr;
 	value = ptr + idx + 1;
-	new = mini_lstnew(key, value);
+	new = mini_lstnew(key, value, lst_idx);
 	return (new);
 }
 
@@ -44,7 +44,7 @@ int	init_env(t_lst **env_lst, char *envp[])
 	idx = 0;
 	while (idx < size - 1)
 	{
-		new = split_key_value(envp[idx]);
+		new = split_key_value(envp[idx], idx);
 		mini_lstaddback(env_lst, new);
 		idx++;
 	}
