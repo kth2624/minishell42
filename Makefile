@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: seongjki <seongjk@student.42seoul.k>       +#+  +:+       +#+         #
+#    By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/16 15:34:07 by seongjki          #+#    #+#              #
-#    Updated: 2021/12/16 18:11:53 by seongjki         ###   ########.fr        #
+#    Updated: 2021/12/19 01:36:09 by tkim             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ LINK = -lreadline -L./libft/ -lft
 INCLUDE = -I./libft -I./include
 
 SRC_DIR = ./src/
-SRC_NAME = lst_utils.c mini_cd.c mini_env.c mini_export.c mini_pwd.c mini_unset.c main.c
+SRC_NAME = lst_utils.c mini_cd.c mini_env.c mini_export.c mini_pwd.c mini_unset.c main.c first_parsing.c
 SRC = $(addprefix $(SRC_DIR),$(SRC_NAME))
 OBJ = $(SRC:.c=.o)
 TEST_SRC_NAME = lst_utils.c mini_cd.c mini_env.c mini_export.c mini_pwd.c mini_unset.c\

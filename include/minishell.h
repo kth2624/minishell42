@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:12:43 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/16 18:04:15 by seongjki         ###   ########.fr       */
+/*   Updated: 2021/12/19 00:37:37 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@
 
 typedef struct s_lst
 {
-	char	*key;
-	char	*value;
-	struct s_lst *next;
+	char			*key;
+	char			*value;
+	struct s_lst	*next;
 }	t_lst;
 
 int		init_env(t_lst **env_lst, char *envp[]);
@@ -40,4 +40,5 @@ int		mini_pwd(void);
 int		mini_env(char *envp[]);
 int		mini_export(t_lst **env_lst, char *str);
 int		mini_unset(t_lst **env_lst, char *key);
-# endif
+char	*first_parsing(char *input);
+#endif
