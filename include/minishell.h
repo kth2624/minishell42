@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:12:43 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/20 19:46:21 by tkim             ###   ########.fr       */
+/*   Updated: 2021/12/20 20:31:14 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <errno.h>
 # include <stdio.h>
 # include "libft.h"
+#include <sys/types.h> //stat
+#include <sys/stat.h>  //stat
 
 typedef struct s_lst
 {
@@ -48,6 +50,8 @@ int		mini_unset(t_lst **env_lst, char *key);
 /* first_parsing.c*/
 char	**first_parsing(char *input, t_lst *env_lst);
 /* path_parsing.c*/
-char	**path_parsing(t_lst *env_lst);
+char **path_parsing(char *arg, t_lst *env_lst);
+void	exec_path(char **path_arr, char *argv[]);
+
 
 #endif
