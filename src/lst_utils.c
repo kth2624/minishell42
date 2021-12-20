@@ -6,7 +6,7 @@
 /*   By: seongjki <seongjk@student.42seoul.k>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 14:28:51 by seongjki          #+#    #+#             */
-/*   Updated: 2021/12/18 14:01:37 by seongjki         ###   ########.fr       */
+/*   Updated: 2021/12/20 13:30:09 by seongjki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ t_lst	*mini_lstnew(char *key, char *value, int idx)
 	new = (t_lst *)malloc(sizeof(t_lst));
 	if (!new)
 		return (0);
-	new->key = key;
-	new->value = value;
+	new->key = ft_strdup(key);
+	new->value = ft_strdup(value);
 	new->idx = idx;
 	new->next = 0;
 	return (new);
@@ -30,13 +30,13 @@ int		mini_lstaddback(t_lst **lst, t_lst *new)
 {
 	t_lst	*head;
 
-	head = *lst;
-	if (!head)
+	if (!(*lst))
 	{
 		*lst = new;
 		return (0);
 	}
-	while (head->next != 0)
+	head = *lst;
+	while (head->next)
 		head = head->next;
 	head->next = new;
 	return (0);

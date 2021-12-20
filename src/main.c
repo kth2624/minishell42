@@ -6,48 +6,42 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:13:54 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/19 02:08:34 by tkim             ###   ########.fr       */
+/*   Updated: 2021/12/20 14:14:05 by seongjki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_lst	*split_key_value(char *str, int lst_idx)
+int	exec_built_in_func(char **argv)
 {
-	char	*value;
-	char	*key;
-	int		idx;
-	char	*ptr;
-	t_lst	*new;
+	int	pid;
+	int	state;
 
-	ptr = ft_strdup(str);
-	idx = 0;
-	while (ptr[idx] != '=')
-		idx++;
-	ptr[idx] = 0;
-	key = ptr;
-	value = ptr + idx + 1;
-	new = mini_lstnew(key, value, lst_idx);
-	return (new);
-}
-
-int	init_env(t_lst **env_lst, char *envp[])
-{
-	t_lst	*new;
-	int		size;
-	int		idx;
-
-	idx = 0;
-	while (envp[idx])
-		idx++;
-	size = idx;
-	idx = 0;
-	while (idx < size - 1)
+	if (!argv)
+		return (0);
+	if (ft_strcmp(argv[0], "echo") == 0)
 	{
-		new = split_key_value(envp[idx], idx);
-		mini_lstaddback(env_lst, new);
-		idx++;
+		pid = fork();
+		if (pid > 0)
+			wait(&state);
+		else if (pid == 0)
+			execve("./src/echo", argv, NULL);
+		else if (pid < 0)
+			strerror(errno);
 	}
+/*
+	else if (ft_strcmp(argv[0], "cd")
+
+	else if (ft_strcmp(argv[0], "pwd")
+
+	else if (ft_strcmp(argv[0], "unset")
+
+	else if (ft_strcmp(argv[0], "export")
+
+	else if (ft_strcmp(argv[0], "env")
+*/
+	else
+		printf("error\n");
 	return (0);
 }
 
@@ -55,15 +49,20 @@ int	minishell(char *envp[])
 {
 	t_lst	*env_lst;
 	char	*input;
+	char	**argv;
 
-	//init_env(&env_lst, envp);
+	env_lst = 0;
+	if (!env_lst)
+		init_env(&env_lst, envp);
 	while (1)
 	{
 		input = readline("minishell42 $ ");
 		if (!input)
 			return (0);
-		first_parsing(input);
+		argv = first_parsing(input);
+		exec_built_in_func(argv);
 		add_history(input);
+		free(input);
 	}
 	return (1);
 }
