@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini_echo.c                                        :+:      :+:    :+:   */
+/*   path_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/18 14:14:03 by seongjki          #+#    #+#             */
-/*   Updated: 2021/12/20 16:33:59 by tkim             ###   ########.fr       */
+/*   Created: 2021/12/20 19:28:20 by tkim              #+#    #+#             */
+/*   Updated: 2021/12/20 19:58:07 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	mini_echo(char *argv[])
+char **path_parsing(t_lst *env_lst)
 {
-	int	idx;
-
-	idx = 2;
-	while (argv[idx])
+	char **path_arr;
+	char *path;
+	int i = 0;
+	while(env_lst)
 	{
-		printf("%s", argv[idx]);
-		idx++;
+		if (ft_strcmp(env_lst->key, "PATH") == 0)
+			path = env_lst->value;
+		env_lst = env_lst->next;
 	}
-	printf("\n");
-	return (0);
+	path_arr = ft_split(path, ':');
+
+	return (path_arr);
 }

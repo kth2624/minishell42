@@ -6,40 +6,23 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 13:56:36 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/20 14:14:03 by seongjki         ###   ########.fr       */
+/*   Updated: 2021/12/20 19:57:37 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* 생각해볼것 
- 따옴표가 하나만 들어왔을 때 처리 
- 또 다른 예외는 없는가 
- 함수 어떻게 나눌지
- abc"abc"'abc' 같은 경우 처리함
- (argv {'abc' ' ' 'abc' ' ' 'abc' 0})
- 이런식으로 만듬
-*/
 int	is_mini_printable(char c)
 {
 	if (' ' <= c && c <= '~')
 	{
-		if (c == '	' || c == ' ' || c == '\'' || c == '"')
+		if (c == '	' || c == ' ' || c == '\'' || c == '"' || c == '$')
 			return (0);
 		return (1);
 	}
 	return (0);
 }
-/*
-int	is_quote(char c)
-{
-	if (c == '\'')
-		return (1);
-	else if (c == '"')
-		return (2);
-	return (0);
-}
-*/
+
 int	cnt_word(char *input)
 {
 	int	word_len;
@@ -77,22 +60,45 @@ int	cnt_word(char *input)
 			while (input[i] == ' ')
 				i++;
 		}
+		else if (input[i] == '$')
+		{
+			i++;
+			while (input[i] && input[i] != ' ')
+				i++;
+			word_len++;
+		}
 		else
 			i++;
 	}
 	return (word_len);
 }
 
-char	**make_str_arr(char *input)
+char *replace_doller(char *arg, t_lst *env_lst)
+{
+	printf("arg = %s\n", arg);
+	while (env_lst)
+	{
+		if (ft_strcmp(env_lst->key, arg) == 0)
+		{
+			//printf("value = %s\n",env_lst->value);
+			return (env_lst->value);
+		}
+		env_lst = env_lst->next;
+	}
+	return (0);
+}
+
+char	**make_str_arr(char *input, t_lst *env_lst)
 {
 	int		cnt;
 	char	**str;
 	int		i;
 	int		j;
 	int		len;
+	char *temp;
 
 	cnt = cnt_word(input);
-	//printf("cnt = %d\n", cnt);
+	printf("cnt = %d\n", cnt);
 	str = (char **)malloc(sizeof(char *) * (cnt + 1));
 	if (!str)
 		return (0);
@@ -102,7 +108,7 @@ char	**make_str_arr(char *input)
 	while (input[i])
 	{
 		len = 0;
-		
+
 		if (is_mini_printable(input[i]))
 		{
 			while (input[i + len] && input[i + len] != ' ' && is_mini_printable(input[i + len]))
@@ -125,12 +131,29 @@ char	**make_str_arr(char *input)
 		else if (input[i] == '"')
 		{
 			i++;
-			while (input[i + len] && input[i + len] != '\"')
-				len++;
-			str[j] = ft_substr(input, i, len);
-			//printf("mini %s\n", str[j]);
-			j++;
-			i += len + 1;
+			if (input[i] == '$')
+			{
+				i++;
+				while (input[i + len] && input[i + len] != ' ')
+					len++;
+				str[j] = replace_doller(ft_substr(input, i, len), env_lst);
+				i += len;
+				while (input[i + len] && input[i + len] != '\"')
+					len++;
+				temp = ft_substr(input, i, len);
+				str[j] = ft_strjoin(str[j], temp);
+				printf("first=%s temp=%s\n",str[j], temp );
+				i += len + 1;
+			}
+			else
+			{
+				while (input[i + len] && input[i + len] != '\"')
+					len++;
+				str[j] = ft_substr(input, i, len);
+				printf("mini=%s\n", str[j]);
+				j++;
+				i += len + 1;
+			}
 		}
 		else if (input[i] == ' ')
 		{
@@ -140,18 +163,28 @@ char	**make_str_arr(char *input)
 				i++;
 			j++;
 		}
+		else if (input[i] == '$')
+		{
+			i++;
+			while (input[i + len] && input[i + len] != ' ')
+				len++;
+			str[j] = replace_doller(ft_substr(input, i, len), env_lst);
+			//printf("first = %s\n",str[j]);
+			j++;
+			i += len + 1;
+		}
 		else
 			i++;
 	}
 	return (str);
 }
 
-char *first_parsing(char *input)
+char **first_parsing(char *input, t_lst *env_lst)
 {
 	char **str;
 
 	if (!input[0])
 		return (0);
-	str = make_str_arr(input);
+	str = make_str_arr(input, env_lst);
 	return (str);
 }
