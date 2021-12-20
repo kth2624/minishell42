@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:12:43 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/18 14:19:46 by seongjki         ###   ########.fr       */
+/*   Updated: 2021/12/19 02:10:12 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,5 @@ int		mini_pwd(void);
 int		mini_env(t_lst *env_lst);
 int		mini_export(t_lst **env_lst, char *str);
 int		mini_unset(t_lst **env_lst, char *key);
-# endif
+char	*first_parsing(char *input);
+#endif

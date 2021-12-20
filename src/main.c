@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:13:54 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/18 14:07:09 by seongjki         ###   ########.fr       */
+/*   Updated: 2021/12/19 02:08:34 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,20 +56,21 @@ int	minishell(char *envp[])
 	t_lst	*env_lst;
 	char	*input;
 
-	init_env(&env_lst, envp);
+	//init_env(&env_lst, envp);
 	while (1)
 	{
-		input = readline("minishell $ ");
+		input = readline("minishell42 $ ");
 		if (!input)
 			return (0);
+		first_parsing(input);
 		add_history(input);
 	}
 	return (1);
 }
-/*
+
 int main(int argc, char *argv[], char *envp[])
 {
 	printf("Hello minishell!\n");
 	minishell(envp);
 	return 0;
-}*/
+}
