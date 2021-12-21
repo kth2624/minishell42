@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 19:28:20 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/20 20:25:26 by tkim             ###   ########.fr       */
+/*   Updated: 2021/12/21 17:32:05 by seongjki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	get_words(char **split, char *str, char c, char *arg)
 	size_t	i;
 	size_t	j;
 	size_t	word;
-	char *s1;
+	char	*s1;
 
 	word = 0;
 	i = 0;
@@ -59,7 +59,7 @@ static void	get_words(char **split, char *str, char c, char *arg)
 	}
 }
 
-static char	**path_split(char const *s,char *arg, char c)
+static char	**path_split(char const *s, char *arg, char c)
 {
 	char	**split;
 	int		words;
@@ -72,15 +72,16 @@ static char	**path_split(char const *s,char *arg, char c)
 		return (0);
 	split[words] = 0;
 	get_words(split, str, c, arg);
+	free(arg);
 	return (split);
 }
 
-char **path_parsing(char *arg, t_lst *env_lst)
+char	**path_parsing(char *arg, t_lst *env_lst)
 {
-	char **path_arr;
-	char *path;
+	char	**path_arr;
+	char	*path;
 
-	while(env_lst)
+	while (env_lst)
 	{
 		if (ft_strcmp(env_lst->key, "PATH") == 0)
 			path = env_lst->value;
@@ -90,15 +91,15 @@ char **path_parsing(char *arg, t_lst *env_lst)
 	return (path_arr);
 }
 
-void	exec_path(char **path_arr, char *argv[])
+void	exec_path(char **path_arr, char *argv[], char *env_arr[])
 {
-	int	i;
+	int			i;
 	struct stat	f_stat;
-	int	pid;
-	int	state;
+	int			pid;
+	int			state;
 
 	i = 0;
-	while(path_arr[i])
+	while (path_arr[i])
 	{
 		if (!stat(path_arr[i], &f_stat))
 		{
@@ -106,7 +107,7 @@ void	exec_path(char **path_arr, char *argv[])
 			if (pid > 0)
 				wait(&state);
 			else if (pid == 0)
-				execve(path_arr[i], argv, NULL);
+				execve(path_arr[i], argv, env_arr);
 			else if (pid < 0)
 				printf("%s\n", strerror(errno));
 		}
