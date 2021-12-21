@@ -6,13 +6,13 @@
 /*   By: seongjki <seongjk@student.42seoul.k>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 17:20:17 by seongjki          #+#    #+#             */
-/*   Updated: 2021/12/18 14:13:40 by seongjki         ###   ########.fr       */
+/*   Updated: 2021/12/21 15:19:26 by seongjki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	mini_unset(t_lst **env_lst, char *key)
+int	unset_func(t_lst **env_lst, char *key)
 {
 	t_lst	*curr;
 	t_lst	*next;
@@ -36,5 +36,19 @@ int	mini_unset(t_lst **env_lst, char *key)
 		}
 		curr = curr->next;
 	}
-	return (0);
+	return (1);
+}
+
+int	mini_unset(t_lst **env_lst, char *argv[])
+{
+	int	idx;
+	int	ret;
+
+	idx = 0;
+	while (argv[idx])
+	{
+		ret = unset_func(env_lst, argv[idx]);
+		idx++;
+	}
+	return (ret);
 }

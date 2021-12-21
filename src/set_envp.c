@@ -6,7 +6,7 @@
 /*   By: seongjki <seongjk@student.42seoul.k>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 11:44:58 by seongjki          #+#    #+#             */
-/*   Updated: 2021/12/20 12:11:16 by seongjki         ###   ########.fr       */
+/*   Updated: 2021/12/21 16:50:07 by seongjki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,32 @@ t_lst	*split_key_value(char *str, int lst_idx)
 	return (new);
 }
 
-int	init_env(t_lst **env_lst, char *envp[])
+char	**make_env_arr(t_lst *env_lst)
+{
+	char	**env_arr;
+	int		size;
+	char	*elem;
+	char	*temp_elem;
+	int		idx;
+
+	size = mini_lstlen(env_lst);
+	idx = 0;
+	env_arr = (char **)malloc(sizeof(char *) * (size + 1));
+	if (!env_arr)
+		return (0);
+	env_arr[size] = 0;
+	while (env_lst)
+	{
+		temp_elem = ft_strjoin(env_lst->key, "=");
+		elem = ft_strjoin(temp_elem, env_lst->value);
+		env_arr[idx] = elem;
+		env_lst = env_lst->next;
+		idx++;
+	}
+	return (env_arr);
+}
+
+int	init_env_lst(t_lst **env_lst, char *envp[])
 {
 	t_lst	*new;
 	int		size;

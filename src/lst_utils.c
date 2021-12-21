@@ -6,7 +6,7 @@
 /*   By: seongjki <seongjk@student.42seoul.k>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 14:28:51 by seongjki          #+#    #+#             */
-/*   Updated: 2021/12/20 13:30:09 by seongjki         ###   ########.fr       */
+/*   Updated: 2021/12/21 17:42:08 by seongjki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_lst	*mini_lstnew(char *key, char *value, int idx)
 	return (new);
 }
 
-int		mini_lstaddback(t_lst **lst, t_lst *new)
+int	mini_lstaddback(t_lst **lst, t_lst *new)
 {
 	t_lst	*head;
 

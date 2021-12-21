@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 13:56:36 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/20 19:57:37 by tkim             ###   ########.fr       */
+/*   Updated: 2021/12/21 17:42:57 by seongjki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,14 @@ int	cnt_word(char *input)
 			word_len++;
 			i++;
 		}
+/*
 		else if (input[i] == ' ')
 		{
 			word_len++;
 			while (input[i] == ' ')
 				i++;
 		}
+*/
 		else if (input[i] == '$')
 		{
 			i++;
@@ -98,7 +100,7 @@ char	**make_str_arr(char *input, t_lst *env_lst)
 	char *temp;
 
 	cnt = cnt_word(input);
-	printf("cnt = %d\n", cnt);
+//	printf("cnt = %d\n", cnt);
 	str = (char **)malloc(sizeof(char *) * (cnt + 1));
 	if (!str)
 		return (0);
@@ -114,7 +116,7 @@ char	**make_str_arr(char *input, t_lst *env_lst)
 			while (input[i + len] && input[i + len] != ' ' && is_mini_printable(input[i + len]))
 				len++;
 			str[j] = ft_substr(input, i, len);
-			//printf("mini %s\n", str[j]);
+		//	printf("mini %s\n", str[j]);
 			j++;
 			i += len;
 		}
@@ -124,7 +126,7 @@ char	**make_str_arr(char *input, t_lst *env_lst)
 			while (input[i + len] && input[i + len] != '\'')
 				len++;
 			str[j] = ft_substr(input, i, len);
-			//printf("mini %s\n", str[j]);
+		//	printf("mini %s\n", str[j]);
 			j++;
 			i += len + 1;
 		}
@@ -138,23 +140,24 @@ char	**make_str_arr(char *input, t_lst *env_lst)
 					len++;
 				str[j] = replace_doller(ft_substr(input, i, len), env_lst);
 				i += len;
-				while (input[i + len] && input[i + len] != '\"')
+				while (input[i + len] && input[i + len] != '"')
 					len++;
 				temp = ft_substr(input, i, len);
 				str[j] = ft_strjoin(str[j], temp);
-				printf("first=%s temp=%s\n",str[j], temp );
+			//	printf("first=%s temp=%s\n",str[j], temp );
 				i += len + 1;
 			}
 			else
 			{
-				while (input[i + len] && input[i + len] != '\"')
+				while (input[i + len] && input[i + len] != '"')
 					len++;
 				str[j] = ft_substr(input, i, len);
-				printf("mini=%s\n", str[j]);
+			//	printf("mini=%s\n", str[j]);
 				j++;
 				i += len + 1;
 			}
 		}
+/*
 		else if (input[i] == ' ')
 		{
 			str[j] = ft_strdup(" ");
@@ -163,13 +166,14 @@ char	**make_str_arr(char *input, t_lst *env_lst)
 				i++;
 			j++;
 		}
+*/
 		else if (input[i] == '$')
 		{
 			i++;
 			while (input[i + len] && input[i + len] != ' ')
 				len++;
 			str[j] = replace_doller(ft_substr(input, i, len), env_lst);
-			//printf("first = %s\n",str[j]);
+		//	printf("first = %s\n",str[j]);
 			j++;
 			i += len + 1;
 		}
