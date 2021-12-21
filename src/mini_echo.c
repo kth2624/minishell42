@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   mini_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seongjki <seongjk@student.42seoul.k>       +#+  +:+       +#+        */
+/*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 14:14:03 by seongjki          #+#    #+#             */
-/*   Updated: 2021/12/20 14:11:24 by seongjki         ###   ########.fr       */
+/*   Updated: 2021/12/20 16:33:59 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char *argv[], char *envp[])
+int	mini_echo(char *argv[])
 {
 	int	idx;
 

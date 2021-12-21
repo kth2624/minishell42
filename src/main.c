@@ -6,29 +6,23 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:13:54 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/20 14:14:05 by seongjki         ###   ########.fr       */
+/*   Updated: 2021/12/20 20:31:47 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_built_in_func(char **argv)
+int	exec_func(char **path, char **argv)
 {
-	int	pid;
-	int	state;
-
-	if (!argv)
+	if (!argv || !path)
 		return (0);
 	if (ft_strcmp(argv[0], "echo") == 0)
 	{
-		pid = fork();
-		if (pid > 0)
-			wait(&state);
-		else if (pid == 0)
-			execve("./src/echo", argv, NULL);
-		else if (pid < 0)
-			strerror(errno);
+		mini_echo(argv);
 	}
+	else
+		exec_path(path, argv);
+
 /*
 	else if (ft_strcmp(argv[0], "cd")
 
@@ -40,8 +34,7 @@ int	exec_built_in_func(char **argv)
 
 	else if (ft_strcmp(argv[0], "env")
 */
-	else
-		printf("error\n");
+
 	return (0);
 }
 
@@ -50,6 +43,7 @@ int	minishell(char *envp[])
 	t_lst	*env_lst;
 	char	*input;
 	char	**argv;
+	char	**path;
 
 	env_lst = 0;
 	if (!env_lst)
@@ -59,8 +53,9 @@ int	minishell(char *envp[])
 		input = readline("minishell42 $ ");
 		if (!input)
 			return (0);
-		argv = first_parsing(input);
-		exec_built_in_func(argv);
+		argv = first_parsing(input, env_lst);
+		path = path_parsing(argv[0], env_lst);
+		exec_func(path, argv);
 		add_history(input);
 		free(input);
 	}
@@ -69,6 +64,9 @@ int	minishell(char *envp[])
 
 int main(int argc, char *argv[], char *envp[])
 {
+	(void)argc;
+	(void)argv;
+
 	printf("Hello minishell!\n");
 	minishell(envp);
 	return 0;

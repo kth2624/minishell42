@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:12:43 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/20 11:47:17 by seongjki         ###   ########.fr       */
+/*   Updated: 2021/12/20 20:31:14 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <errno.h>
 # include <stdio.h>
 # include "libft.h"
+#include <sys/types.h> //stat
+#include <sys/stat.h>  //stat
 
 typedef struct s_lst
 {
@@ -39,12 +41,17 @@ t_lst	*mini_lstnew(char *key, char *value, int idx);
 int		mini_lstaddback(t_lst **lst, t_lst *new);
 int		mini_lstlen(t_lst *lst);
 /* built_in_func */
-int		mini_echo(char *argv[], int flag);
+int		mini_echo(char *argv[]);
 int		mini_cd(const char *path);
 int		mini_pwd(void);
 int		mini_env(t_lst *env_lst);
 int		mini_export(t_lst **env_lst, char *str);
 int		mini_unset(t_lst **env_lst, char *key);
 /* first_parsing.c*/
-char	*first_parsing(char *input);
+char	**first_parsing(char *input, t_lst *env_lst);
+/* path_parsing.c*/
+char **path_parsing(char *arg, t_lst *env_lst);
+void	exec_path(char **path_arr, char *argv[]);
+
+
 #endif
