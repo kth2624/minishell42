@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:13:54 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/21 17:42:07 by seongjki         ###   ########.fr       */
+/*   Updated: 2021/12/22 13:49:24 by seongjki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	exec_func(char **path, char **argv, t_lst **env_lst)
 
 	if (!argv || !path || !env_lst)
 		return (0);
-	if (ft_strcmp(argv[0], "echo") == 0)
+	/*if (ft_strcmp(argv[0], "echo") == 0)
 	{
 		if (ft_strcmp(argv[1], "-n") == 0)
 			mini_echo(argv, 1);
@@ -47,8 +47,8 @@ int	exec_func(char **path, char **argv, t_lst **env_lst)
 	else if (ft_strcmp(argv[0], "export") == 0)
 		mini_export(env_lst, argv);
 	else if (ft_strcmp(argv[0], "env") == 0)
-		mini_env(*env_lst);
-	else
+		mini_env(*env_lst);*/
+	if (exec_built_in_func(argv, env_lst) == 1)
 	{
 		env_arr = make_env_arr(*env_lst);
 		exec_path(path, argv, env_arr);
@@ -75,7 +75,8 @@ int	minishell(char *envp[])
 		if (!input)
 			return (0);
 		argv = first_parsing(input, env_lst);
-		path = path_parsing(argv[0], env_lst);
+		if (argv)
+			path = path_parsing(argv[0], env_lst);
 		exec_func(path, argv, &env_lst);
 		add_history(input);
 		free(input);

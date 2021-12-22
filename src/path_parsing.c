@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 19:28:20 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/21 17:32:05 by seongjki         ###   ########.fr       */
+/*   Updated: 2021/12/22 13:07:20 by seongjki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ char	**path_parsing(char *arg, t_lst *env_lst)
 	char	**path_arr;
 	char	*path;
 
+	if (!arg)
+		return (0);
 	while (env_lst)
 	{
 		if (ft_strcmp(env_lst->key, "PATH") == 0)
@@ -89,28 +91,4 @@ char	**path_parsing(char *arg, t_lst *env_lst)
 	}
 	path_arr = path_split(path, ft_strjoin("/", arg), ':');
 	return (path_arr);
-}
-
-void	exec_path(char **path_arr, char *argv[], char *env_arr[])
-{
-	int			i;
-	struct stat	f_stat;
-	int			pid;
-	int			state;
-
-	i = 0;
-	while (path_arr[i])
-	{
-		if (!stat(path_arr[i], &f_stat))
-		{
-			pid = fork();
-			if (pid > 0)
-				wait(&state);
-			else if (pid == 0)
-				execve(path_arr[i], argv, env_arr);
-			else if (pid < 0)
-				printf("%s\n", strerror(errno));
-		}
-		i++;
-	}
 }
