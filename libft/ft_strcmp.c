@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seongjki <seongjk@student.42seoul.k>       +#+  +:+       +#+        */
+/*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 20:38:40 by seongjki          #+#    #+#             */
-/*   Updated: 2021/10/27 20:39:28 by seongjki         ###   ########.fr       */
+/*   Updated: 2021/12/22 16:58:51 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
+	if (!s1 || !s2)
+		return (-200);
 	while (*s1 || *s2)
 	{
 		if (*s1 != *s2)
