@@ -6,22 +6,13 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 13:56:36 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/22 17:36:14 by tkim             ###   ########.fr       */
+/*   Updated: 2021/12/22 18:57:36 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_mini_printable(char c)
-{
-	if (' ' <= c && c <= '~')
-	{
-		if (c == '	' || c == ' ' || c == '\'' || c == '"' || c == '$')
-			return (0);
-		return (1);
-	}
-	return (0);
-}
+
 
 int	cnt_word(char *input)
 {
@@ -33,64 +24,20 @@ int	cnt_word(char *input)
 	while (input[i])
 	{
 		if (is_mini_printable(input[i]))
-		{
-			while (input[i] && input[i] != ' ' && is_mini_printable(input[i]))
-				i++;
-			word_len++;
-		}
+			word_len += cnt_none_len(input, &i);
 		else if (input[i] == '\'')
-		{
-			i++;
-			while (input[i] && input[i] != '\'')
-				i++;
-			word_len++;
-			i++;
-		}
+			word_len += cnt_quote_len(input, &i);
 		else if (input[i] == '"')
-		{
-			i++;
-			while (input[i] && input[i] != '"')
-				i++;
-			word_len++;
-			i++;
-		}
-/*
-		else if (input[i] == ' ')
-		{
-			word_len++;
-			while (input[i] == ' ')
-				i++;
-		}
-*/
+			word_len += cnt_dquote_len(input, &i);
 		else if (input[i] == '$')
-		{
-			i++;
-			while (input[i] && input[i] != ' ')
-				i++;
-			word_len++;
-		}
+			word_len += cnt_doller_len(input, &i);
 		else
 			i++;
 	}
 	return (word_len);
 }
 
-char *replace_doller(char *arg, t_lst *env_lst)
-{
-	printf("arg = %s\n", arg);
-	while (env_lst)
-	{
-		if (ft_strcmp(env_lst->key, arg) == 0)
-		{
-			//printf("value = %s\n",env_lst->value);
-			free(arg);
-			return (ft_strdup(env_lst->value));
-		}
-		env_lst = env_lst->next;
-	}
-	free(arg);
-	return (0);
-}
+
 
 char	**make_str_arr(char *input, t_lst *env_lst)
 {
