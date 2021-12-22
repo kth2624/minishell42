@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:12:43 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/21 17:35:13 by seongjki         ###   ########.fr       */
+/*   Updated: 2021/12/22 13:49:35 by seongjki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int		mini_unset(t_lst **env_lst, char *argv[]);
 char	**first_parsing(char *input, t_lst *env_lst);
 /* path_parsing.c*/
 char	**path_parsing(char *arg, t_lst *env_lst);
-void	exec_path(char **path_arr, char *argv[], char *env_arr[]);
+/* exec_func.c*/
+int		exec_path(char **path_arr, char *argv[], char *env_arr[]);
+int		exec_built_in_func(char *argv[], t_lst **env_lst);
 
 #endif
