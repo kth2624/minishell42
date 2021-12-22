@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:12:43 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/22 18:56:40 by tkim             ###   ########.fr       */
+/*   Updated: 2021/12/22 19:15:42 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,10 @@ int	cnt_none_len(char *input, int *idx);
 int	cnt_dquote_len(char *input, int *idx);
 char *replace_doller(char *arg, t_lst *env_lst);
 int	is_mini_printable(char c);
+
+char *parse_case_none(char *input, int *i);
+char *parse_case_quote(char *input, int *i);
+char *parse_case_dquote(char *input, int *i);
+char *parse_case_doller(char *input, int *i, t_lst *env_lst);
 
 #endif

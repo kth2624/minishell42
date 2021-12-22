@@ -6,13 +6,11 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 13:56:36 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/22 18:57:36 by tkim             ###   ########.fr       */
+/*   Updated: 2021/12/22 19:38:46 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
 
 int	cnt_word(char *input)
 {
@@ -37,11 +35,21 @@ int	cnt_word(char *input)
 	return (word_len);
 }
 
+char **malloc_str(char *input)
+{
+	int cnt;
+	char **str;
 
+	cnt = cnt_word(input);
+	str = (char **)malloc(sizeof(char *) * (cnt + 1));
+	if (!str)
+		return (0);
+	str[cnt] = 0;
+	return (str);
+}
 
 char	**make_str_arr(char *input, t_lst *env_lst)
 {
-	int		cnt;
 	char	**str;
 	int		i;
 	int		j;
@@ -49,36 +57,22 @@ char	**make_str_arr(char *input, t_lst *env_lst)
 	char *temp;
 	char *temp2;
 
-	cnt = cnt_word(input);
-//	printf("cnt = %d\n", cnt);
-	str = (char **)malloc(sizeof(char *) * (cnt + 1));
-	if (!str)
-		return (0);
+	str = malloc_str(input);
 	i = 0;
 	j = 0;
-	str[cnt] = 0;
+
 	while (input[i])
 	{
 		len = 0;
-
 		if (is_mini_printable(input[i]))
 		{
-			while (input[i + len] && input[i + len] != ' ' && is_mini_printable(input[i + len]))
-				len++;
-			str[j] = ft_substr(input, i, len);
-		//	printf("mini %s\n", str[j]);
+			str[j] = parse_case_none(input, &i);
 			j++;
-			i += len;
 		}
 		else if (input[i] == '\'')
 		{
-			i++;
-			while (input[i + len] && input[i + len] != '\'')
-				len++;
-			str[j] = ft_substr(input, i, len);
-		//	printf("mini %s\n", str[j]);
+			str[j] = parse_case_quote(input, &i);
 			j++;
-			i += len + 1;
 		}
 		else if (input[i] == '"')
 		{
@@ -109,25 +103,10 @@ char	**make_str_arr(char *input, t_lst *env_lst)
 				i += len + 1;
 			}
 		}
-/*
-		else if (input[i] == ' ')
-		{
-			str[j] = ft_strdup(" ");
-			//printf("mini %s\n", str[j]);
-			while (input[i] == ' ')
-				i++;
-			j++;
-		}
-*/
 		else if (input[i] == '$')
 		{
-			i++;
-			while (input[i + len] && input[i + len] != ' ')
-				len++;
-			str[j] = replace_doller(ft_substr(input, i, len), env_lst);
-			printf("first = %s\n",str[j]);
+			str[j] = parse_case_doller(input, &i, env_lst);
 			j++;
-			i += len + 1;
 		}
 		else
 			i++;

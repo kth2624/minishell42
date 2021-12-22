@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 18:11:36 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/22 18:54:45 by tkim             ###   ########.fr       */
+/*   Updated: 2021/12/22 19:25:36 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,19 @@ int	cnt_doller_len(char *input, int *idx)
 		(*idx)++;
 	len++;
 	return (len);
+}
+
+char *parse_case_doller(char *input, int *i, t_lst *env_lst)
+{
+	int len;
+	char *temp;
+
+	len = 0;
+	(*i)++;
+	while (input[*i + len] && input[*i + len] != ' ' && input[*i + len] != '$')
+		len++;
+	temp = replace_doller(ft_substr(input, *i, len), env_lst);
+	*i += len;
+	printf("doller = %c", input[*i]);
+	return (temp);
 }
