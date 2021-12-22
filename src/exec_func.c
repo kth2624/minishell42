@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_func.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seongjki <seongjk@student.42seoul.k>       +#+  +:+       +#+        */
+/*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 13:06:49 by seongjki          #+#    #+#             */
-/*   Updated: 2021/12/22 13:55:04 by seongjki         ###   ########.fr       */
+/*   Updated: 2021/12/22 17:58:46 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	exec_path(char **path_arr, char *argv[], char *env_arr[])
 	}
 	if (idx == path_arr_len)
 		printf("minishell42: %s: command not found\n", argv[0]);
+	// free(env_arr);
 	return (0);
 }
 

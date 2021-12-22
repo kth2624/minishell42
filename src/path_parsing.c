@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 19:28:20 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/22 13:07:20 by seongjki         ###   ########.fr       */
+/*   Updated: 2021/12/22 17:41:56 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,10 @@ char	**path_parsing(char *arg, t_lst *env_lst)
 	while (env_lst)
 	{
 		if (ft_strcmp(env_lst->key, "PATH") == 0)
-			path = env_lst->value;
+			path = ft_strdup(env_lst->value);
 		env_lst = env_lst->next;
 	}
 	path_arr = path_split(path, ft_strjoin("/", arg), ':');
+	free(path);
 	return (path_arr);
 }

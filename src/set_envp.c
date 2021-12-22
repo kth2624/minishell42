@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_envp.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seongjki <seongjk@student.42seoul.k>       +#+  +:+       +#+        */
+/*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 11:44:58 by seongjki          #+#    #+#             */
-/*   Updated: 2021/12/21 16:50:07 by seongjki         ###   ########.fr       */
+/*   Updated: 2021/12/22 17:58:26 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ char	**make_env_arr(t_lst *env_lst)
 		temp_elem = ft_strjoin(env_lst->key, "=");
 		elem = ft_strjoin(temp_elem, env_lst->value);
 		env_arr[idx] = elem;
+		free(temp_elem);
 		env_lst = env_lst->next;
 		idx++;
 	}

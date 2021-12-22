@@ -1,27 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   parse_case_quote.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/27 20:38:40 by seongjki          #+#    #+#             */
-/*   Updated: 2021/12/22 16:58:51 by tkim             ###   ########.fr       */
+/*   Created: 2021/12/22 18:10:37 by tkim              #+#    #+#             */
+/*   Updated: 2021/12/22 19:12:59 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+int	cnt_quote_len(char *input, int *idx)
 {
-	if (!s1 || !s2)
-		return (-200);
-	while (*s1 || *s2)
-	{
-		if (*s1 != *s2)
-			return ((unsigned char)*s1 - (unsigned char)*s2);
-		s1++;
-		s2++;
-	}
-	return (0);
+	int len;
+
+	len = 0;
+	(*idx)++;
+	while (input[*idx] && input[*idx] != '\'')
+		(*idx)++;
+	len++;
+	(*idx)++;
+	return (len);
+}
+
+char *parse_case_quote(char *input, int *i)
+{
+	int len;
+	char *temp;
+
+	len = 0;
+	(*i)++;
+	while (input[*i + len] && input[*i + len] != '\'')
+		len++;
+	temp = ft_substr(input, *i, len);
+	*i += len + 1;
+	return (temp);
 }

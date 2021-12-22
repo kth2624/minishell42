@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 14:14:03 by seongjki          #+#    #+#             */
-/*   Updated: 2021/12/21 13:40:03 by seongjki         ###   ########.fr       */
+/*   Updated: 2021/12/22 17:01:11 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,20 @@ int	mini_echo(char *argv[], int flag)
 	if (flag == 0)
 	{
 		idx = 1;
-		while (argv[idx + 1])
+		while (argv[idx])
 		{
-			printf("%s ", argv[idx]);
+			printf("%s", argv[idx]);
+			if (argv[idx] != 0)
+				printf(" ");
 			idx++;
 		}
-		printf("%s\n", argv[idx]);
+		printf("\n");
 	}
 	else if (flag == 1)
 	{
 		idx = 2;
+		if (!argv[idx])
+		 	return (1);
 		while (argv[idx + 1])
 		{
 			printf("%s ", argv[idx]);
