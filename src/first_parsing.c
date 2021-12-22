@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 13:56:36 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/22 12:31:58 by seongjki         ###   ########.fr       */
+/*   Updated: 2021/12/22 17:36:14 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,12 @@ char *replace_doller(char *arg, t_lst *env_lst)
 		if (ft_strcmp(env_lst->key, arg) == 0)
 		{
 			//printf("value = %s\n",env_lst->value);
-			return (env_lst->value);
+			free(arg);
+			return (ft_strdup(env_lst->value));
 		}
 		env_lst = env_lst->next;
 	}
+	free(arg);
 	return (0);
 }
 
@@ -98,6 +100,7 @@ char	**make_str_arr(char *input, t_lst *env_lst)
 	int		j;
 	int		len;
 	char *temp;
+	char *temp2;
 
 	cnt = cnt_word(input);
 //	printf("cnt = %d\n", cnt);
@@ -138,12 +141,14 @@ char	**make_str_arr(char *input, t_lst *env_lst)
 				i++;
 				while (input[i + len] && input[i + len] != ' ')
 					len++;
-				str[j] = replace_doller(ft_substr(input, i, len), env_lst);
+				temp2 = replace_doller(ft_substr(input, i, len), env_lst);
 				i += len;
 				while (input[i + len] && input[i + len] != '"')
 					len++;
 				temp = ft_substr(input, i, len);
-				str[j] = ft_strjoin(str[j], temp);
+				str[j] = ft_strjoin(temp2, temp);
+				free(temp);
+				free(temp2);
 			//	printf("first=%s temp=%s\n",str[j], temp );
 				i += len + 1;
 			}
@@ -173,7 +178,7 @@ char	**make_str_arr(char *input, t_lst *env_lst)
 			while (input[i + len] && input[i + len] != ' ')
 				len++;
 			str[j] = replace_doller(ft_substr(input, i, len), env_lst);
-		//	printf("first = %s\n",str[j]);
+			printf("first = %s\n",str[j]);
 			j++;
 			i += len + 1;
 		}
