@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:13:54 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/22 17:41:30 by tkim             ###   ########.fr       */
+/*   Updated: 2021/12/22 17:51:23 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	minishell(char *envp[])
 		argv = first_parsing(input, env_lst);
 		if (argv)
 			path = path_parsing(argv[0], env_lst);
-		//exec_func(path, argv, &env_lst);
+		exec_func(path, argv, &env_lst);
 		add_history(input);
 		free(input);
 	}
