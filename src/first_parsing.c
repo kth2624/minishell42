@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 13:56:36 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/24 16:48:54 by tkim             ###   ########.fr       */
+/*   Updated: 2021/12/25 00:17:37 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,32 @@ int	cnt_word(char *input)
 	int	word_len;
 	int	i;
 
-	word_len = 0;
+	if (!input)
+		return (0);
+	word_len = 1;
 	i = 0;
 	while (input[i])
 	{
-		if (is_mini_printable(input[i]))
-			word_len += cnt_none_len(input, &i);
+		if (input[i] == '"')
+		{
+			i++;
+			while (input[i] != '"')
+				i++;
+			i++;
+		}
 		else if (input[i] == '\'')
-			word_len += cnt_quote_len(input, &i);
-		else if (input[i] == '"')
-			word_len += cnt_dquote_len(input, &i);
-		else if (input[i] == '$')
-			word_len += cnt_doller_len(input, &i);
+		{
+			i++;
+			while (input[i] != '\'')
+				i++;
+			i++;
+		}
+		else if (input[i] == ' ')
+		{
+			while (input[i] == ' ')
+				i++;
+			word_len++;
+		}
 		else
 			i++;
 	}
@@ -61,55 +75,16 @@ char	**make_str_arr(char *input, t_lst *env_lst)
 	i = 0;
 	j = 0;
 
+	len = 0;
 	while (input[i])
 	{
-		len = 0;
 		if (is_mini_printable(input[i]))
 		{
+			printf("input : %c\n", input[i]);
 			str[j] = parse_case_none(input, &i);
 			j++;
 		}
-		else if (input[i] == '\'')
-		{
-			str[j] = parse_case_quote(input, &i);
-			j++;
-		}
-		else if (input[i] == '"')
-		{
-			i++;
-			if (input[i] == '$')
-			{
-				i++;
-				while (input[i + len] && input[i + len] != ' ')
-					len++;
-				temp2 = replace_doller(ft_substr(input, i, len), env_lst);
-				i += len;
-				while (input[i + len] && input[i + len] != '"')
-					len++;
-				temp = ft_substr(input, i, len);
-				str[j] = ft_strjoin(temp2, temp);
-				free(temp);
-				free(temp2);
-			//	printf("first=%s temp=%s\n",str[j], temp );
-				i += len + 1;
-			}
-			else
-			{
-				while (input[i + len] && input[i + len] != '"')
-					len++;
-				str[j] = ft_substr(input, i, len);
-			//	printf("mini=%s\n", str[j]);
-				j++;
-				i += len + 1;
-			}
-		}
-		else if (input[i] == '$')
-		{
-			str[j] = parse_case_doller(input, &i, env_lst);
-			j++;
-		}
-		else
-			i++;
+		i++;
 	}
 	return (str);
 }
@@ -117,6 +92,7 @@ char	**make_str_arr(char *input, t_lst *env_lst)
 char **first_parsing(char *input, t_lst *env_lst)
 {
 	char **str;
+	int	cnt;
 
 	if (!input[0])
 		return (0);
