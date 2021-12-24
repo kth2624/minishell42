@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 18:12:05 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/22 19:43:36 by tkim             ###   ########.fr       */
+/*   Updated: 2021/12/25 00:20:39 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,30 @@ int	is_mini_printable(char c)
 {
 	if (' ' <= c && c <= '~')
 	{
-		if (c == '	' || c == ' ' || c == '\'' || c == '"' || c == '$')
+		if (c == ' ')
 			return (0);
 		return (1);
 	}
 	return (0);
 }
 
-int	cnt_none_len(char *input, int *idx)
+int	cnt_none_len(char *input, int idx)
 {
 	int len;
+	int	i;
 
+	i = idx;
 	len = 0;
-	while (input[*idx] && input[*idx] != ' ' && is_mini_printable(input[*idx]))
-		(*idx)++;
-	len++;
+	while (input[i] != ' ' && input[i])
+	{
+		if (input[i] == '\'' || input[i] == '"')
+			i++;
+		else
+		{
+			len++;
+			i++;
+		}
+	}
 	return (len);
 }
 
@@ -38,11 +47,22 @@ char *parse_case_none(char *input, int *i)
 {
 	int len;
 	char *temp;
+	int	idx;
 
-	len = 0;
-	while (input[*i + len] && input[*i + len] != ' ' && is_mini_printable(input[*i + len]))
-		len++;
-	temp = ft_substr(input, *i, len);
-	*i += len;
+	len = cnt_none_len(input, *i);
+
+	temp = (char *)malloc(sizeof(char) * (len + 1));
+	idx = 0;
+	if (!temp)
+		return (0);
+	temp[len] = 0;
+	while (idx < len)
+	{
+		if (input[*i] == '\'' || input[*i] == '"')
+			(*i)++;
+		temp[idx] = input[*i];
+		idx++;
+		(*i)++;
+	}
 	return (temp);
 }

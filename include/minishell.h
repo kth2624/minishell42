@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:12:43 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/24 15:44:59 by tkim             ###   ########.fr       */
+/*   Updated: 2021/12/24 23:54:20 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int		exec_built_in_func(char *argv[], t_lst **env_lst);
 
 int	cnt_quote_len(char *input, int *idx);
 int	cnt_doller_len(char *input, int *idx);
-int	cnt_none_len(char *input, int *idx);
+int	cnt_none_len(char *input, int idx);
 int	cnt_dquote_len(char *input, int *idx);
 char *replace_doller(char *arg, t_lst *env_lst);
 int	is_mini_printable(char c);
