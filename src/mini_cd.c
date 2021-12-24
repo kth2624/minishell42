@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seongjki <seongjk@student.42seoul.k>       +#+  +:+       +#+        */
+/*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 16:40:53 by seongjki          #+#    #+#             */
-/*   Updated: 2021/12/21 14:50:05 by seongjki         ###   ########.fr       */
+/*   Updated: 2021/12/24 15:08:07 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int	mini_cd(char *argv[])
 	path = argv[1];
 	if (chdir(path) == -1)
 	{
-		printf("cd: ");
+		printf("minishell42: cd: ");
 		err_msg = strerror(errno);
-		printf("%s: ", err_msg);
-		printf("%s\n", path);
+		printf("%s: ", path);
+		printf("%s\n", err_msg);
 		return (1);
 	}
 	return (0);
