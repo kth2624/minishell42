@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:12:43 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/22 19:15:42 by tkim             ###   ########.fr       */
+/*   Updated: 2021/12/24 15:44:59 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,8 @@ char *parse_case_none(char *input, int *i);
 char *parse_case_quote(char *input, int *i);
 char *parse_case_dquote(char *input, int *i);
 char *parse_case_doller(char *input, int *i, t_lst *env_lst);
+
+int	is_valid_quote(char *input);
+
 
 #endif

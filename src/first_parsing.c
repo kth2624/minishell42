@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 13:56:36 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/22 19:38:46 by tkim             ###   ########.fr       */
+/*   Updated: 2021/12/24 16:48:54 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,11 @@ char **first_parsing(char *input, t_lst *env_lst)
 
 	if (!input[0])
 		return (0);
+	if (!is_valid_quote(input))
+	{
+		printf("quote error\n");
+		return 0;
+	}
 	str = make_str_arr(input, env_lst);
 	return (str);
 }
