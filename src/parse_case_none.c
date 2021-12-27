@@ -60,9 +60,13 @@ char *parse_case_none(char *input, int *i)
 	{
 		if (input[*i] == '\'' || input[*i] == '"')
 			(*i)++;
-		temp[idx] = input[*i];
-		idx++;
-		(*i)++;
+		else
+		{
+			temp[idx] = input[*i];
+			idx++;
+			(*i)++;
+		}
 	}
+	printf("temp : %s\n", temp);
 	return (temp);
 }
