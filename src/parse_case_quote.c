@@ -36,6 +36,5 @@ char *parse_case_quote(char *input, int *i)
 		len++;
 	temp = ft_substr(input, *i, len);
 	*i += len;
-	printf("quote : %s\n", temp);
 	return (temp);
 }

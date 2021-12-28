@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 18:10:53 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/22 19:21:12 by tkim             ###   ########.fr       */
+/*   Updated: 2021/12/28 20:53:23 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static int	get_env_str_len(char *input, int *idx, t_lst *env_lst)
 			len += ft_strlen(env_lst->value);
 		env_lst = env_lst->next;
 	}
+	free(key);
 	return (len);
 }
 
@@ -85,6 +86,7 @@ static void	fill_str(char *input, int *i, t_lst *env_lst, char **str)
 			(*i)++;
 		}
 	}
+	free(env_str);
 }
 
 char	*parse_case_dquote(char *input, int *i, t_lst *env_lst)
@@ -100,7 +102,5 @@ char	*parse_case_dquote(char *input, int *i, t_lst *env_lst)
 		return (0);
 	temp[len] = 0;
 	fill_str(input, i, env_lst, &temp);
-	printf("dquote : %s\n", temp);
-	printf("input[i] : '%c'\n", input[*i]);
 	return (temp);
 }

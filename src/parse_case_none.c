@@ -41,6 +41,7 @@ static int	get_env_str_len(char *input, int *idx, t_lst *env_lst)
 			len += ft_strlen(env_lst->value);
 		env_lst = env_lst->next;
 	}
+	free(key);
 	return (len);
 }
 
@@ -71,9 +72,9 @@ static int	cnt_none_len(char *input, int idx, t_lst *env_lst)
 
 static void	fill_str(char *input, int *i, t_lst *env_lst, char **str)
 {
-	int	idx;
+	int		idx;
 	char	*env_str;
-	int	len;
+	int		len;
 
 	idx = 0;
 	len = cnt_none_len(input, *i, env_lst);
@@ -92,6 +93,7 @@ static void	fill_str(char *input, int *i, t_lst *env_lst, char **str)
 			(*i)++;
 		}
 	}
+	free(env_str);
 }
 
 char	*parse_case_none(char *input, int *i, t_lst *env_lst)
@@ -107,7 +109,6 @@ char	*parse_case_none(char *input, int *i, t_lst *env_lst)
 	idx = 0;
 	temp[len] = 0;
 	fill_str(input, i, env_lst, &temp);
-	printf("none : %s\n", temp);
 	(*i)--;
 	return (temp);
 }

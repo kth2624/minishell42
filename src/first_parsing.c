@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 13:56:36 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/25 00:17:37 by tkim             ###   ########.fr       */
+/*   Updated: 2021/12/28 21:01:33 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,12 @@ int	cnt_word(char *input)
 
 	if (!input)
 		return (0);
-	word_len = 1;
+	word_len = 0;
 	i = 0;
+	while (input[i] == ' ' && input[i])
+		i++;
+	if (input[i] != 0)
+		word_len++;
 	while (input[i])
 	{
 		if (input[i] == '"')
@@ -39,9 +43,10 @@ int	cnt_word(char *input)
 		}
 		else if (input[i] == ' ')
 		{
-			while (input[i] == ' ')
+			while (input[i] == ' ' && input[i])
 				i++;
-			word_len++;
+			if (input[i] != 0)
+				word_len++;
 		}
 		else
 			i++;
@@ -55,6 +60,7 @@ char **malloc_str(char *input)
 	char **str;
 
 	cnt = cnt_word(input);
+	printf("cnt : %d\n", cnt);
 	str = (char **)malloc(sizeof(char *) * (cnt + 1));
 	if (!str)
 		return (0);
@@ -65,14 +71,15 @@ char **malloc_str(char *input)
 char	*mini_strjoin(char *s1, char *s2)
 {
 	char	*ret;
-	size_t	len;
-	size_t	idx;
+	int		len;
+	int		idx;
 
 	idx = 0;
 	if (!s1)
 	{
 		//printf("s2: %s\n", s2);
 		ret = ft_strdup(s2);
+		free(s2);
 		return (ret);
 	}
 	//printf("s1 : %s s2: %s\n", s1, s2);
@@ -88,6 +95,7 @@ char	*mini_strjoin(char *s1, char *s2)
 	free(s1);
 	while (*s2)
 		*(ret + idx++) = *s2++;
+	free(s2);
 	*(ret + idx) = '\0';
 	return (ret);
 }
@@ -97,49 +105,40 @@ char	**make_str_arr(char *input, t_lst *env_lst)
 	char	**str;
 	int		i;
 	int		j;
-	int		len;
-	char *temp;
-	char *temp2;
+	char	*temp;
 
 	str = malloc_str(input);
 	i = 0;
 	j = 0;
-	len = 0;
 	temp = 0;
 	while (input[i])
 	{
 		if (input[i] != '\'' && input[i] != '"' && input[i] != ' ')
-		{
-			printf("input[i] : '%c'\n", input[i]);
 			temp = mini_strjoin(temp, parse_case_none(input, &i, env_lst));
-		}
 		else if (input[i] == '\'')
-		{
-			temp =  mini_strjoin(temp, parse_case_quote(input, &i));
-		}
+			temp = mini_strjoin(temp, parse_case_quote(input, &i));
 		else if (input[i] == '"')
-		{
 			temp = mini_strjoin(temp, parse_case_dquote(input, &i, env_lst));
-		}
 		i++;
 		if (input[i] == ' ' || input[i] == 0)
 		{
-			str[j] = ft_strdup(temp);
-			free(temp);
-			temp = 0;
-			j++;
+			while (input[i] == ' ' && input[i])
+				i++;
+			if (temp)
+			{
+				str[j] = ft_strdup(temp);
+				free(temp);
+				temp = 0;
+				j++;
+			}
 		}
 	}
-	int idx = 0;
-	while (str[idx])
-		printf("%d : %s\n", idx, str[idx++]);
 	return (str);
 }
 
 char **first_parsing(char *input, t_lst *env_lst)
 {
 	char **str;
-	int	cnt;
 
 	if (!input[0])
 		return (0);

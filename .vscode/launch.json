@@ -8,10 +8,10 @@
       "args": [
         ""
       ],
-      "stopAtEntry": true,
-      "cwd": "/Users/kth2624/Documents/GitHub/minishell42",
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
       "environment": [],
-      "program": "/Users/kth2624/Documents/GitHub/minishell42/build/Debug/outDebug",
+      "program": "${workspaceFolder}/minishell",
       "internalConsoleOptions": "openOnSessionStart",
       "MIMode": "gdb",
       "externalConsole": false

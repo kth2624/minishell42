@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:13:54 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/24 22:32:33 by tkim             ###   ########.fr       */
+/*   Updated: 2021/12/28 21:00:34 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,23 +31,6 @@ int	exec_func(char **path, char **argv, t_lst **env_lst)
 
 	if (!argv || !path || !env_lst)
 		return (0);
-	/*if (ft_strcmp(argv[0], "echo") == 0)
-	{
-		if (ft_strcmp(argv[1], "-n") == 0)
-			mini_echo(argv, 1);
-		else
-			mini_echo(argv, 0);
-	}
-	else if (ft_strcmp(argv[0], "cd") == 0)
-		mini_cd(argv);
-	else if (ft_strcmp(argv[0], "pwd") == 0)
-		mini_pwd();
-	else if (ft_strcmp(argv[0], "unset") == 0)
-		mini_unset(env_lst, argv);
-	else if (ft_strcmp(argv[0], "export") == 0)
-		mini_export(env_lst, argv);
-	else if (ft_strcmp(argv[0], "env") == 0)
-		mini_env(*env_lst);*/
 	if (exec_built_in_func(argv, env_lst) == 1)
 	{
 		env_arr = make_env_arr(*env_lst);
@@ -91,5 +74,6 @@ int main(int argc, char *argv[], char *envp[])
 
 	printf("Hello minishell!\n");
 	minishell(envp);
+
 	return (0);
 }
