@@ -77,7 +77,7 @@ static void	fill_str(char *input, int *i, t_lst *env_lst, char **str)
 
 	idx = 0;
 	len = cnt_none_len(input, *i, env_lst);
-	while (idx < len)
+	while (is_mini_printable(input[*i]) && input[*i])
 	{
 		if (input[*i] == '$')
 		{
@@ -107,6 +107,7 @@ char	*parse_case_none(char *input, int *i, t_lst *env_lst)
 	idx = 0;
 	temp[len] = 0;
 	fill_str(input, i, env_lst, &temp);
-	//printf("temp : %s\n", temp);
+	printf("none : %s\n", temp);
+	(*i)--;
 	return (temp);
 }

@@ -108,18 +108,20 @@ char	**make_str_arr(char *input, t_lst *env_lst)
 	temp = 0;
 	while (input[i])
 	{
-		if (is_mini_printable(input[i]))
+		if (input[i] != '\'' && input[i] != '"' && input[i] != ' ')
 		{
+			printf("input[i] : '%c'\n", input[i]);
 			temp = mini_strjoin(temp, parse_case_none(input, &i, env_lst));
 		}
-		if (input[i] == '\'')
+		else if (input[i] == '\'')
 		{
 			temp =  mini_strjoin(temp, parse_case_quote(input, &i));
 		}
-		if (input[i] == '"')
+		else if (input[i] == '"')
 		{
 			temp = mini_strjoin(temp, parse_case_dquote(input, &i, env_lst));
 		}
+		i++;
 		if (input[i] == ' ' || input[i] == 0)
 		{
 			str[j] = ft_strdup(temp);
@@ -127,7 +129,6 @@ char	**make_str_arr(char *input, t_lst *env_lst)
 			temp = 0;
 			j++;
 		}
-		i++;
 	}
 	int idx = 0;
 	while (str[idx])
