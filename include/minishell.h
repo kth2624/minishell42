@@ -58,14 +58,14 @@ int		exec_built_in_func(char *argv[], t_lst **env_lst);
 
 int	cnt_quote_len(char *input, int *idx);
 int	cnt_doller_len(char *input, int *idx);
-int	cnt_none_len(char *input, int idx);
-int	cnt_dquote_len(char *input, int *idx);
+//int	cnt_none_len(char *input, int idx);
+//int	cnt_dquote_len(char *input, int *idx);
 char *replace_doller(char *arg, t_lst *env_lst);
 int	is_mini_printable(char c);
 
-char *parse_case_none(char *input, int *i);
+char *parse_case_none(char *input, int *i, t_lst *env_lst);
 char *parse_case_quote(char *input, int *i);
-char *parse_case_dquote(char *input, int *i);
+char *parse_case_dquote(char *input, int *i, t_lst *env_lst);
 char *parse_case_doller(char *input, int *i, t_lst *env_lst);
 
 int	is_valid_quote(char *input);

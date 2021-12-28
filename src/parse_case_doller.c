@@ -14,7 +14,7 @@
 
 char *replace_doller(char *arg, t_lst *env_lst)
 {
-	printf("arg = %s\n", arg);
+	//printf("arg = %s\n", arg);
 	while (env_lst)
 	{
 		if (ft_strcmp(env_lst->key, arg) == 0)
@@ -48,10 +48,11 @@ char *parse_case_doller(char *input, int *i, t_lst *env_lst)
 
 	len = 0;
 	(*i)++;
-	while (input[*i + len] && input[*i + len] != ' ' && input[*i + len] != '$')
+	while (input[*i + len] && input[*i + len] != ' ' && input[*i + len] != '$' && input[*i + len] != '"' && \
+	input[*i + len] != '\'')
 		len++;
 	temp = replace_doller(ft_substr(input, *i, len), env_lst);
 	*i += len;
-	printf("doller = %c", input[*i]);
+	//printf("doller = %c", input[*i]);
 	return (temp);
 }
