@@ -100,7 +100,7 @@ char	*parse_case_dquote(char *input, int *i, t_lst *env_lst)
 		return (0);
 	temp[len] = 0;
 	fill_str(input, i, env_lst, &temp);
-	//printf("dquote : %s\n", temp);
-	(*i)++;
+	printf("dquote : %s\n", temp);
+	printf("input[i] : '%c'\n", input[*i]);
 	return (temp);
 }
