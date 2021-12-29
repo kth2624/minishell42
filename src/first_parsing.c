@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   first_parsing.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/18 13:56:36 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/28 21:29:05 by tkim             ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -60,7 +49,6 @@ char **malloc_str(char *input)
 	char **str;
 
 	cnt = cnt_word(input);
-	printf("cnt : %d\n", cnt);
 	str = (char **)malloc(sizeof(char *) * (cnt + 1));
 	if (!str)
 		return (0);
@@ -138,7 +126,6 @@ char	**make_str_arr(char *input, t_lst *env_lst)
 				j++;
 			}
 		}
-		//printf("i : %d\n", i);
 	}
 	return (str);
 }
