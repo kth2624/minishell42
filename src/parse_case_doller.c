@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 18:11:36 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/28 22:03:50 by tkim             ###   ########.fr       */
+/*   Updated: 2021/12/29 15:24:29 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char *replace_doller(char *arg, t_lst *env_lst)
 		env_lst = env_lst->next;
 	}
 	free(arg);
-	return (0);
+	return (ft_strdup(""));
 }
 
 int	cnt_doller_len(char *input, int *idx)
