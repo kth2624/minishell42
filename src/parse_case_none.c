@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 18:12:05 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/25 00:20:39 by tkim             ###   ########.fr       */
+/*   Updated: 2021/12/28 22:05:44 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ static void	fill_str(char *input, int *i, t_lst *env_lst, char **str)
 	int		idx;
 	char	*env_str;
 	int		len;
+	int		e_idx;
 
 	idx = 0;
 	len = cnt_none_len(input, *i, env_lst);
@@ -82,9 +83,13 @@ static void	fill_str(char *input, int *i, t_lst *env_lst, char **str)
 	{
 		if (input[*i] == '$')
 		{
+			e_idx = 0;
 			env_str = parse_case_doller(input, i, env_lst);
-			while (*env_str)
-				(*str)[idx++] = *env_str++;
+			if (!env_str)
+				return ;
+			while (env_str[e_idx])
+				(*str)[idx++] = env_str[e_idx++];
+			free(env_str);
 		}
 		else
 		{
@@ -93,7 +98,6 @@ static void	fill_str(char *input, int *i, t_lst *env_lst, char **str)
 			(*i)++;
 		}
 	}
-	free(env_str);
 }
 
 char	*parse_case_none(char *input, int *i, t_lst *env_lst)
