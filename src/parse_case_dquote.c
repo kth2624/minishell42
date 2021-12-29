@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse_case_dquote.c                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/22 18:10:53 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/28 22:06:33 by tkim             ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 static int	get_env_str_len(char *input, int *idx, t_lst *env_lst)
@@ -23,9 +11,7 @@ static int	get_env_str_len(char *input, int *idx, t_lst *env_lst)
 	while (input[*idx + key_len] && input[*idx + key_len] != ' ' && input[*idx + key_len] != '$' && input[*idx + key_len] != '"' && \
 	input[*idx + key_len] != '\'')
 		key_len++;
-	//printf("key_len : %d\n", key_len);
 	key = ft_substr(input, *idx, key_len);
-	//printf("key :  %s\n", key);
 	*idx += key_len;
 	while (env_lst)
 	{
@@ -48,7 +34,6 @@ static int	cnt_dquote_len(char *input, int idx, t_lst *env_lst)
 	len = 0;
 	while (input[i] != '"' && input[i])
 	{
-		//printf("input[i] : '%c'\n", input[i]);
 		if (input[i] == '$')
 			{
 				i++;
@@ -100,7 +85,6 @@ char	*parse_case_dquote(char *input, int *i, t_lst *env_lst)
 
 	(*i)++;
 	len = cnt_dquote_len(input, *i, env_lst);
-	//printf("dqlen : %d\n", len);
 	temp = (char *)malloc(sizeof(char) * (len + 1));
 	if (!temp)
 		return (0);
