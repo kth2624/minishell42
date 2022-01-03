@@ -76,6 +76,16 @@ static void	fill_str(char *input, int *i, t_lst *env_lst, char **str)
 			(*i)++;
 		}
 	}
+	if (input[*i] == '$')
+	{
+		e_idx = 0;
+		env_str = parse_case_doller(input, i, env_lst);
+		if (!env_str)
+			return ;
+		while (env_str[e_idx])
+			(*str)[idx++] = env_str[e_idx++];
+		free(env_str);
+	}
 }
 
 char	*parse_case_dquote(char *input, int *i, t_lst *env_lst)
