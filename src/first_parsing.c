@@ -1,44 +1,54 @@
 
 #include "minishell.h"
 
-int	cnt_word(char *input)
+int	cnt_word(char *input, int i)
 {
 	int	word_len;
-	int	i;
-
+	printf("hi \n");
 	if (!input)
 		return (0);
 	word_len = 0;
-	i = 0;
-	while (input[i] == ' ' && input[i])
-		i++;
-	if (input[i] != 0)
-		word_len++;
 	while (input[i])
 	{
-		if (input[i] == '"')
+		printf("c = %c i = %d\n", input[i], i);
+		while (input[i] == ' ')
+			i++;
+		if (is_mini_printable(input[i]))
+		{
+			while (is_mini_printable(input[i]))
+			{
+				printf("c = %c i = %d\n", input[i], i);
+				i++;
+			}
+		}
+		else if(input[i] == '|' || input[i] == '<' || input[i] == '>')
+		{
+			if (input[i] == '|')
+				i++;
+			while (input[i] == '<')
+				i++;
+			while (input[i] == '>')
+				i++;
+		}
+		/*
+		else if(input[i] == '\'')
 		{
 			i++;
-			while (input[i] != '"')
+			while(input[i] != '\'')
 				i++;
 			i++;
-		}
-		else if (input[i] == '\'')
+
+		}else if(input[i] == '"')
 		{
 			i++;
-			while (input[i] != '\'')
+			while(input[i] != '"')
 				i++;
 			i++;
-		}
-		else if (input[i] == ' ')
-		{
-			while (input[i] == ' ' && input[i])
-				i++;
-			if (input[i] != 0)
-				word_len++;
-		}
-		else
-			i++;
+
+		}*/
+
+		word_len++;
+	printf("word=%d, i=%d\n",word_len,i);
 	}
 	return (word_len);
 }
@@ -48,11 +58,11 @@ char **malloc_str(char *input)
 	int cnt;
 	char **str;
 
-	cnt = cnt_word(input);
-	str = (char **)malloc(sizeof(char *) * (cnt + 1));
-	if (!str)
-		return (0);
-	str[cnt] = 0;
+	cnt = cnt_word(input, 0);
+	//str = (char **)malloc(sizeof(char *) * (cnt + 1));
+	//if (!str)
+	//	return (0);
+	//str[cnt] = 0;
 	return (str);
 }
 
@@ -102,31 +112,31 @@ char	**make_str_arr(char *input, t_lst *env_lst)
 	char	*temp;
 
 	str = malloc_str(input);
-	i = 0;
-	j = 0;
-	temp = 0;
-	while (input[i])
-	{
-		if (input[i] != '\'' && input[i] != '"' && input[i] != ' ')
-			temp = mini_strjoin(temp, parse_case_none(input, &i, env_lst));
-		else if (input[i] == '\'')
-			temp = mini_strjoin(temp, parse_case_quote(input, &i));
-		else if (input[i] == '"')
-			temp = mini_strjoin(temp, parse_case_dquote(input, &i, env_lst));
-		i++;
-		if (input[i] == ' ' || input[i] == 0)
-		{
-			while (input[i] == ' ' && input[i])
-				i++;
-			if (temp)
-			{
-				str[j] = ft_strdup(temp);
-				free(temp);
-				temp = 0;
-				j++;
-			}
-		}
-	}
+	// i = 0;
+	// j = 0;
+	// temp = 0;
+	// while (input[i])
+	// {
+	// 	if (input[i] != '\'' && input[i] != '"' && input[i] != ' ')
+	// 		temp = mini_strjoin(temp, parse_case_none(input, &i, env_lst));
+	// 	else if (input[i] == '\'')
+	// 		temp = mini_strjoin(temp, parse_case_quote(input, &i));
+	// 	else if (input[i] == '"')
+	// 		temp = mini_strjoin(temp, parse_case_dquote(input, &i, env_lst));
+	// 	i++;
+	// 	if (input[i] == ' ' || input[i] == 0)
+	// 	{
+	// 		while (input[i] == ' ' && input[i])
+	// 			i++;
+	// 		if (temp)
+	// 		{
+	// 			str[j] = ft_strdup(temp);
+	// 			free(temp);
+	// 			temp = 0;
+	// 			j++;
+	// 		}
+	// 	}
+	// }
 	return (str);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: tkim <tkim@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:12:43 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/24 23:54:20 by tkim             ###   ########.fr       */
+/*   Updated: 2022/01/04 17:24:36 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@
 # include "libft.h"
 # include <sys/types.h>
 # include <sys/stat.h>
+# define NONE 0
+# define REDIRECT1 1
+# define REDIRECT2 2
+# define REDIRECT3 3
+# define REDIRECT4 4
+# define PIPE 5
 
 typedef struct s_lst
 {

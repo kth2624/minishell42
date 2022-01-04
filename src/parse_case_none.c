@@ -4,7 +4,7 @@ int	is_mini_printable(char c)
 {
 	if (' ' <= c && c <= '~')
 	{
-		if (c == ' ' || c == '\'' || c == '"')
+		if (c == ' ' ||  c == '<' || c == '>' || c == '|')
 			return (0);
 		return (1);
 	}
