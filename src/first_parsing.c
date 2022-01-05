@@ -1,146 +1,84 @@
-
 #include "minishell.h"
 
-int	cnt_word(char *input)
+t_list	*make_token(char *input, int len, int *idx)
 {
-	int	word_len;
-	int	i;
+	t_list	*token;
+	char	*content;
 
-	if (!input)
-		return (0);
-	word_len = 0;
-	i = 0;
-	while (input[i] == ' ' && input[i])
-		i++;
-	if (input[i] != 0)
-		word_len++;
-	while (input[i])
+	if (input[*idx + len] == '|' && len == 0)
 	{
-		if (input[i] == '"')
-		{
-			i++;
-			while (input[i] != '"')
-				i++;
-			i++;
-		}
-		else if (input[i] == '\'')
-		{
-			i++;
-			while (input[i] != '\'')
-				i++;
-			i++;
-		}
-		else if (input[i] == ' ')
-		{
-			while (input[i] == ' ' && input[i])
-				i++;
-			if (input[i] != 0)
-				word_len++;
-		}
-		else
-			i++;
+		len++;
+		content = ft_substr(input, *idx, len);
+		token = ft_lstnew(content);
 	}
-	return (word_len);
+	else if (input[*idx + len] == '>' && len == 0)
+	{
+		while (input[*idx + len] == '>')
+			len++;
+		content = ft_substr(input, *idx, len);
+		token = ft_lstnew(content);
+	}
+	else
+	{
+		content = ft_substr(input, *idx, len);
+		token = ft_lstnew(content);
+	}
+	(*idx) += len;
+	return (token);
 }
 
-char **malloc_str(char *input)
+t_list	*read_input(char *input)
 {
-	int cnt;
-	char **str;
+	static int	idx;
+	int			len;
+	t_list		*token;
 
-	cnt = cnt_word(input);
-	str = (char **)malloc(sizeof(char *) * (cnt + 1));
-	if (!str)
-		return (0);
-	str[cnt] = 0;
-	return (str);
-}
-
-char	*mini_strjoin(char *s1, char *s2)
-{
-	char	*ret;
-	int		len;
-	int		idx;
-	int		r_idx;
-
-	idx = 0;
-	r_idx = 0;
-	if (!s1)
+	if (!input[idx])
 	{
-		ret = ft_strdup(s2);
-		free(s2);
-		return (ret);
+		idx = 0;
+		return (0);
 	}
-	len = ft_strlen(s1) + ft_strlen(s2);
-	ret = (char *)malloc(sizeof(char) * (len + 1));
-	if (!ret)
-		return (0);
-	while (s1[idx])
-	{
-		ret[r_idx] = s1[idx];
+	while (input[idx] == ' ')
 		idx++;
-		r_idx++;
-	}
-	free(s1);
-	idx = 0;
-	while (s2[idx])
-	{
-		ret[r_idx] = s2[idx];
-		r_idx++;
-		idx++;
-	}
-	free(s2);
-	ret[r_idx] = '\0';
-	return (ret);
+	len = 0;
+	while (input[idx + len] != '|' && input[idx + len] != ' ' && \
+	input[idx + len] != '<' && input[idx + len] != '>' && input[idx + len] != 0)
+		len++;
+	token = make_token(input, len, &idx);
+	return (token);
 }
 
-char	**make_str_arr(char *input, t_lst *env_lst)
+void	fill_tokens(t_list **tokens, char *input)
 {
-	char	**str;
-	int		i;
-	int		j;
-	char	*temp;
+	t_list	*token;
+	t_list	*tmp;
 
-	str = malloc_str(input);
-	i = 0;
-	j = 0;
-	temp = 0;
-	while (input[i])
+	token = read_input(input);
+	while (token)
 	{
-		if (input[i] != '\'' && input[i] != '"' && input[i] != ' ')
-			temp = mini_strjoin(temp, parse_case_none(input, &i, env_lst));
-		else if (input[i] == '\'')
-			temp = mini_strjoin(temp, parse_case_quote(input, &i));
-		else if (input[i] == '"')
-			temp = mini_strjoin(temp, parse_case_dquote(input, &i, env_lst));
-		i++;
-		if (input[i] == ' ' || input[i] == 0)
-		{
-			while (input[i] == ' ' && input[i])
-				i++;
-			if (temp)
-			{
-				str[j] = ft_strdup(temp);
-				free(temp);
-				temp = 0;
-				j++;
-			}
-		}
+		ft_lstadd_back(tokens, token);
+		token = read_input(input);
 	}
-	return (str);
+	tmp = *tokens;
+	while (tmp)
+	{
+		printf("tokens->content : %s\n", tmp->content);
+		tmp = tmp->next;
+	}
 }
 
-char **first_parsing(char *input, t_lst *env_lst)
+t_list	*first_parsing(char *input)
 {
-	char **str;
+	t_list	*tokens;
 
 	if (!input[0])
 		return (0);
 	if (!is_valid_quote(input))
 	{
 		printf("quote error\n");
-		return 0;
+		return (0);
 	}
-	str = make_str_arr(input, env_lst);
-	return (str);
+	tokens = 0;
+	fill_tokens(&tokens, input);
+	return (tokens);
 }

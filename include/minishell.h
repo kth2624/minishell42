@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:12:43 by tkim              #+#    #+#             */
-/*   Updated: 2021/12/24 23:54:20 by tkim             ###   ########.fr       */
+/*   Updated: 2022/01/05 19:47:07 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int		mini_env(t_lst *env_lst);
 int		mini_export(t_lst **env_lst, char *argv[]);
 int		mini_unset(t_lst **env_lst, char *argv[]);
 /* first_parsing.c*/
-char	**first_parsing(char *input, t_lst *env_lst);
+t_list	*first_parsing(char *input);
 /* path_parsing.c*/
 char	**path_parsing(char *arg, t_lst *env_lst);
 /* exec_func.c*/
