@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:12:43 by tkim              #+#    #+#             */
-/*   Updated: 2022/01/05 19:47:07 by tkim             ###   ########.fr       */
+/*   Updated: 2022/01/07 16:53:40 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,15 @@ typedef struct s_lst
 	struct s_lst	*next;
 }	t_lst;
 
+typedef struct s_cmd
+{
+	char			**argv;
+	int				pre_flag;
+	int				next_flag;
+	struct s_cmd	*next;
+}	t_cmd;
+
+
 /* set_envp.c */
 int		init_env_lst(t_lst **env_lst, char *envp[]);
 t_lst	*split_key_value(char *str, int lst_idx);
@@ -49,14 +58,14 @@ int		mini_env(t_lst *env_lst);
 int		mini_export(t_lst **env_lst, char *argv[]);
 int		mini_unset(t_lst **env_lst, char *argv[]);
 /* first_parsing.c*/
-t_list	*first_parsing(char *input);
+char	**first_parsing(char *input, t_lst *env_lst);
 /* path_parsing.c*/
 char	**path_parsing(char *arg, t_lst *env_lst);
 /* exec_func.c*/
 int		exec_path(char **path_arr, char *argv[], char *env_arr[]);
 int		exec_built_in_func(char *argv[], t_lst **env_lst);
 
-int	cnt_quote_len(char *input, int *idx);
+// int	cnt_quote_len(char *input, int *idx);
 int	cnt_doller_len(char *input, int *idx);
 //int	cnt_none_len(char *input, int idx);
 //int	cnt_dquote_len(char *input, int *idx);
@@ -69,6 +78,6 @@ char *parse_case_dquote(char *input, int *i, t_lst *env_lst);
 char *parse_case_doller(char *input, int *i, t_lst *env_lst);
 
 int	is_valid_quote(char *input);
-
+char **lst_to_arr(t_list *token, t_lst *env_lst);
 
 #endif
