@@ -18,6 +18,13 @@ t_list	*make_token(char *input, int len, int *idx)
 		content = ft_substr(input, *idx, len);
 		token = ft_lstnew(content);
 	}
+	else if (input[*idx + len] == '<' && len == 0)
+	{
+		while (input[*idx + len] == '<')
+			len++;
+		content = ft_substr(input, *idx, len);
+		token = ft_lstnew(content);
+	}
 	else
 	{
 		content = ft_substr(input, *idx, len);
@@ -41,7 +48,7 @@ t_list	*read_input(char *input)
 	while (input[idx] == ' ')
 		idx++;
 	len = 0;
-	while (input[idx + len] != '|' && input[idx + len] != ' ' && \
+	while (input[idx + len] != '|' && \
 	input[idx + len] != '<' && input[idx + len] != '>' && input[idx + len] != 0)
 		len++;
 	token = make_token(input, len, &idx);
