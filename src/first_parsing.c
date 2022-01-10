@@ -1,22 +1,18 @@
 #include "minishell.h"
 
-t_list	*make_token(char *input, int len, int *idx)
+int	cut_case_spc(char *input, int *idx, t_list **tokens)
 {
-	t_list	*token;
+	int		len;
 	char	*content;
+	t_list	*token;
 
+	len = 0;
 	if (input[*idx + len] == '|' && len == 0)
 	{
+		content = ft_strdup("|");
+		token = ft_lstnew(content);
+		ft_lstadd_back(tokens, token);
 		len++;
-		content = ft_substr(input, *idx, len);
-		token = ft_lstnew(content);
-	}
-	else if (input[*idx + len] == '>' && len == 0)
-	{
-		while (input[*idx + len] == '>')
-			len++;
-		content = ft_substr(input, *idx, len);
-		token = ft_lstnew(content);
 	}
 	else if (input[*idx + len] == '<' && len == 0)
 	{
@@ -24,114 +20,52 @@ t_list	*make_token(char *input, int len, int *idx)
 			len++;
 		content = ft_substr(input, *idx, len);
 		token = ft_lstnew(content);
+		ft_lstadd_back(tokens, token);
 	}
+	else if (input[*idx + len] == '>' && len == 0)
+	{
+		while (input[*idx + len] == '>')
+			len++;
+		content = ft_substr(input, *idx, len);
+		token = ft_lstnew(content);
+		ft_lstadd_back(tokens, token);
+	}
+	return (len);
+}
+
+void	cut_case_pipe(char *input, int *idx, t_list **tokens)
+{
+	int		len;
+	char	*content;
+	t_list	*token;
+
+	len = 0;
+	while (input[*idx + len] != '|' && input[*idx + len] != '>' && input[*idx + len] != '<' && input[*idx + len])
+		len++;
+	if ((input[*idx + len] == '|' || input[*idx + len] == '>' || input[*idx + len] == '<') && len == 0)
+		len += cut_case_spc(input, idx, tokens);
 	else
 	{
 		content = ft_substr(input, *idx, len);
 		token = ft_lstnew(content);
-	}
-	(*idx) += len;
-	return (token);
-}
-
-int	read_case_quote(char *input, int idx)
-{
-	int len;
-
-	len = 1;
-	while (input[idx + len] != '\'')
-		len++;
-	printf("case quote len %d\n",len);
-	return (len);
-}
-
-int	read_case_dquote(char *input, int idx)
-{
-	int len;
-
-	len = 1;
-	printf("idx : %d\n", idx);
-	while (input[idx + len] != '"')
-		len++;
-	printf("case dquote len %d\n",len);
-	return (len);
-}
-
-t_list	*read_input(char *input)
-{
-	static int	idx;
-	int			len;
-	t_list		*token;
-
-	if (!input[idx])
-	{
-		idx = 0;
-		return (0);
-	}
-	while (input[idx] == ' ')
-		idx++;
-	len = 0;
-
-	while (input[idx + len] == '\'')
-	{
-		len += read_case_quote(input, &idx);
-		printf("len2 : %d\n", len);
-	}
-	printf("len3 : %d\n", len);
-	// while (input[idx + len] != '|' && \
-	// input[idx + len] != '<' && input[idx + len] != '>' && input[idx + len] != 0)
-	// 	len++;
-	token = make_token(input, len, &idx);
-	return (token);
-}
-
-void	fill_tokens(t_list **tokens, char *input)
-{
-	t_list	*token;
-	t_list	*tmp;
-
-	token = read_input(input);
-	while (token)
-	{
 		ft_lstadd_back(tokens, token);
-		token = read_input(input);
 	}
-	tmp = *tokens;
-	while (tmp)
+	//printf("pipe content : %s\n", content);
+	*idx += len;
+}
+
+t_list	*fill_token(char *input, t_list **tokens)
+{
+	int		idx;
+
+	idx = 0;
+	while (input[idx])
 	{
-		printf("tokens->content : %s\n", tmp->content);
-		tmp = tmp->next;
+		cut_case_pipe(input, &idx, tokens);
 	}
 }
 
-// t_list	*temp(char *input)
-// {
-// 	int	idx;
-// 	int	len;
-// 	int	flag;
-// 	t_list	*ret;
-
-// 	idx = 0;
-// 	flag = 0;
-// 	while (input[idx])
-// 	{
-// 		if (input[idx] != '\'' && input[idx] != '"' && input[idx] != '|' && input[idx] != '>' && input[idx] != '<')
-// 		{
-
-// 		}
-// 		if (input[idx] == '\'')
-// 		{
-
-// 		}
-// 		if (input[idx] == '"')
-// 		{
-
-// 		}
-// 	}
-// 	return (ret);
-// }
-
-char	**first_parsing(char *input, t_lst *env_lst)
+t_cmd	*first_parsing(char *input, t_lst *env_lst)
 {
 	t_list	*tokens;
 	char	**argv;
@@ -145,8 +79,7 @@ char	**first_parsing(char *input, t_lst *env_lst)
 		return (0);
 	}
 	tokens = 0;
-	// temp(input);
-	fill_tokens(&tokens, input);
-	printf("content : %s\n", tokens->content);
-	return (argv);
+	fill_token(input, &tokens);
+	cmd = make_cmd(tokens, env_lst);
+	return (cmd);
 }

@@ -37,6 +37,7 @@ int	minishell(char *envp[])
 	char	*input;
 	char	**argv;
 	char	**path;
+	t_cmd	*cmd;
 
 	env_lst = 0;
 	if (!env_lst)
@@ -46,11 +47,13 @@ int	minishell(char *envp[])
 		input = readline("minishell42 $ ");
 		if (!input)
 			return (0);
-		argv = first_parsing(input, env_lst);
-
-		// if (argv)
-		// 	path = path_parsing(argv[0], env_lst);
-		// exec_func(path, argv, &env_lst);
+		cmd = first_parsing(input, env_lst);
+		printf("%s\n", cmd->argv[0]);
+		/*
+		argv = cmd->argv;
+		if (argv)
+		 	path = path_parsing(argv[0], env_lst);
+		exec_func(path, argv, &env_lst);*/
 		add_history(input);
 		free(input);
 	}
