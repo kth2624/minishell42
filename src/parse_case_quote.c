@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	cnt_quote_len(char *input, int *idx)
+static int	cnt_quote_len(char *input, int *idx)
 {
 	int len;
 
