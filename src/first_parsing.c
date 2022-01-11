@@ -71,7 +71,7 @@ t_cmd	*first_parsing(char *input, t_lst *env_lst)
 	char	**argv;
 	t_cmd	*cmd;
 
-	if (!input[0])
+	if (!input[0] || (8 < input[0] && input[0] < 127))
 		return (0);
 	if (!is_valid_quote(input))
 	{
