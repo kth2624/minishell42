@@ -4,7 +4,8 @@ static void	print_key_value(t_lst *env_lst)
 {
 	while (env_lst)
 	{
-		printf("%s=%s\n", env_lst->key, env_lst->value);
+		printf("declare -x ");
+		printf("%s=\"%s\"\n", env_lst->key, env_lst->value);
 		env_lst = env_lst->next;
 	}
 }
