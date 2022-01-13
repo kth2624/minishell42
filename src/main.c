@@ -25,7 +25,7 @@ int	exec_func(char **path, t_cmd *cmd, t_lst **env_lst)
 	fd_in = 0;
 	fd_out = 1;
 	if (!cmd->argv || !path || !env_lst)
-		return (0);
+		return (1);
 	check_redirection(cmd, &fd_in, &fd_out);
 	if (exec_built_in_func(cmd->argv, env_lst) == 1)
 	{
@@ -56,7 +56,7 @@ int	minishell(char *envp[])
 		input = readline("minishell42 $ ");
 		if (!input)
 			return (0);
-		cmd = first_parsing(input, env_lst);	
+		cmd = first_parsing(input, env_lst);
 		if (cmd)
 			path = path_parsing(cmd->argv[0], env_lst);
 		exec_func(path, cmd, &env_lst);
