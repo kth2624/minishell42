@@ -53,9 +53,15 @@ int	minishell(char *envp[])
 		init_env_lst(&env_lst, envp);
 	while (1)
 	{
+		handle_signal();
 		input = readline("minishell42 $ ");
 		if (!input)
-			return (0);
+		{
+			input = ft_strdup("exit");
+			printf("%s\n", input);
+			free(input);
+			mini_exit();
+		}
 		cmd = first_parsing(input, env_lst);
 		if (cmd)
 			path = path_parsing(cmd->argv[0], env_lst);

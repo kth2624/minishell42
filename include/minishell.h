@@ -17,14 +17,15 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
+# include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
 # include <errno.h>
-# include <stdio.h>
 # include "libft.h"
 # include <sys/types.h>
 # include <sys/stat.h>
+# include <termios.h>
 
 # define PIPE 0
 # define REDIRECT1 1
@@ -92,5 +93,6 @@ t_cmd   *make_cmd(t_list *tokens, t_lst *env_lst);
 
 int	check_redirection(t_cmd *cmd, int *fd_in, int *fd_out);
 void	free_memory(char **str);
+int handle_signal(void);
 
 #endif
