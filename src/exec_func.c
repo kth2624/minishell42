@@ -11,15 +11,6 @@ static int	get_str_arr_len(char *str[])
 	return (idx);
 }
 
-static int	is_valid_path(char *path)
-{
-	int			ret;
-	struct stat	f_stat;
-
-	ret = stat(path, &f_stat);
-	return (ret);
-}
-
 int	check_redirection(t_cmd *cmd, int *fd_in, int *fd_out)
 {
 	t_cmd	*curr;
@@ -40,36 +31,27 @@ int	check_redirection(t_cmd *cmd, int *fd_in, int *fd_out)
 	return (1);
 }
 
-int	exec_path(char **path_arr, char *argv[], char *env_arr[], int *fd_in, int *fd_out)
+int	exec_path(char *path, char *argv[], char *env_arr[], int *fd_in, int *fd_out)
 {
 	int			idx;
 	int			pid;
 	int			state;
 	int			path_arr_len;
 
-	path_arr_len = get_str_arr_len(path_arr);
 	idx = 0;
-	while (path_arr[idx])
+	pid = fork();
+	if (pid > 0)
+		waitpid(pid, &state, 0);
+	else if (pid == 0)
 	{
-		if (is_valid_path(path_arr[idx]) == 0)
-		{
-			pid = fork();
-			if (pid > 0)
-				waitpid(pid, &state, 0);
-			else if (pid == 0)
-			{
-				if (*fd_in != 0)
-					dup2(*fd_in, 0);
-				if (*fd_out != 1)
-					dup2(*fd_out, 1);
-				execve(path_arr[idx], argv, env_arr);
-			}
-			else if (pid < 0)
-				printf("%s\n", strerror(errno));
-			break ;
-		}
-		idx++;
+		if (*fd_in != 0)
+			dup2(*fd_in, 0);
+		if (*fd_out != 1)
+			dup2(*fd_out, 1);
+		execve(path, argv, env_arr);
 	}
+	else if (pid < 0)
+		printf("%s\n", strerror(errno));
 	if (idx == path_arr_len)
 		printf("minishell42: %s: command not found\n", argv[0]);
 	return (0);

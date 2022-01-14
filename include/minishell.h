@@ -69,9 +69,9 @@ int		mini_exit(void);
 /* first_parsing.c*/
 t_cmd	*first_parsing(char *input, t_lst *env_lst);
 /* path_parsing.c*/
-char	**path_parsing(char *arg, t_lst *env_lst);
+char	*path_parsing(char *arg, t_lst *env_lst);
 /* exec_func.c*/
-int		exec_path(char **path_arr, char *argv[], char *env_arr[], int *fd_in, int *fd_out);
+int		exec_path(char *path, char *argv[], char *env_arr[], int *fd_in, int *fd_out);
 int		exec_built_in_func(char *argv[], t_lst **env_lst);
 
 // int	cnt_quote_len(char *input, int *idx);
@@ -91,5 +91,6 @@ char **lst_to_arr(t_list *token, t_lst *env_lst);
 t_cmd   *make_cmd(t_list *tokens, t_lst *env_lst);
 
 int	check_redirection(t_cmd *cmd, int *fd_in, int *fd_out);
+void	free_memory(char **str);
 
 #endif

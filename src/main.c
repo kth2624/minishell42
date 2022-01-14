@@ -14,7 +14,7 @@ void	free_memory(char **str)
 	free(str);
 }
 
-int	exec_func(char **path, t_cmd *cmd, t_lst **env_lst)
+int	exec_func(char *path, t_cmd *cmd, t_lst **env_lst)
 {
 	char	**env_arr;
 	int		fd_in;
@@ -37,7 +37,7 @@ int	exec_func(char **path, t_cmd *cmd, t_lst **env_lst)
 		dup2(0, fd_in);
 	if (fd_out != 1)
 		dup2(1, fd_out);
-	free_memory(path);
+	free(path);
 	return (0);
 }
 
@@ -45,7 +45,7 @@ int	minishell(char *envp[])
 {
 	t_lst	*env_lst;
 	char	*input;
-	char	**path;
+	char	*path;
 	t_cmd	*cmd;
 
 	env_lst = 0;
