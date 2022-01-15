@@ -36,7 +36,7 @@ int	exec_path(char *path, char *argv[], char *env_arr[], int *fd_in, int *fd_out
 	int			idx;
 	int			pid;
 	int			state;
-	int			path_arr_len;
+	int			ret;
 
 	idx = 0;
 	pid = fork();
@@ -48,12 +48,15 @@ int	exec_path(char *path, char *argv[], char *env_arr[], int *fd_in, int *fd_out
 			dup2(*fd_in, 0);
 		if (*fd_out != 1)
 			dup2(*fd_out, 1);
-		execve(path, argv, env_arr);
+		ret = execve(path, argv, env_arr);
+		if (ret == -1)
+		{
+			printf("minishell42: %s: command not found\n", path);
+			exit(1);
+		}
 	}
 	else if (pid < 0)
 		printf("%s\n", strerror(errno));
-	if (idx == path_arr_len)
-		printf("minishell42: %s: command not found\n", argv[0]);
 	return (0);
 }
 

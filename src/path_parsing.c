@@ -74,18 +74,14 @@ char	*path_is_valid(char *arg, char **path_arr)
 	while (path_arr[idx])
 	{
 		ret = stat(path_arr[idx], &f_stat);
-		//printf("path_arr : %s\n", path_arr[idx]);
 		if (ret == 0)
 			return (path_arr[idx]);
 		idx++;
 	}
-	ret = stat(arg, &f_stat);
-	if (ret == 0)
-		return (arg);
-	return (0);
+	return (arg);
 }
 
-char	*path_parsing(char *arg, t_lst *env_lst)
+char	**path_parsing(char *arg, t_lst *env_lst)
 {
 	char	**path_arr;
 	char	*path;
@@ -102,8 +98,8 @@ char	*path_parsing(char *arg, t_lst *env_lst)
 	}
 	path_arr = path_split(path, ft_strjoin("/", arg), ':');
 	free(path);
-	path = path_is_valid(arg, path_arr);
-	ret = ft_strdup(path);
-	free_memory(path_arr);
-	return (ret);
+	//path = path_is_valid(arg, path_arr);
+	//ret = ft_strdup(path);
+	//free_memory(path_arr);
+	return (path_arr);
 }
