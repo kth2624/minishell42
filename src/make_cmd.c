@@ -37,7 +37,11 @@ t_cmd	*mini_cmdnew(t_list *tokens, t_lst *env_lst)
 	cmd->pre_flag = pre_flag;
 	cmd->argv = lst_to_arr(command, env_lst);
 	cmd->next_flag = get_spc(spc);
+	// printf("next = %d\n",cmd->next_flag);
 	pre_flag = cmd->next_flag;
+	// printf("pre = %d\n",cmd->pre_flag);
+
+
 	cmd->next = 0;
 	/*int	idx = 0;
 	while (cmd->argv[idx])

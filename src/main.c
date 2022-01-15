@@ -19,6 +19,10 @@ int	exec_func(char **path, t_cmd *cmd, t_lst **env_lst)
 	char	**env_arr;
 	int		fd_in;
 	int		fd_out;
+	int fd[cmd->size][2];
+	int idx;
+	pid_t pid;
+	int status;
 
 	if (!cmd)
 		return (1);
@@ -26,17 +30,44 @@ int	exec_func(char **path, t_cmd *cmd, t_lst **env_lst)
 	fd_out = 1;
 	if (!cmd->argv || !path || !env_lst)
 		return (1);
-	check_redirection(cmd, &fd_in, &fd_out);
-	if (exec_built_in_func(cmd->argv, env_lst) == 1)
+	idx = 0;
+	// printf("cmd size = %d\n",)
+	while(cmd)
 	{
-		env_arr = make_env_arr(*env_lst);
-		exec_path(path, cmd->argv, env_arr, &fd_in, &fd_out);
-		free_memory(env_arr);
+		pipe(fd[idx]);
+		// printf("cmd idx %d\n",idx);
+		// printf("cmd pre %d next %d\n",cmd->pre_flag,cmd->next_flag);
+		pid = fork();
+		if(pid == 0)
+		{
+			if(cmd->pre_flag == PIPE)
+			{
+				dup2(fd[idx-1][0], 0);
+			}
+			if(cmd->next_flag == PIPE)
+			{
+				dup2(fd[idx][1], 1);
+			}
+
+			if (exec_built_in_func(cmd->argv, env_lst) == 1)
+			{
+				write(2, "hi\n\n", 4);
+				env_arr = make_env_arr(*env_lst);
+				exec_path(path, cmd->argv, env_arr, &fd_in, &fd_out);
+				write(2, "bye\n\n", 5);
+				free_memory(env_arr);
+			}
+		}
+		else if (pid > 0)
+		{
+			close(fd[idx-1][0]);
+			close(fd[idx][1]);
+			wait(&status);
+		}
+		idx++;
+		cmd = cmd->next;
+
 	}
-	if (fd_in != 0)
-		dup2(0, fd_in);
-	if (fd_out != 1)
-		dup2(1, fd_out);
 	free_memory(path);
 	return (0);
 }

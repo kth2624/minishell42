@@ -1,5 +1,17 @@
 #include "minishell.h"
 
+int	get_cmd_size(t_cmd *cmd)
+{
+	int i;
+
+	i = 0;
+	while(cmd)
+	{
+		cmd = cmd->next;
+		i++;
+	}
+	return (i);
+}
 int	cut_case_spc(char *input, int *idx, t_list **tokens)
 {
 	int		len;
@@ -70,6 +82,7 @@ t_cmd	*first_parsing(char *input, t_lst *env_lst)
 	t_list	*tokens;
 	char	**argv;
 	t_cmd	*cmd;
+	int size;
 
 	if (!input[0] || !ft_isprint(input[0]))
 		return (0);
@@ -81,5 +94,6 @@ t_cmd	*first_parsing(char *input, t_lst *env_lst)
 	tokens = 0;
 	fill_token(input, &tokens);
 	cmd = make_cmd(tokens, env_lst);
+	cmd->size = get_cmd_size(cmd);
 	return (cmd);
 }
