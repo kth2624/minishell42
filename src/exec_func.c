@@ -11,33 +11,52 @@ static int	get_str_arr_len(char *str[])
 	return (idx);
 }
 
-int	exec_path(char **path_arr, char *argv[], char *env_arr[])
+int	check_redirection(t_cmd *cmd, int *fd_in, int *fd_out)
+{
+	t_cmd	*curr;
+	char	*file_name;
+
+	curr = cmd;
+	if (curr->next_flag != REDIRECT1 && curr->next_flag != REDIRECT2 && curr->next_flag != REDIRECT3 && curr->next_flag != REDIRECT4)
+		return (0);
+	file_name = cmd->next->argv[0];
+	if (curr->next_flag == REDIRECT1)
+		*fd_out = open(file_name, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	else if (curr->next_flag == REDIRECT2 || curr->next_flag == REDIRECT4)
+		*fd_in = open(file_name, O_RDONLY);
+	else if (curr->next_flag == REDIRECT3)
+		*fd_out = open(file_name, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	if (*fd_in < 0 || *fd_out < 0)
+		return (0);
+	return (1);
+}
+
+int	exec_path(char *path, char *argv[], char *env_arr[], int *fd_in, int *fd_out)
 {
 	int			idx;
-	struct stat	f_stat;
 	int			pid;
 	int			state;
-	int			path_arr_len;
+	int			ret;
 
-	path_arr_len = get_str_arr_len(path_arr);
 	idx = 0;
-	while (path_arr[idx])
+	pid = fork();
+	if (pid > 0)
+		waitpid(pid, &state, 0);
+	else if (pid == 0)
 	{
-		if (!stat(path_arr[idx], &f_stat))
+		if (*fd_in != 0)
+			dup2(*fd_in, 0);
+		if (*fd_out != 1)
+			dup2(*fd_out, 1);
+		ret = execve(path, argv, env_arr);
+		if (ret == -1)
 		{
-			pid = fork();
-			if (pid > 0)
-				wait(&state);
-			else if (pid == 0)
-				execve(path_arr[idx], argv, env_arr);
-			else if (pid < 0)
-				printf("%s\n", strerror(errno));
-			break ;
+			printf("minishell42: %s: command not found\n", path);
+			exit(1);
 		}
-		idx++;
 	}
-	if (idx == path_arr_len)
-		printf("minishell42: %s: command not found\n", argv[0]);
+	else if (pid < 0)
+		printf("%s\n", strerror(errno));
 	return (0);
 }
 
@@ -60,6 +79,8 @@ int	exec_built_in_func(char *argv[], t_lst **env_lst)
 		mini_export(env_lst, argv);
 	else if (ft_strcmp(argv[0], "env") == 0)
 		mini_env(*env_lst);
+	else if (ft_strcmp(argv[0], "exit") == 0)
+		mini_exit();
 	else
 		return (1);
 	return (0);

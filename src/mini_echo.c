@@ -1,32 +1,45 @@
 #include "minishell.h"
 
-int	mini_echo(char *argv[], int flag)
+static void	write_without_option(char *argv[])
 {
 	int	idx;
+	int	len;
 
+	idx = 1;
+	while (argv[idx])
+	{
+		len = ft_strlen(argv[idx]);
+		write(1, argv[idx], len);
+		if (argv[idx] != 0)
+			write(1, " ", 1);
+		idx++;
+	}
+	printf("\n");
+}
+
+static void	write_with_option(char *argv[])
+{
+	int	idx;
+	int	len;
+
+	idx = 2;
+	while (argv[idx + 1])
+	{
+		len = ft_strlen(argv[idx]);
+		write(1, argv[idx], len);
+		if (argv[idx] != 0)
+			write(1, " ", 1);
+		idx++;
+	}
+	len = ft_strlen(argv[idx]);
+	write(1, argv[idx], len);
+}
+
+int	mini_echo(char *argv[], int flag)
+{
 	if (flag == 0)
-	{
-		idx = 1;
-		while (argv[idx])
-		{
-			printf("%s", argv[idx]);
-			if (argv[idx] != 0)
-				printf(" ");
-			idx++;
-		}
-		printf("\n");
-	}
+		write_without_option(argv);
 	else if (flag == 1)
-	{
-		idx = 2;
-		if (!argv[idx])
-		 	return (1);
-		while (argv[idx + 1])
-		{
-			printf("%s ", argv[idx]);
-			idx++;
-		}
-		printf("%s", argv[idx]);
-	}
+		write_with_option(argv);
 	return (0);
 }

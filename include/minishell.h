@@ -13,17 +13,25 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <fcntl.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
+# include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
 # include <errno.h>
-# include <stdio.h>
 # include "libft.h"
 # include <sys/types.h>
 # include <sys/stat.h>
+# include <termios.h>
+
+# define PIPE 0
+# define REDIRECT1 1
+# define REDIRECT2 2
+# define REDIRECT3 3
+# define REDIRECT4 4
 
 typedef struct s_lst
 {
@@ -57,12 +65,14 @@ int		mini_pwd(void);
 int		mini_env(t_lst *env_lst);
 int		mini_export(t_lst **env_lst, char *argv[]);
 int		mini_unset(t_lst **env_lst, char *argv[]);
+int		mini_exit(void);
+
 /* first_parsing.c*/
-char	**first_parsing(char *input, t_lst *env_lst);
+t_cmd	*first_parsing(char *input, t_lst *env_lst);
 /* path_parsing.c*/
 char	**path_parsing(char *arg, t_lst *env_lst);
 /* exec_func.c*/
-int		exec_path(char **path_arr, char *argv[], char *env_arr[]);
+int		exec_path(char *path, char *argv[], char *env_arr[], int *fd_in, int *fd_out);
 int		exec_built_in_func(char *argv[], t_lst **env_lst);
 
 // int	cnt_quote_len(char *input, int *idx);
@@ -79,5 +89,12 @@ char *parse_case_doller(char *input, int *i, t_lst *env_lst);
 
 int	is_valid_quote(char *input);
 char **lst_to_arr(t_list *token, t_lst *env_lst);
+t_cmd   *make_cmd(t_list *tokens, t_lst *env_lst);
+
+int	check_redirection(t_cmd *cmd, int *fd_in, int *fd_out);
+void	free_memory(char **str);
+int handle_signal(void);
+char	*path_is_valid(char *arg, char **path_arr);
+
 
 #endif
