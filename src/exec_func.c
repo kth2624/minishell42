@@ -46,22 +46,24 @@ int	exec_path(char **path_arr, char *argv[], char *env_arr[], int *fd_in, int *f
 	int			pid;
 	int			state;
 	int			path_arr_len;
+	int n;
 
 	path_arr_len = get_str_arr_len(path_arr);
 	idx = 0;
+	fprintf(stderr,"exec_path %s\n",argv[0]);
+
 	while (path_arr[idx])
 	{
 		if (is_valid_path(path_arr[idx]) == 0)
 		{
-			write(2,"qq\n",3);
 			fprintf(stderr,"%s\n",path_arr[idx]);
-			execve(path_arr[idx], argv, env_arr);
-			write(2,"zz\n",3);
+			write(2,"qq\n",3);
+			n = execve(path_arr[idx], argv, env_arr);
+			fprintf(stderr, "err %d\n",n);
 			break ;
 		}
 		idx++;
 	}
-
 	if (idx == path_arr_len)
 		fprintf(stderr,"minishell42: %s: command not found\n", argv[0]);
 	// return (0);

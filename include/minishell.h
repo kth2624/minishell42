@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:12:43 by tkim              #+#    #+#             */
-/*   Updated: 2022/01/15 20:14:13 by tkim             ###   ########.fr       */
+/*   Updated: 2022/01/16 14:06:43 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct s_cmd
 	int				pre_flag;
 	int				next_flag;
 	struct s_cmd	*next;
-	int	size;
+	int				size;
 }	t_cmd;
 
 

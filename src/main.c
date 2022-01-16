@@ -51,7 +51,7 @@ int	exec_func(char **path, t_cmd *cmd, t_lst **env_lst)
 
 			if (exec_built_in_func(cmd->argv, env_lst) == 1)
 			{
-				write(2, "hi\n\n", 4);
+				write(2, "hi\n", 4);
 				env_arr = make_env_arr(*env_lst);
 				exec_path(path, cmd->argv, env_arr, &fd_in, &fd_out);
 				write(2, "bye\n\n", 5);
