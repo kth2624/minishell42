@@ -64,13 +64,32 @@ static char	**path_split(char const *s, char *arg, char c)
 	return (split);
 }
 
+char	*path_is_valid(char *arg, char **path_arr)
+{
+	int			ret;
+	struct stat	f_stat;
+	int			idx;
+
+	idx = 0;
+	while (path_arr[idx])
+	{
+		ret = stat(path_arr[idx], &f_stat);
+		if (ret == 0)
+			return (path_arr[idx]);
+		idx++;
+	}
+	return (arg);
+}
+
 char	**path_parsing(char *arg, t_lst *env_lst)
 {
 	char	**path_arr;
 	char	*path;
+	char	*ret;
 
 	if (!arg)
 		return (0);
+	//printf("arg : %s\n", arg);
 	while (env_lst)
 	{
 		if (ft_strcmp(env_lst->key, "PATH") == 0)
@@ -79,5 +98,8 @@ char	**path_parsing(char *arg, t_lst *env_lst)
 	}
 	path_arr = path_split(path, ft_strjoin("/", arg), ':');
 	free(path);
+	//path = path_is_valid(arg, path_arr);
+	//ret = ft_strdup(path);
+	//free_memory(path_arr);
 	return (path_arr);
 }

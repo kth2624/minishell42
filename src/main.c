@@ -14,7 +14,7 @@ void	free_memory(char **str)
 	free(str);
 }
 
-int	exec_func(char **path, t_cmd *cmd, t_lst **env_lst)
+int	exec_func(char **path_arr, t_cmd *cmd, t_lst **env_lst)
 {
 	char	**env_arr;
 	int		fd_in;
@@ -23,12 +23,14 @@ int	exec_func(char **path, t_cmd *cmd, t_lst **env_lst)
 	int idx;
 	pid_t pid;
 	int status;
+	char	*path;
 
 	if (!cmd)
 		return (1);
 	fd_in = 0;
 	fd_out = 1;
-	if (!cmd->argv || !path || !env_lst)
+	path = path_is_valid(cmd->argv[0], path_arr);
+	if (!cmd->argv || !path_arr || !env_lst)
 		return (1);
 	idx = 0;
 	// printf("cmd size = %d\n",)
@@ -66,9 +68,7 @@ int	exec_func(char **path, t_cmd *cmd, t_lst **env_lst)
 		}
 		idx++;
 		cmd = cmd->next;
-
 	}
-	free_memory(path);
 	return (0);
 }
 
@@ -76,7 +76,7 @@ int	minishell(char *envp[])
 {
 	t_lst	*env_lst;
 	char	*input;
-	char	**path;
+	char	*path;
 	t_cmd	*cmd;
 
 	env_lst = 0;
@@ -84,9 +84,15 @@ int	minishell(char *envp[])
 		init_env_lst(&env_lst, envp);
 	while (1)
 	{
+		handle_signal();
 		input = readline("minishell42 $ ");
 		if (!input)
-			return (0);
+		{
+			input = ft_strdup("exit");
+			printf("%s\n", input);
+			free(input);
+			mini_exit();
+		}
 		cmd = first_parsing(input, env_lst);
 		if (cmd)
 			path = path_parsing(cmd->argv[0], env_lst);
@@ -94,6 +100,10 @@ int	minishell(char *envp[])
 		add_history(input);
 		free(input);
 	}
+	// if (fd_in != 0)
+	// 	dup2(0, fd_in);
+	// if (fd_out != 1)
+	// 	dup2(1, fd_out);
 	return (1);
 }
 
