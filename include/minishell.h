@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:12:43 by tkim              #+#    #+#             */
-/*   Updated: 2022/01/07 16:53:40 by tkim             ###   ########.fr       */
+/*   Updated: 2022/01/16 14:06:43 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include <sys/stat.h>
 # include <termios.h>
 
-# define PIPE 0
+# define PIPE 5
 # define REDIRECT1 1
 # define REDIRECT2 2
 # define REDIRECT3 3
@@ -47,6 +47,7 @@ typedef struct s_cmd
 	int				pre_flag;
 	int				next_flag;
 	struct s_cmd	*next;
+	int				size;
 }	t_cmd;
 
 

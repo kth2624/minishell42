@@ -39,14 +39,6 @@ t_cmd	*mini_cmdnew(t_list *tokens, t_lst *env_lst)
 	cmd->next_flag = get_spc(spc);
 	pre_flag = cmd->next_flag;
 	cmd->next = 0;
-	/*int	idx = 0;
-	while (cmd->argv[idx])
-	{
-		printf("argv[%d] : %s\n", idx, cmd->argv[idx]);
-		idx++;
-	}
-	printf("pre_flag : %d\n", cmd->pre_flag);
-	printf("next_flag : %d\n", cmd->next_flag);*/
 	return (cmd);
 }
 
@@ -79,7 +71,6 @@ t_cmd   *make_cmd(t_list *tokens, t_lst *env_lst)
 		new = mini_cmdnew(tokens, env_lst);
 		mini_cmdadd_back(&cmd, new);
 		tokens = tokens->next;
-		//printf("tokens->next : %s\n", tokens->content);
 	}
 	return (cmd);
 }
