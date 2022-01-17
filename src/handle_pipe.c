@@ -2,7 +2,7 @@
 
 int *handle_pipe(int fd)
 {
-
+	if (pipe == )
 }
 /*
 int size = ft_lstsize(cmd_line);

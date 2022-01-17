@@ -71,6 +71,9 @@ char	*path_is_valid(char *arg, char **path_arr)
 	int			idx;
 
 	idx = 0;
+	if (ft_strcmp(arg, "echo") == 0 || ft_strcmp(arg, "cd") == 0 || ft_strcmp(arg, "pwd") == 0 || ft_strcmp(arg, "unset") == 0 || \
+	ft_strcmp(arg, "export") == 0 || ft_strcmp(arg, "env") == 0 || ft_strcmp(arg, "exit") == 0)
+		return (arg);
 	while (path_arr[idx])
 	{
 		ret = stat(path_arr[idx], &f_stat);
@@ -89,7 +92,6 @@ char	**path_parsing(char *arg, t_lst *env_lst)
 
 	if (!arg)
 		return (0);
-	//printf("arg : %s\n", arg);
 	while (env_lst)
 	{
 		if (ft_strcmp(env_lst->key, "PATH") == 0)
@@ -98,8 +100,5 @@ char	**path_parsing(char *arg, t_lst *env_lst)
 	}
 	path_arr = path_split(path, ft_strjoin("/", arg), ':');
 	free(path);
-	//path = path_is_valid(arg, path_arr);
-	//ret = ft_strdup(path);
-	//free_memory(path_arr);
 	return (path_arr);
 }

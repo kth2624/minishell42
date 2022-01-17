@@ -41,28 +41,26 @@ int	exec_path(char *path, char *argv[], char *env_arr[], int *fd_in, int *fd_out
 	int			ret;
 
 	idx = 0;
-	fprintf(stderr,"exec_path %s\n",argv[0]);
+	// pid = fork();
+	//if (pid > 0)
+	//	waitpid(pid, &state, 0);
+	//else if (pid == 0)
+	//{
+		// if (*fd_in != 0)
+		// 	dup2(*fd_in, 0);
+		// if (*fd_out != 1)
+		// 	dup2(*fd_out, 1);
 
-	pid = fork();
-	if (pid > 0)
-		waitpid(pid, &state, 0);
-	else if (pid == 0)
-	{
-		if (*fd_in != 0)
-			dup2(*fd_in, 0);
-		if (*fd_out != 1)
-			dup2(*fd_out, 1);
 		ret = execve(path, argv, env_arr);
 		if (ret == -1)
 		{
 			printf("minishell42: %s: command not found\n", path);
-			exit(1);
+			//exit(1);
 		}
-	}
-	else if (pid < 0)
-		printf("%s\n", strerror(errno));
-	// exit(0);
-	return (0);
+	//}
+	//else if (pid < 0)
+	//exit(0);
+	// return (0);
 }
 
 int	exec_built_in_func(char *argv[], t_lst **env_lst)
@@ -88,6 +86,6 @@ int	exec_built_in_func(char *argv[], t_lst **env_lst)
 		mini_exit();
 	else
 		return (1);
-	// return (0);
+	//return (0);
 	exit(0);
 }
