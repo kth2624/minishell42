@@ -19,7 +19,10 @@ int	check_redirection(t_cmd *cmd, int *fd_in, int *fd_out)
 	curr = cmd;
 	if (curr->next_flag != REDIRECT1 && curr->next_flag != REDIRECT2 && curr->next_flag != REDIRECT3 && curr->next_flag != REDIRECT4)
 		return (0);
+	if(!cmd->next)
+		return (0);
 	file_name = cmd->next->argv[0];
+	fprintf(stderr,"file = %s\n",file_name);
 	if (curr->next_flag == REDIRECT1)
 		*fd_out = open(file_name, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	else if (curr->next_flag == REDIRECT2 || curr->next_flag == REDIRECT4)
@@ -33,34 +36,18 @@ int	check_redirection(t_cmd *cmd, int *fd_in, int *fd_out)
 
 int	exec_path(char *path, char *argv[], char *env_arr[], int *fd_in, int *fd_out)
 {
-	int			idx;
-	int			pid;
-	int			state;
-	int			path_arr_len;
-	int n;
-	int			ret;
+	int		ret;
 
-	idx = 0;
-	// pid = fork();
-	//if (pid > 0)
-	//	waitpid(pid, &state, 0);
-	//else if (pid == 0)
-	//{
-		// if (*fd_in != 0)
-		// 	dup2(*fd_in, 0);
-		// if (*fd_out != 1)
-		// 	dup2(*fd_out, 1);
-
-		ret = execve(path, argv, env_arr);
-		if (ret == -1)
-		{
-			printf("minishell42: %s: command not found\n", path);
-			//exit(1);
-		}
-	//}
-	//else if (pid < 0)
-	//exit(0);
-	// return (0);
+	//if (fd_in != 0)
+	//	dup2(fd_in, 0);
+	//if (fd_out != 0)
+	//	dup2(fd_out, 1);
+	ret = execve(path, argv, env_arr);
+	if (ret == -1)
+	{
+		printf("minishell42: %s: command not found\n", path);
+		exit(1);
+	}
 }
 
 int	exec_built_in_func(char *argv[], t_lst **env_lst)
