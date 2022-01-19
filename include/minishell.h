@@ -66,7 +66,7 @@ int		mini_pwd(void);
 int		mini_env(t_lst *env_lst);
 int		mini_export(t_lst **env_lst, char *argv[]);
 int		mini_unset(t_lst **env_lst, char *argv[]);
-int		mini_exit(void);
+int		mini_exit(char *argv[]);
 
 /* first_parsing.c*/
 t_cmd	*first_parsing(char *input, t_lst *env_lst);
