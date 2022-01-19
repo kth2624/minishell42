@@ -12,6 +12,36 @@ int	get_cmd_size(t_cmd *cmd)
 	}
 	return (i);
 }
+
+void	change_env(t_list **tokens, t_lst *env_lst)
+{
+	t_list	*token;
+	int		idx;
+	char	*content;
+	char	*env_str;
+
+	token = *tokens;
+	while (token)
+	{
+		idx = 0;
+		content = ft_strdup(token->content);
+		while (content[idx])
+		{
+			if (content[idx] == '$')
+			{
+				content[idx] = '\0';
+				env_str = parse_case_doller(token->content, &idx, env_lst);
+				content = mini_strjoin(content, env_str);
+				free(token->content);
+				token->content = content;
+			}
+			idx++;
+		}
+		token = token->next;
+	}
+	return ;
+}
+
 int	cut_case_spc(char *input, int *idx, t_list **tokens)
 {
 	int		len;
@@ -93,7 +123,16 @@ t_cmd	*first_parsing(char *input, t_lst *env_lst)
 	}
 	tokens = 0;
 	fill_token(input, &tokens);
+	change_env(&tokens, env_lst);
+	t_list *temp = tokens;
+	/*while (temp)
+	{
+		printf("temp : %s\n", temp->content);
+		temp = temp->next;
+	}*/
 	cmd = make_cmd(tokens, env_lst);
-	cmd->size = get_cmd_size(cmd);
+//	printf("cmd->argv: %s\n", cmd->argv[0]);
+//	printf("cmd->argv: %s\n", cmd->argv[1]);
+	//cmd->size = get_cmd_size(cmd);
 	return (cmd);
 }

@@ -33,19 +33,15 @@ int	exec_func(t_cmd *cmd, t_lst **env_lst)
 	if (!cmd->argv || !env_lst)
 		return (1);
 	idx = 0;
-	/*
-	while (cmd)
+	path_arr = path_parsing(cmd->argv[0], *env_lst);
+	if (exec_built_in_func(cmd->argv, env_lst) == 1)
 	{
-		cat < ls < ls < ls
-		if (next_flag == PIPE)
-			pid = fork();
-		pipe(pid, ); >>> if (flag 확인 > pipe > fd)
-		redirection(); if (redirection == )
-		exec_func(); case 1: built_in, case 2: path;
-
-		fork()
-		exec_funfc()
-	}*/
+		path = path_is_valid(cmd->argv[0], path_arr);
+		env_arr = make_env_arr(*env_lst);
+		exec_path(path, cmd->argv, env_arr, &fd_in, &fd_out);
+		free_memory(env_arr);
+	}
+	/*
 	while(cmd)
 	{
 		path_arr = path_parsing(cmd->argv[0], *env_lst);
@@ -79,7 +75,7 @@ int	exec_func(t_cmd *cmd, t_lst **env_lst)
 			printf("%s\n", strerror(errno));
 		idx++;
 		cmd = cmd->next;
-	}
+	}*/
 	return (0);
 }
 
@@ -95,14 +91,12 @@ int	minishell(char *envp[])
 		init_env_lst(&env_lst, envp);
 	while (1)
 	{
-		handle_signal();
+	//	handle_signal();
 		input = readline("minishell42 $ ");
 		if (!input)
 		{
-			input = ft_strdup("exit");
-			printf("%s\n", input);
-			free(input);
-			mini_exit();
+			printf("exit\n");
+			exit(0);
 		}
 		cmd = first_parsing(input, env_lst);
 		exec_func(cmd, &env_lst);
