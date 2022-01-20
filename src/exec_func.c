@@ -83,9 +83,8 @@ int	exec_built_in_func(char *argv[], t_lst **env_lst)
 	else if (ft_strcmp(argv[0], "env") == 0)
 		mini_env(*env_lst);
 	else if (ft_strcmp(argv[0], "exit") == 0)
-		mini_exit();
+		mini_exit(argv);
 	else
 		return (1);
-	//return (0);
-	exit(0);
+	return (0);
 }

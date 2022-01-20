@@ -20,24 +20,23 @@ int	get_spc(t_list *spc)
 	return (-1);
 }
 
-t_cmd	*mini_cmdnew(t_list *tokens, t_lst *env_lst)
+t_cmd	*mini_cmdnew(t_list *tokens, t_lst *env_lst, t_list *pre_token)
 {
 	t_cmd	*cmd;
 	t_list	*command;
 	t_list	*spc;
-	static int	pre_flag = 42;
 
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (0);
-	if (pre_flag == 42)
-		pre_flag = -1;
+	if (!pre_token)
+		cmd->pre_flag = -1;
 	command = tokens;
-	spc = tokens->next;
-	cmd->pre_flag = pre_flag;
+	spc = command->next;
+	if (pre_token)
+		cmd->pre_flag = get_spc(pre_token);
 	cmd->argv = lst_to_arr(command, env_lst);
 	cmd->next_flag = get_spc(spc);
-	pre_flag = cmd->next_flag;
 	cmd->next = 0;
 	return (cmd);
 }
@@ -62,13 +61,18 @@ t_cmd   *make_cmd(t_list *tokens, t_lst *env_lst)
 {
 	t_cmd	*new;
 	t_cmd	*cmd;
+	t_list	*pre_flag;
 
 	cmd = 0;
+	pre_flag = 0;
 	while (tokens)
 	{
 		if (get_spc(tokens) != -1)
+		{
+			pre_flag = tokens;
 			tokens = tokens->next;
-		new = mini_cmdnew(tokens, env_lst);
+		}
+		new = mini_cmdnew(tokens, env_lst, pre_flag);
 		mini_cmdadd_back(&cmd, new);
 		tokens = tokens->next;
 	}
