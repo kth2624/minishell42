@@ -135,7 +135,6 @@ char **lst_to_arr(t_list *token, t_lst *env_lst)
 
 	if (!token)
 		return (0);
-
 	str = make_str_arr(token->content, env_lst);
 	return (str);
 }
