@@ -76,5 +76,6 @@ t_cmd   *make_cmd(t_list *tokens, t_lst *env_lst)
 		mini_cmdadd_back(&cmd, new);
 		tokens = tokens->next;
 	}
+	t_cmd *tmp = cmd;
 	return (cmd);
 }

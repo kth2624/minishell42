@@ -24,11 +24,11 @@ void	change_env(t_list **tokens, t_lst *env_lst)
 	while (token)
 	{
 		idx = 0;
-		content = ft_strdup(token->content);
 		while (content[idx])
 		{
 			if (content[idx] == '$')
 			{
+				content = ft_strdup(token->content);
 				content[idx] = '\0';
 				env_str = parse_case_doller(token->content, &idx, env_lst);
 				content = mini_strjoin(content, env_str);
@@ -92,7 +92,6 @@ void	cut_case_pipe(char *input, int *idx, t_list **tokens)
 		token = ft_lstnew(content);
 		ft_lstadd_back(tokens, token);
 	}
-	//printf("pipe content : %s\n", content);
 	*idx += len;
 }
 
@@ -110,7 +109,6 @@ t_list	*fill_token(char *input, t_list **tokens)
 t_cmd	*first_parsing(char *input, t_lst *env_lst)
 {
 	t_list	*tokens;
-	char	**argv;
 	t_cmd	*cmd;
 	int size;
 
@@ -124,15 +122,7 @@ t_cmd	*first_parsing(char *input, t_lst *env_lst)
 	tokens = 0;
 	fill_token(input, &tokens);
 	change_env(&tokens, env_lst);
-	t_list *temp = tokens;
-	/*while (temp)
-	{
-		printf("temp : %s\n", temp->content);
-		temp = temp->next;
-	}*/
 	cmd = make_cmd(tokens, env_lst);
-//	printf("cmd->argv: %s\n", cmd->argv[0]);
-//	printf("cmd->argv: %s\n", cmd->argv[1]);
-	//cmd->size = get_cmd_size(cmd);
+	free_token(tokens);
 	return (cmd);
 }

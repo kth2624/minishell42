@@ -59,12 +59,13 @@ int	exec_path(char *path, char *argv[], char *env_arr[], int *fd_in, int *fd_out
 		}
 	//}
 	//else if (pid < 0)
-	//exit(0);
+	//exit(1);
 	// return (0);
 }
 
 int	exec_built_in_func(char *argv[], t_lst **env_lst)
 {
+	printf("argv : %s\n", argv[0]);
 	if (ft_strcmp(argv[0], "echo") == 0)
 	{
 		if (ft_strcmp(argv[1], "-n") == 0)

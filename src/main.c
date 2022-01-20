@@ -1,19 +1,6 @@
 
 #include "minishell.h"
 
-void	free_memory(char **str)
-{
-	int	idx;
-
-	idx = 0;
-	while (str[idx])
-	{
-		free(str[idx]);
-		idx++;
-	}
-	free(str);
-}
-
 int	exec_func(t_cmd *cmd, t_lst **env_lst)
 {
 	char	**env_arr;
@@ -33,14 +20,15 @@ int	exec_func(t_cmd *cmd, t_lst **env_lst)
 	if (!cmd->argv || !env_lst)
 		return (1);
 	idx = 0;
-	path_arr = path_parsing(cmd->argv[0], *env_lst);
-	if (exec_built_in_func(cmd->argv, env_lst) == 1)
+	//path_arr = path_parsing(cmd->argv[0], *env_lst);
+	exec_built_in_func(cmd->argv, env_lst);
+	/*if (exec_built_in_func(cmd->argv, env_lst) == 1)
 	{
 		path = path_is_valid(cmd->argv[0], path_arr);
 		env_arr = make_env_arr(*env_lst);
 		exec_path(path, cmd->argv, env_arr, &fd_in, &fd_out);
 		free_memory(env_arr);
-	}
+	}*/
 	/*
 	while(cmd)
 	{
@@ -102,11 +90,8 @@ int	minishell(char *envp[])
 		exec_func(cmd, &env_lst);
 		add_history(input);
 		free(input);
+		free_cmd(cmd);
 	}
-	// if (fd_in != 0)
-	// 	dup2(0, fd_in);
-	// if (fd_out != 1)
-	// 	dup2(1, fd_out);
 	return (1);
 }
 

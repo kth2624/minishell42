@@ -19,6 +19,7 @@ int	unset_func(t_lst **env_lst, char *key)
 		{
 			next = curr->next->next;
 			free(curr->next);
+			curr->next = 0;
 			curr->next = next;
 			return (0);
 		}

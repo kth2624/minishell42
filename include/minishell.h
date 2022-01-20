@@ -75,6 +75,11 @@ char	**path_parsing(char *arg, t_lst *env_lst);
 /* exec_func.c*/
 int		exec_path(char *path, char *argv[], char *env_arr[], int *fd_in, int *fd_out);
 int		exec_built_in_func(char *argv[], t_lst **env_lst);
+/* memory_free.c*/
+void	free_2dim_arr(char **str);
+void    free_token(t_list *tokens);
+void    free_cmd(t_cmd *cmd);
+
 
 // int	cnt_quote_len(char *input, int *idx);
 int	cnt_doller_len(char *input, int *idx);
