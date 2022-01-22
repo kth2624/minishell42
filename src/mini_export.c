@@ -5,7 +5,11 @@ static void	print_key_value(t_lst *env_lst)
 	while (env_lst)
 	{
 		printf("declare -x ");
-		printf("%s=\"%s\"\n", env_lst->key, env_lst->value);
+		printf("%s", env_lst->key);
+		if (ft_strcmp(env_lst->value, "") == 0)
+			printf("\n");
+		else
+			printf("=\"%s\"\n", env_lst->value);
 		env_lst = env_lst->next;
 	}
 }
@@ -53,10 +57,27 @@ static int	export_print_func(t_lst **env_lst)
 int	export_add_func(t_lst **env_lst, char *str)
 {
 	t_lst	*new;
+	t_lst	*head;
 	int		size;
 
+	head = *env_lst;
 	size = mini_lstlen(*env_lst);
 	new = split_key_value(str, size);
+	while (head)
+	{
+		if (ft_strcmp(head->key, new->key) == 0)
+		{
+			free(head->key);
+			free(head->value);
+			head->key = ft_strdup(new->key);
+			head->value = ft_strdup(new->value);
+			free(new->key);
+			free(new->value);
+			free(new);
+			return (0);
+		}
+		head = head->next;
+	}
 	mini_lstaddback(env_lst, new);
 	return (0);
 }
@@ -68,12 +89,6 @@ int	mini_export(t_lst **env_lst, char *argv[])
 
 	ret = 0;
 	idx = 1;
-	int i = 0;
-	while (argv[i])
-	{
-		printf("export arg: %s\n", argv[i]);
-		i++;
-	}
 	if (!argv[idx])
 		ret = export_print_func(env_lst);
 	else

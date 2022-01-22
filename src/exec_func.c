@@ -80,6 +80,6 @@ int	exec_built_in_func(char *argv[], t_lst **env_lst)
 		mini_exit(argv);
 	else
 		return (1);
-	// return (0);
-	exit(0);
+	return (0);
+	//exit(0);
 }

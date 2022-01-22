@@ -13,7 +13,7 @@ int	exec_func(t_cmd *cmd, t_lst **env_lst)
 		return (1);
 	if (!cmd->argv || !env_lst)
 		return (1);
-	print_cmd(cmd);
+	//print_cmd(cmd);
 	prev = 0;
 	while(cmd)
 	{
