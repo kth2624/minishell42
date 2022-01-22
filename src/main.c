@@ -18,7 +18,6 @@ int	exec_func(t_cmd *cmd, t_lst **env_lst)
 	while(cmd)
 	{
 		path_arr = path_parsing(cmd->argv[0], *env_lst);
-		// pipe(cmd->pipe);
 		pid = fork();
 		if(pid == 0)
 		{
@@ -57,7 +56,6 @@ int	exec_func(t_cmd *cmd, t_lst **env_lst)
 		else if (pid > 0)
 		{
 			waitpid(pid, &status, 0);
-			// if (prev->pipe[0] > 1)
 			if (prev)
 				close(prev->pipe[0]);
 			close(cmd->pipe[1]);
@@ -66,6 +64,7 @@ int	exec_func(t_cmd *cmd, t_lst **env_lst)
 			printf("%s\n", strerror(errno));
 		prev = cmd;
 		idx++;
+		free_2dim_arr(path_arr);
 		cmd = cmd->next;
 	}
 	return (0);
@@ -83,7 +82,7 @@ int	minishell(char *envp[])
 		init_env_lst(&env_lst, envp);
 	while (1)
 	{
-	//	handle_signal();
+		handle_signal();
 		input = readline("minishell42 $ ");
 
 		if (!input)
@@ -91,10 +90,7 @@ int	minishell(char *envp[])
 			printf("exit\n");
 			exit(0);
 		}
-		// if(ft_strlen(input) == 0)
-		// 	continue ;
 		cmd = first_parsing(input, env_lst);
-		// printf("cmd-> %s\n",cmd->argv[0]);
 		exec_func(cmd, &env_lst);
 		add_history(input);
 		free(input);
