@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:12:43 by tkim              #+#    #+#             */
-/*   Updated: 2022/01/16 14:06:43 by tkim             ###   ########.fr       */
+/*   Updated: 2022/01/22 16:27:29 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ t_cmd	*first_parsing(char *input, t_lst *env_lst);
 /* path_parsing.c*/
 char	**path_parsing(char *arg, t_lst *env_lst);
 /* exec_func.c*/
-int		exec_path(char *path, char *argv[], char *env_arr[], int *fd_in, int *fd_out);
+int		exec_path(char *path, char *argv[], char *env_arr[]);
 int		exec_built_in_func(char *argv[], t_lst **env_lst);
 /* memory_free.c*/
 void	free_2dim_arr(char **str);
