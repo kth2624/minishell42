@@ -38,10 +38,6 @@ int	exec_path(char *path, char *argv[], char *env_arr[], int *fd_in, int *fd_out
 {
 	int		ret;
 
-	//if (fd_in != 0)
-	//	dup2(fd_in, 0);
-	//if (fd_out != 0)
-	//	dup2(fd_out, 1);
 	ret = execve(path, argv, env_arr);
 	if (ret == -1)
 	{
@@ -73,5 +69,6 @@ int	exec_built_in_func(char *argv[], t_lst **env_lst)
 		mini_exit(argv);
 	else
 		return (1);
-	return (0);
+	// return (0);
+	exit(0);
 }

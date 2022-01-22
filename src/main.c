@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 int		is_redirection(int flag)
@@ -36,24 +35,14 @@ int	exec_func(t_cmd *cmd, t_lst **env_lst)
 
 	if (!cmd)
 		return (1);
-	fd_in = 0;
-	fd_out = 1;
 	if (!cmd->argv || !env_lst)
 		return (1);
 	idx = 0;
-	path_arr = path_parsing(cmd->argv[0], *env_lst);
-	if (exec_built_in_func(cmd->argv, env_lst) == 1)
-	{
-		path = path_is_valid(cmd->argv[0], path_arr);
-		env_arr = make_env_arr(*env_lst);
-		exec_path(path, cmd->argv, env_arr, &fd_in, &fd_out);
-		free_memory(env_arr);
-	}
-	/*
 	while(cmd)
 	{
+		fd_in = 0;
+		fd_out = 1;
 		path_arr = path_parsing(cmd->argv[0], *env_lst);
-
 		pipe(fd[idx]);
 		curr = cmd;
 		if(is_redirection(cmd->next_flag))
@@ -64,19 +53,35 @@ int	exec_func(t_cmd *cmd, t_lst **env_lst)
 				cmd = cmd->next;
 			}
 		}
-		// check_redirection(cmd, &fd_in, &fd_out);
-		if (cmd->next_flag )
-			pid = fork();
+
+		pid = fork();
 		if(pid == 0)
 		{
-			if (fd_in != 0)
+			//	   fd[0][0]. [1]	fd[1][0] .[1]
+			// echo hi | cat < a > b | ls
+			// echo 프로세스의 입력 : 표준 입력
+			//				출력 : fd[0][1]
+			// cat 프로세스의 입력  : fd[0][0] 이 아니라 a의 fd
+			//			   출력  : fd[1][1] 이 아니라 b이 fd
+			// ls 프로세스의 입력   : fd[1][0]
+			//			  출력   : 표준 출력
+
+			if (fd_in != 0) {
 				dup2(fd_in, 0);
-			if (fd_out != 1)
+				// fprintf(stderr, "%s : fd_in = %d\n", curr->argv[0], fd_in);
+			}
+			else if (curr->pre_flag == PIPE) {
+				dup2(fd[idx-1][0], 0);
+				// fprintf(stderr, "%s : pre_flag = %d\n", curr->argv[0], idx-1);
+			}
+			if (fd_out != 1) {
 				dup2(fd_out, 1);
-			if(cmd->pre_flag == PIPE)
-				dup2(fd[idx-1][0], fd_in);
-			if(cmd->next_flag == PIPE)
-				dup2(fd[idx][1], fd_out);
+				// fprintf(stderr, "%s : fd_out = %d\n", curr->argv[0], fd_out);
+			}
+			else if(cmd->next_flag == PIPE) {
+				dup2(fd[idx][1], 1);
+				// fprintf(stderr, "%s : next_flag = %d\n", curr->argv[0], idx);
+			}
 			if (exec_built_in_func(curr->argv, env_lst) == 1)
 			{
 				path = path_is_valid(curr->argv[0], path_arr);
@@ -87,15 +92,16 @@ int	exec_func(t_cmd *cmd, t_lst **env_lst)
 		}
 		else if (pid > 0)
 		{
-			close(fd[idx-1][0]);
+			waitpid(pid, &status, 0);
+			if (idx > 1)
+				close(fd[idx-1][0]);
 			close(fd[idx][1]);
-			wait(&status);
 		}
 		else if (pid < 0)
 			printf("%s\n", strerror(errno));
 		idx++;
 		cmd = cmd->next;
-	}*/
+	}
 	return (0);
 }
 
@@ -113,21 +119,20 @@ int	minishell(char *envp[])
 	{
 	//	handle_signal();
 		input = readline("minishell42 $ ");
+
 		if (!input)
 		{
 			printf("exit\n");
 			exit(0);
 		}
+		if(ft_strlen(input) == 0)
+			continue ;
 		cmd = first_parsing(input, env_lst);
-		printf("cmd-> %s\n",cmd->argv[0]);
+		// printf("cmd-> %s\n",cmd->argv[0]);
 		exec_func(cmd, &env_lst);
 		add_history(input);
 		free(input);
 	}
-	// if (fd_in != 0)
-	// 	dup2(0, fd_in);
-	// if (fd_out != 1)
-	// 	dup2(1, fd_out);
 	return (1);
 }
 
