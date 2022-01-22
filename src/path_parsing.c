@@ -64,10 +64,31 @@ static char	**path_split(char const *s, char *arg, char c)
 	return (split);
 }
 
+char	*path_is_valid(char *arg, char **path_arr)
+{
+	int			ret;
+	struct stat	f_stat;
+	int			idx;
+
+	idx = 0;
+	if (ft_strcmp(arg, "echo") == 0 || ft_strcmp(arg, "cd") == 0 || ft_strcmp(arg, "pwd") == 0 || ft_strcmp(arg, "unset") == 0 || \
+	ft_strcmp(arg, "export") == 0 || ft_strcmp(arg, "env") == 0 || ft_strcmp(arg, "exit") == 0)
+		return (arg);
+	while (path_arr[idx])
+	{
+		ret = stat(path_arr[idx], &f_stat);
+		if (ret == 0)
+			return (path_arr[idx]);
+		idx++;
+	}
+	return (arg);
+}
+
 char	**path_parsing(char *arg, t_lst *env_lst)
 {
 	char	**path_arr;
 	char	*path;
+	char	*ret;
 
 	if (!arg)
 		return (0);

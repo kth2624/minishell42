@@ -1,5 +1,12 @@
 #include "minishell.h"
 
+static void	free_env(t_lst *lst)
+{
+	free(lst->key);
+	free(lst->value);
+	free(lst);
+}
+
 int	unset_func(t_lst **env_lst, char *key)
 {
 	t_lst	*curr;
@@ -10,7 +17,7 @@ int	unset_func(t_lst **env_lst, char *key)
 	if (ft_strcmp(curr->key, key) == 0)
 	{
 		*env_lst = next;
-		free(curr);
+		free_env(curr);
 		return (0);
 	}
 	while (curr->next)
@@ -18,7 +25,8 @@ int	unset_func(t_lst **env_lst, char *key)
 		if (ft_strcmp(curr->next->key, key) == 0)
 		{
 			next = curr->next->next;
-			free(curr->next);
+			free_env(curr->next);
+			curr->next = 0;
 			curr->next = next;
 			return (0);
 		}

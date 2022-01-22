@@ -11,24 +11,29 @@ static int	get_str_arr_len(char *str[])
 	return (idx);
 }
 
-static int	is_valid_path(char *path)
+int	check_redirection(t_token *tokens, int *fd_in, int *fd_out)
 {
-	int			ret;
-	struct stat	f_stat;
-
-	ret = stat(path, &f_stat);
-	return (ret);
-}
-
-int	check_redirection(t_cmd *cmd, int *fd_in, int *fd_out)
-{
-	t_cmd	*curr;
+	t_token	*curr;
 	char	*file_name;
 
-	curr = cmd;
+	curr = tokens;
+	while (curr && curr->type != PIPE)
+	{
+		if (curr->type == REDIRECT1)
+			*fd_out = open(curr->next->content, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		else if (curr->type == REDIRECT2)
+			*fd_in = open(curr->next->content, O_RDONLY);
+		else if (curr->type == REDIRECT3)
+			*fd_out = open(curr->next->content, O_WRONLY | O_APPEND | O_CREAT, 0644);
+		curr = curr->next;
+	}
+	/*
 	if (curr->next_flag != REDIRECT1 && curr->next_flag != REDIRECT2 && curr->next_flag != REDIRECT3 && curr->next_flag != REDIRECT4)
 		return (0);
+	if(!cmd->next)
+		return (0);
 	file_name = cmd->next->argv[0];
+	fprintf(stderr,"file = %s\n",file_name);
 	if (curr->next_flag == REDIRECT1)
 		*fd_out = open(file_name, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	else if (curr->next_flag == REDIRECT2 || curr->next_flag == REDIRECT4)
@@ -37,42 +42,19 @@ int	check_redirection(t_cmd *cmd, int *fd_in, int *fd_out)
 		*fd_out = open(file_name, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (*fd_in < 0 || *fd_out < 0)
 		return (0);
-	return (1);
+	return (1);*/
 }
 
-int	exec_path(char **path_arr, char *argv[], char *env_arr[], int *fd_in, int *fd_out)
+int	exec_path(char *path, char *argv[], char *env_arr[])
 {
-	int			idx;
-	int			pid;
-	int			state;
-	int			path_arr_len;
+	int		ret;
 
-	path_arr_len = get_str_arr_len(path_arr);
-	idx = 0;
-	while (path_arr[idx])
+	ret = execve(path, argv, env_arr);
+	if (ret == -1)
 	{
-		if (is_valid_path(path_arr[idx]) == 0)
-		{
-			pid = fork();
-			if (pid > 0)
-				waitpid(pid, &state, 0);
-			else if (pid == 0)
-			{
-				if (*fd_in != 0)
-					dup2(*fd_in, 0);
-				if (*fd_out != 1)
-					dup2(*fd_out, 1);
-				execve(path_arr[idx], argv, env_arr);
-			}
-			else if (pid < 0)
-				printf("%s\n", strerror(errno));
-			break ;
-		}
-		idx++;
+		printf("minishell42: %s: command not found\n", path);
+		exit(1);
 	}
-	if (idx == path_arr_len)
-		printf("minishell42: %s: command not found\n", argv[0]);
-	return (0);
 }
 
 int	exec_built_in_func(char *argv[], t_lst **env_lst)
@@ -95,8 +77,9 @@ int	exec_built_in_func(char *argv[], t_lst **env_lst)
 	else if (ft_strcmp(argv[0], "env") == 0)
 		mini_env(*env_lst);
 	else if (ft_strcmp(argv[0], "exit") == 0)
-		mini_exit();
+		mini_exit(argv);
 	else
 		return (1);
-	return (0);
+	// return (0);
+	exit(0);
 }
