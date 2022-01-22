@@ -68,6 +68,12 @@ int	mini_export(t_lst **env_lst, char *argv[])
 
 	ret = 0;
 	idx = 1;
+	int i = 0;
+	while (argv[i])
+	{
+		printf("export arg: %s\n", argv[i]);
+		i++;
+	}
 	if (!argv[idx])
 		ret = export_print_func(env_lst);
 	else

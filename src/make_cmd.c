@@ -1,42 +1,18 @@
 #include "minishell.h"
 
-int	get_spc(t_list *spc)
-{
-	char	*str;
-
-	if (!spc)
-		return (-1);
-	str = spc->content;
-	if (ft_strcmp(str, "|") == 0)
-		return (PIPE);
-	else if (ft_strcmp(str, ">") == 0)
-		return (REDIRECT1);
-	else if (ft_strcmp(str, "<") == 0)
-		return (REDIRECT2);
-	else if (ft_strcmp(str, ">>") == 0)
-		return (REDIRECT3);
-	else if (ft_strcmp(str, "<<") == 0)
-		return (REDIRECT4);
-	return (-1);
-}
-
-t_cmd	*mini_cmdnew(t_list *tokens, t_lst *env_lst, t_list *pre_token)
+t_cmd	*mini_cmdnew(void)
 {
 	t_cmd	*cmd;
-	t_list	*command;
-	t_list	*spc;
 
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (0);
-	if (!pre_token)
-		cmd->pre_flag = -1;
-	command = tokens;
-	spc = command->next;
-	if (pre_token)
-		cmd->pre_flag = get_spc(pre_token);
-	cmd->argv = lst_to_arr(command, env_lst);
-	cmd->next_flag = get_spc(spc);
+	cmd->argv = 0;
+	cmd->fd_in = 0;
+	cmd->pipe[0] = 0;
+	cmd->pipe[1] = 1;
+	cmd->fd_out = 1;
+	cmd->is_pipe = 0;
 	cmd->next = 0;
 	return (cmd);
 }
@@ -57,24 +33,68 @@ void	mini_cmdadd_back(t_cmd **cmd, t_cmd *new)
 	return ;
 }
 
-t_cmd   *make_cmd(t_list *tokens, t_lst *env_lst)
+static int	cnt_pipe(t_token *tokens)
 {
-	t_cmd	*new;
-	t_cmd	*cmd;
-	t_list	*pre_flag;
+	t_token	*token;
+	int		cnt;
 
-	cmd = 0;
-	pre_flag = 0;
-	while (tokens)
+	token = tokens;
+	cnt = 0;
+	while (token)
 	{
-		if (get_spc(tokens) != -1)
+		if (token->type == PIPE)
+			cnt++;
+		token = token->next;
+	}
+	return (cnt);
+}
+
+t_cmd	*set_cmd(t_token *tokens)
+{
+	t_cmd	*cmd;
+	t_token *token;
+	int		len;
+	t_cmd	*new;
+
+	token = tokens;
+	len = cnt_pipe(tokens) + 1;
+	cmd = 0;
+	while (len--)
+	{
+		if (!cmd)
+			cmd = mini_cmdnew();
+		else
 		{
-			pre_flag = tokens;
-			tokens = tokens->next;
+			new = mini_cmdnew();
+			mini_cmdadd_back(&cmd, new);
 		}
-		new = mini_cmdnew(tokens, env_lst, pre_flag);
-		mini_cmdadd_back(&cmd, new);
-		tokens = tokens->next;
+	}
+	return (cmd);
+}
+
+t_cmd   *make_cmd(t_token *tokens, t_lst *env_lst)
+{
+	t_cmd	*cmd;
+	t_token *token;
+	t_cmd	*head;
+
+	cmd = set_cmd(tokens);
+	token = tokens;
+	head = cmd;
+	while (token)
+	{
+		head->argv = make_argv(token, env_lst);
+		check_redirection(token, &head->fd_in, &head->fd_out);
+		pipe(head->pipe);
+		while (token && token->type != PIPE)
+			token = token->next;
+		if (token)
+		{
+			token = token->next;
+			head->is_pipe = 1;
+		}
+		if (token && head)
+			head = head->next;
 	}
 	return (cmd);
 }
