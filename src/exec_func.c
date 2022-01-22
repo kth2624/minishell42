@@ -11,12 +11,23 @@ static int	get_str_arr_len(char *str[])
 	return (idx);
 }
 
-int	check_redirection(t_cmd *cmd, int *fd_in, int *fd_out)
+int	check_redirection(t_token *tokens, int *fd_in, int *fd_out)
 {
-	t_cmd	*curr;
+	t_token	*curr;
 	char	*file_name;
 
-	curr = cmd;
+	curr = tokens;
+	while (curr && curr->type != PIPE)
+	{
+		if (curr->type == REDIRECT1)
+			*fd_out = open(curr->next->content, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		else if (curr->type == REDIRECT2)
+			*fd_in = open(curr->next->content, O_RDONLY);
+		else if (curr->type == REDIRECT3)
+			*fd_out = open(curr->next->content, O_WRONLY | O_APPEND | O_CREAT, 0644);
+		curr = curr->next;
+	}
+	/*
 	if (curr->next_flag != REDIRECT1 && curr->next_flag != REDIRECT2 && curr->next_flag != REDIRECT3 && curr->next_flag != REDIRECT4)
 		return (0);
 	file_name = cmd->next->argv[0];
@@ -28,7 +39,7 @@ int	check_redirection(t_cmd *cmd, int *fd_in, int *fd_out)
 		*fd_out = open(file_name, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (*fd_in < 0 || *fd_out < 0)
 		return (0);
-	return (1);
+	return (1);*/
 }
 
 int	exec_path(char *path, char *argv[], char *env_arr[], int *fd_in, int *fd_out)

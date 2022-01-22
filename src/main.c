@@ -4,33 +4,29 @@
 int	exec_func(t_cmd *cmd, t_lst **env_lst)
 {
 	char	**env_arr;
-	int		fd_in;
-	int		fd_out;
-	int fd[cmd->size][2];
-	int idx;
-	pid_t pid;
-	int status;
+	pid_t	pid;
+	int		status;
 	char	*path;
 	char	**path_arr;
 
 	if (!cmd)
 		return (1);
-	fd_in = 0;
-	fd_out = 1;
 	if (!cmd->argv || !env_lst)
 		return (1);
-	idx = 0;
-	//path_arr = path_parsing(cmd->argv[0], *env_lst);
-	exec_built_in_func(cmd->argv, env_lst);
-	/*if (exec_built_in_func(cmd->argv, env_lst) == 1)
+	env_arr = make_env_arr(*env_lst);
+	while (cmd)
 	{
-		path = path_is_valid(cmd->argv[0], path_arr);
-		env_arr = make_env_arr(*env_lst);
-		exec_path(path, cmd->argv, env_arr, &fd_in, &fd_out);
-		free_memory(env_arr);
-	}*/
-	/*
-	while(cmd)
+		if (cmd->fd_in != 0)
+			dup2(0, cmd->fd_in);
+		if (cmd->fd_out != 1)
+			dup2(1, cmd->fd_out);
+		if (exec_built_in_func(cmd->argv, env_lst) == 1)
+		{
+			path = path_parsing(cmd->argv[0], *env_lst);
+			exec_path(path, cmd->argv, env_arr, &cmd->fd_in, &cmd->fd_out);
+		}
+	}
+/*	while(cmd)
 	{
 		path_arr = path_parsing(cmd->argv[0], *env_lst);
 		pipe(fd[idx]);
@@ -87,7 +83,8 @@ int	minishell(char *envp[])
 			exit(0);
 		}
 		cmd = first_parsing(input, env_lst);
-		exec_func(cmd, &env_lst);
+		print_cmd(cmd);
+		//exec_func(cmd, &env_lst);
 		add_history(input);
 		free(input);
 		free_cmd(cmd);

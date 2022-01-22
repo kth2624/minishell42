@@ -8,7 +8,7 @@ SRC_DIR = ./src/
 SRC_NAME = lst_utils.c mini_cd.c mini_echo.c mini_env.c mini_export.c mini_pwd.c mini_unset.c mini_exit.c main.c \
 	first_parsing.c set_envp.c path_parsing.c exec_func.c \
 	parse_case_quote.c parse_case_doller.c parse_case_none.c parse_case_dquote.c check_quote.c \
-	lst_to_arr.c make_cmd.c handle_signal.c memory_free.c
+	make_argv.c make_cmd.c handle_signal.c memory_free.c print_util.c tokenize.c change_env.c
 SRC = $(addprefix $(SRC_DIR),$(SRC_NAME))
 OBJ = $(SRC:.c=.o)
 TEST_SRC_NAME = lst_utils.c mini_cd.c mini_env.c mini_export.c mini_pwd.c \

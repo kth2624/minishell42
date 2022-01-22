@@ -43,3 +43,30 @@ int	mini_lstlen(t_lst *lst)
 	}
 	return (idx);
 }
+
+t_token	*mini_tokennew(char *content)
+{
+	t_token	*new;
+
+	new = (t_token *)malloc(sizeof(t_token));
+	new->content = content;
+	new->type = -1;
+	new->next = 0;
+	return (new);
+}
+
+int	mini_tokenadd_back(t_token **lst, t_token *new)
+{
+	t_token	*head;
+
+	if (!(*lst))
+	{
+		*lst = new;
+		return (0);
+	}
+	head = *lst;
+	while (head->next)
+		head = head->next;
+	head->next = new;
+	return (0);
+}
