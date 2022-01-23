@@ -83,7 +83,7 @@ int	minishell(char *envp[])
 		init_env_lst(&env_lst, envp);
 	while (1)
 	{
-	//	handle_signal();
+		handle_signal();
 		input = readline("minishell42 $ ");
 
 		if (!input)

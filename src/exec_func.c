@@ -17,6 +17,9 @@ int	check_redirection(t_token *tokens, int *fd_in, int *fd_out)
 	char	*file_name;
 
 	curr = tokens;
+	int temp[2];
+	char *input;
+
 	while (curr && curr->type != PIPE)
 	{
 		if (curr->type == REDIRECT1)
@@ -25,6 +28,21 @@ int	check_redirection(t_token *tokens, int *fd_in, int *fd_out)
 			*fd_in = open(curr->next->content, O_RDONLY);
 		else if (curr->type == REDIRECT3)
 			*fd_out = open(curr->next->content, O_WRONLY | O_APPEND | O_CREAT, 0644);
+		else if (curr->type == REDIRECT4) // <<
+		{
+			if(fd_in != 0)
+				close(fd_in);
+			pipe(temp);
+			input = readline("> ");
+			while(input && ft_strcmp(input, curr->next->content) != 0)
+			{
+				write(temp[1], input,ft_strlen(input));
+				write(temp[1], "\n", 1);
+				input = readline("> ");
+			}
+			close(temp[1]);
+			*fd_in = temp[0];
+		}
 		curr = curr->next;
 	}
 	/*
