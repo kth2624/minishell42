@@ -71,6 +71,16 @@ int	exec_func(t_cmd *cmd, t_lst **env_lst)
 	return (0);
 }
 
+void	*close_pipe(t_cmd *cmd)
+{
+	while(cmd)
+	{
+		close(cmd->pipe[0]);
+		close(cmd->pipe[1]);
+		cmd = cmd->next;
+	}
+}
+
 int	minishell(char *envp[])
 {
 	t_lst	*env_lst;
@@ -97,6 +107,7 @@ int	minishell(char *envp[])
 		// printf("cmd-> %s\n",cmd->argv[0]);
 		exec_func(cmd, &env_lst);
 		add_history(input);
+		close_pipe(cmd);
 		free(input);
 		free_cmd(cmd);
 	}

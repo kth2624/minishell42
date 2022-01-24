@@ -11,24 +11,34 @@ static int	get_str_arr_len(char *str[])
 	return (idx);
 }
 
-int	check_redirection(t_token *tokens, int *fd_in, int *fd_out)
+void	check_redirection(t_token *tokens, int *fd_in, int *fd_out)
 {
 	t_token	*curr;
-	char	*file_name;
-
-	curr = tokens;
 	int temp[2];
 	char *input;
 
+	curr = tokens;
 	while (curr && curr->type != PIPE)
 	{
 		if (curr->type == REDIRECT1)
+		{
+			if(fd_out != 1)
+				close(fd_out);
 			*fd_out = open(curr->next->content, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		}
 		else if (curr->type == REDIRECT2)
+		{
+			if(fd_in != 0)
+				close(fd_in);
 			*fd_in = open(curr->next->content, O_RDONLY);
+		}
 		else if (curr->type == REDIRECT3)
+		{
+			if(fd_out != 1)
+				close(fd_out);
 			*fd_out = open(curr->next->content, O_WRONLY | O_APPEND | O_CREAT, 0644);
-		else if (curr->type == REDIRECT4) // <<
+		}
+		else if (curr->type == REDIRECT4)
 		{
 			if(fd_in != 0)
 				close(fd_in);
@@ -45,22 +55,6 @@ int	check_redirection(t_token *tokens, int *fd_in, int *fd_out)
 		}
 		curr = curr->next;
 	}
-	/*
-	if (curr->next_flag != REDIRECT1 && curr->next_flag != REDIRECT2 && curr->next_flag != REDIRECT3 && curr->next_flag != REDIRECT4)
-		return (0);
-	if(!cmd->next)
-		return (0);
-	file_name = cmd->next->argv[0];
-	fprintf(stderr,"file = %s\n",file_name);
-	if (curr->next_flag == REDIRECT1)
-		*fd_out = open(file_name, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-	else if (curr->next_flag == REDIRECT2 || curr->next_flag == REDIRECT4)
-		*fd_in = open(file_name, O_RDONLY);
-	else if (curr->next_flag == REDIRECT3)
-		*fd_out = open(file_name, O_WRONLY | O_APPEND | O_CREAT, 0644);
-	if (*fd_in < 0 || *fd_out < 0)
-		return (0);
-	return (1);*/
 }
 
 int	exec_path(char *path, char *argv[], char *env_arr[])
