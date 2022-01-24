@@ -15,6 +15,8 @@ int	exec_func(t_cmd *cmd, t_lst **env_lst)
 		return (1);
 	//print_cmd(cmd);
 	prev = 0;
+	exec_built_in_func(cmd->argv, env_lst);
+	/*
 	while(cmd)
 	{
 		path_arr = path_parsing(cmd->argv[0], *env_lst);
@@ -57,7 +59,7 @@ int	exec_func(t_cmd *cmd, t_lst **env_lst)
 		prev = cmd;
 		free_2dim_arr(path_arr);
 		cmd = cmd->next;
-	}
+	}*/
 	return (0);
 }
 
@@ -68,13 +70,11 @@ int	minishell(char *envp[])
 	t_cmd	*cmd;
 
 	env_lst = 0;
-	if (!env_lst)
-		init_env_lst(&env_lst, envp);
+	init_env_lst(&env_lst, envp);
 	while (1)
 	{
 		handle_signal();
 		input = readline("minishell42 $ ");
-
 		if (!input)
 		{
 			printf("exit\n");
@@ -85,6 +85,7 @@ int	minishell(char *envp[])
 		add_history(input);
 		free(input);
 		free_cmd(cmd);
+		//free_env_lst(env_lst);
 	}
 	return (1);
 }

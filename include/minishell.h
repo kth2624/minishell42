@@ -74,7 +74,7 @@ t_token	*mini_tokennew(char *content);
 
 /* built_in_func */
 int		mini_echo(char *argv[], int flag);
-int		mini_cd(char *argv[]);
+int		mini_cd(char *argv[], t_lst *env_lst);
 int		mini_pwd(void);
 int		mini_env(t_lst *env_lst);
 int		mini_export(t_lst **env_lst, char *argv[]);
@@ -92,6 +92,7 @@ int		exec_built_in_func(char *argv[], t_lst **env_lst);
 void	free_2dim_arr(char **str);
 void    free_token(t_token *tokens);
 void    free_cmd(t_cmd *cmd);
+void	free_env_lst(t_lst *env_lst);
 
 // int	cnt_quote_len(char *input, int *idx);
 int	cnt_doller_len(char *input, int *idx);
@@ -113,7 +114,6 @@ char **make_argv(t_token *token, t_lst *env_lst);
 t_cmd   *make_cmd(t_token *tokens, t_lst *env_lst);
 
 int	check_redirection(t_token *tokens, int *fd_in, int *fd_out);
-void	free_memory(char **str);
 int handle_signal(void);
 char	*path_is_valid(char *arg, char **path_arr);
 /*print_util.c*/

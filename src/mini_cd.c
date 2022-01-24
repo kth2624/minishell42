@@ -1,7 +1,48 @@
 
 #include "minishell.h"
 
-int	mini_cd(char *argv[])
+static void	init_old_pwd_val(t_lst *env_lst, char *old_pwd)
+{
+	t_lst	*head;
+
+	head = env_lst;
+	while (head)
+	{
+		if (ft_strcmp(head->key, "OLDPWD") == 0)
+		{
+			free(head->value);
+			head->value = old_pwd;
+			return ;
+		}
+		head = head->next;
+	}
+}
+
+static void	init_pwd_val(t_lst *env_lst)
+{
+	char	*pwd;
+	char	*old_pwd;
+	t_lst	*head;
+
+	head = env_lst;
+	pwd = 0;
+	pwd = getcwd(pwd, 0);
+	if (!pwd)
+		return ;
+	while (head)
+	{
+		if (ft_strcmp(head->key, "PWD") == 0 && ft_strcmp(pwd, head->key) != 0)
+		{
+			old_pwd = ft_strdup(head->value);
+			free(head->value);
+			head->value = pwd;
+			init_old_pwd_val(env_lst, old_pwd);
+		}
+		head = head->next;
+	}
+}
+
+int	mini_cd(char *argv[], t_lst *env_lst)
 {
 	char	*err_msg;
 	char	*path;
@@ -15,5 +56,6 @@ int	mini_cd(char *argv[])
 		printf("%s\n", err_msg);
 		return (1);
 	}
+	init_pwd_val(env_lst);
 	return (0);
 }
