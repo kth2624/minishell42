@@ -12,12 +12,13 @@ void	change_env_and_quote(t_token *token, t_lst *env_lst)
 	while (content[idx])
 	{
 		if (content[idx] != '\'' && content[idx] != '"')
-			temp = mini_strjoin(temp, parse_case_none(content, &idx, env_lst));
+			temp = mini_strjoin(temp, \
+			parse_case_none(content, &idx, env_lst), 0, 0);
 		else if (content[idx] == '\'')
-			temp = mini_strjoin(temp, parse_case_quote(content, &idx));
+			temp = mini_strjoin(temp, parse_case_quote(content, &idx), 0, 0);
 		else if (content[idx] == '"')
 			temp = mini_strjoin(temp, \
-			parse_case_dquote(content, &idx, env_lst));
+			parse_case_dquote(content, &idx, env_lst), 0, 0);
 		idx++;
 	}
 	free(token->content);

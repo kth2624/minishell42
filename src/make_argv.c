@@ -1,14 +1,10 @@
 #include "minishell.h"
 
-char	*mini_strjoin(char *s1, char *s2)
+char	*mini_strjoin(char *s1, char *s2, int idx, int r_idx)
 {
 	char	*ret;
 	int		len;
-	int		idx;
-	int		r_idx;
 
-	idx = 0;
-	r_idx = 0;
 	if (!s1)
 	{
 		ret = ft_strdup(s2);

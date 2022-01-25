@@ -1,20 +1,27 @@
 #include "minishell.h"
 
-static int	get_str_arr_len(char *str[])
+static void	handle_redirection4(t_token *curr, int *fd_in, int *fd_out)
 {
-	int	idx;
+	int		temp[2];
+	char	*input;
 
-	idx = 0;
-	while (str[idx])
-		idx++;
-	return (idx);
+	if (*fd_in != 0)
+		close(*fd_in);
+	pipe(temp);
+	input = readline("> ");
+	while (input && ft_strcmp(input, curr->next->content) != 0)
+	{
+		write(temp[1], input, ft_strlen(input));
+		write(temp[1], "\n", 1);
+		input = readline("> ");
+	}
+	close(temp[1]);
+	*fd_in = temp[0];
 }
 
 void	check_redirection(t_token *tokens, int *fd_in, int *fd_out)
 {
 	t_token	*curr;
-	int		temp[2];
-	char	*input;
 
 	curr = tokens;
 	while (curr && curr->type != PIPE)
@@ -40,20 +47,7 @@ void	check_redirection(t_token *tokens, int *fd_in, int *fd_out)
 			open(curr->next->content, O_WRONLY | O_APPEND | O_CREAT, 0644);
 		}
 		else if (curr->type == REDIRECT4)
-		{
-			if (*fd_in != 0)
-				close(*fd_in);
-			pipe(temp);
-			input = readline("> ");
-			while (input && ft_strcmp(input, curr->next->content) != 0)
-			{
-				write(temp[1], input, ft_strlen(input));
-				write(temp[1], "\n", 1);
-				input = readline("> ");
-			}
-			close(temp[1]);
-			*fd_in = temp[0];
-		}
+			handle_redirection4(curr, *fd_in, *fd_out);
 		curr = curr->next;
 	}
 }

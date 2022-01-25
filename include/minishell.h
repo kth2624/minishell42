@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:12:43 by tkim              #+#    #+#             */
-/*   Updated: 2022/01/25 15:29:40 by tkim             ###   ########.fr       */
+/*   Updated: 2022/01/25 15:55:14 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	free_env_lst(t_lst *env_lst);
 int		cnt_doller_len(char *input, int *idx);
 char	*replace_doller(char *arg, t_lst *env_lst);
 int		is_mini_printable(char c);
-char	*mini_strjoin(char *s1, char *s2);
+char	*mini_strjoin(char *s1, char *s2, int idx, int r_idx);
 char	*parse_case_none(char *input, int *i, t_lst *env_lst);
 char	*parse_case_quote(char *input, int *i);
 char	*parse_case_dquote(char *input, int *i, t_lst *env_lst);
