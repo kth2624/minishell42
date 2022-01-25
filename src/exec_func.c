@@ -79,7 +79,7 @@ int	exec_built_in_func(char *argv[], t_lst **env_lst)
 			mini_echo(argv, 0);
 	}
 	else if (ft_strcmp(argv[0], "cd") == 0)
-		mini_cd(argv);
+		mini_cd(argv, *env_lst);
 	else if (ft_strcmp(argv[0], "pwd") == 0)
 		mini_pwd();
 	else if (ft_strcmp(argv[0], "unset") == 0)
@@ -92,5 +92,6 @@ int	exec_built_in_func(char *argv[], t_lst **env_lst)
 		mini_exit(argv);
 	else
 		return (1);
+
 	exit(0);
 }

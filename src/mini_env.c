@@ -15,12 +15,12 @@ int	mini_env(t_lst *env_lst)
 		{
 			if (head->idx == cnt)
 			{
-				printf("%s=%s\n", head->key, head->value);
+				if (ft_strcmp(head->value, "") != 0)
+					printf("%s=%s\n", head->key, head->value);
 				cnt++;
 			}
 			head = head->next;
 		}
 	}
-	printf("_=usr/bin/env\n");
 	return (0);
 }

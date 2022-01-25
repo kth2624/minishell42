@@ -38,3 +38,17 @@ void    free_cmd(t_cmd *cmd)
 		tmp = tmp->next;
 	}
 }
+
+void	free_env_lst(t_lst *env_lst)
+{
+	t_lst	*tmp;
+
+	tmp = env_lst;
+	while (tmp)
+	{
+		free(tmp->key);
+		free(tmp->value);
+		free(tmp);
+		tmp = tmp->next;
+	}
+}

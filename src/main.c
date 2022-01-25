@@ -22,13 +22,15 @@ int	exec_func(t_cmd *cmd, t_lst **env_lst)
 	char	*path;
 	char	**path_arr;
 	t_cmd	*prev;
-	int idx = 0;
+
 	if (!cmd)
 		return (1);
 	if (!cmd->argv || !env_lst)
 		return (1);
-	print_cmd(cmd);
+	//print_cmd(cmd);
 	prev = 0;
+	exec_built_in_func(cmd->argv, env_lst);
+	
 	while(cmd)
 	{
 		path_arr = path_parsing(cmd->argv[0], *env_lst);
@@ -37,19 +39,12 @@ int	exec_func(t_cmd *cmd, t_lst **env_lst)
 		{
 			if (cmd->fd_in!= 0) {
 				dup2(cmd->fd_in, 0);
-				fprintf(stderr, "%s : fd_in = %d\n", cmd->argv[0], cmd->fd_in);
-			}
-			else if (prev && prev->is_pipe == 1) {
+			else if (prev && prev->is_pipe == 1) 
 				dup2(prev->pipe[0], 0);
-				fprintf(stderr, "%s : pre_flag = %d\n", cmd->argv[0], idx-1);
-			}
-			if (cmd->fd_out != 1) {
+			if (cmd->fd_out != 1) 
 				dup2(cmd->fd_out, 1);
-				fprintf(stderr, "%s : fd_out = %d\n", cmd->argv[0], cmd->fd_out);
-			}
-			else if(cmd->is_pipe == 1) {
+			else if(cmd->is_pipe == 1) 
 				dup2(cmd->pipe[1], 1);
-				fprintf(stderr, "%s : next_flag = %d\n", cmd->argv[0], idx);
 			}
 			if(cmd->fd_in != 0)
 				close(cmd->fd_in);
@@ -61,12 +56,10 @@ int	exec_func(t_cmd *cmd, t_lst **env_lst)
 				env_arr = make_env_arr(*env_lst);
 				exec_path(path, cmd->argv, env_arr);
 			}
-
 		}
 		else if (pid > 0)
 		{
 			waitpid(pid, &status, 0);
-			// if (prev->pipe[0] > 1)
 			if (prev)
 				close(prev->pipe[0]);
 			close(cmd->pipe[1]);
@@ -74,7 +67,7 @@ int	exec_func(t_cmd *cmd, t_lst **env_lst)
 		else if (pid < 0)
 			printf("%s\n", strerror(errno));
 		prev = cmd;
-		idx++;
+		free_2dim_arr(path_arr);
 		cmd = cmd->next;
 	}
 	return (0);
@@ -84,12 +77,10 @@ int	minishell(char *envp[])
 {
 	t_lst	*env_lst;
 	char	*input;
-	char	**path;
 	t_cmd	*cmd;
 
 	env_lst = 0;
-	if (!env_lst)
-		init_env_lst(&env_lst, envp);
+	init_env_lst(&env_lst, envp);
 	while (1)
 	{
 		handle_signal();
@@ -105,6 +96,7 @@ int	minishell(char *envp[])
 		close_pipe(cmd);
 		free(input);
 		free_cmd(cmd);
+		//free_env_lst(env_lst);
 	}
 	return (1);
 }

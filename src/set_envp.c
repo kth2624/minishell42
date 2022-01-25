@@ -8,11 +8,19 @@ t_lst	*split_key_value(char *str, int lst_idx)
 	t_lst	*new;
 
 	idx = 0;
-	while (str[idx] != '=')
+	while (str[idx] && str[idx] != '=')
 		idx++;
-	str[idx] = 0;
-	key = str;
-	value = str + idx + 1;
+	if (str[idx] == 0)
+	{
+		key = str;
+		value = ft_strdup("");
+	}
+	else
+	{
+		str[idx] = 0;
+		key = str;
+		value = str + idx + 1;
+	}
 	new = mini_lstnew(key, value, lst_idx);
 	return (new);
 }
@@ -43,6 +51,43 @@ char	**make_env_arr(t_lst *env_lst)
 	return (env_arr);
 }
 
+static void	init_shlvl_val(t_lst *env_lst)
+{
+	t_lst	*head;
+	int		num;
+
+	head = env_lst;
+	while (head)
+	{
+		if (ft_strcmp(head->key, "SHLVL") == 0)
+		{
+			num = ft_atoi(head->value);
+			num++;
+			free(head->value);
+			head->value = ft_itoa(num);
+			return ;
+		}
+		head = head->next;
+	}
+}
+
+static void	init_old_pwd(t_lst *env_lst)
+{
+	t_lst	*head;
+
+	head = env_lst;
+	while (head)
+	{
+		if (ft_strcmp(head->key, "OLDPWD") == 0)
+		{
+			free(head->value);
+			head->value = ft_strdup("");
+			return ;
+		}
+		head = head->next;
+	}
+}
+
 int	init_env_lst(t_lst **env_lst, char *envp[])
 {
 	t_lst	*new;
@@ -54,11 +99,13 @@ int	init_env_lst(t_lst **env_lst, char *envp[])
 		idx++;
 	size = idx;
 	idx = 0;
-	while (idx < size - 1)
+	while (idx < size)
 	{
 		new = split_key_value(envp[idx], idx);
 		mini_lstaddback(env_lst, new);
 		idx++;
 	}
+	init_shlvl_val(*env_lst);
+	init_old_pwd(*env_lst);
 	return (0);
 }
