@@ -90,7 +90,7 @@ int	minishell(char *envp[])
 			exit(0);
 		}
 		cmd = first_parsing(input, env_lst);
-		//print_cmd(cmd);
+		print_cmd(cmd);
 		exec_func(cmd, &env_lst);
 		add_history(input);
 		close_fd(cmd);

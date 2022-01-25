@@ -19,6 +19,23 @@ static void	handle_redirection4(t_token *curr, int *fd_in, int *fd_out)
 	*fd_in = temp[0];
 }
 
+static int	redirect_error(t_token *curr, int fd_in)
+{
+	if (!curr->next)
+	{
+		write(2, "minishell42: syntax error near unexpected token `newline'\n", 59);
+		return (1);
+	}
+	if (fd_in < 0)
+	{
+		write(2, "minishell42: ", 14);
+		write(2, curr->next->content, ft_strlen(curr->next->content));
+		write(2, "No such file or directory\n", 27);
+		return (1);
+	}
+	return (0);
+}
+
 void	check_redirection(t_token *tokens, int *fd_in, int *fd_out)
 {
 	t_token	*curr;
@@ -26,6 +43,8 @@ void	check_redirection(t_token *tokens, int *fd_in, int *fd_out)
 	curr = tokens;
 	while (curr && curr->type != PIPE)
 	{
+		if (redirect_error(curr, *fd_in) != 0)
+			break ;
 		if (curr->type == REDIRECT1)
 		{
 			if (*fd_out != 1)
