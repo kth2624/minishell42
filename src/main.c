@@ -29,23 +29,20 @@ int	exec_func(t_cmd *cmd, t_lst **env_lst)
 		return (1);
 	//print_cmd(cmd);
 	prev = 0;
-	exec_built_in_func(cmd->argv, env_lst);
-	
 	while(cmd)
 	{
 		path_arr = path_parsing(cmd->argv[0], *env_lst);
 		pid = fork();
 		if(pid == 0)
 		{
-			if (cmd->fd_in!= 0) {
+			if (cmd->fd_in!= 0)
 				dup2(cmd->fd_in, 0);
-			else if (prev && prev->is_pipe == 1) 
+			else if (prev && prev->is_pipe == 1)
 				dup2(prev->pipe[0], 0);
-			if (cmd->fd_out != 1) 
+			if (cmd->fd_out != 1)
 				dup2(cmd->fd_out, 1);
-			else if(cmd->is_pipe == 1) 
+			else if(cmd->is_pipe == 1)
 				dup2(cmd->pipe[1], 1);
-			}
 			if(cmd->fd_in != 0)
 				close(cmd->fd_in);
 			if(cmd->fd_out != 1)
