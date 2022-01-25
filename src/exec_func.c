@@ -20,6 +20,8 @@ int	exec_path(t_cmd *cmd, t_lst *env_lst, t_cmd *prev)
 		if (prev)
 			close(prev->pipe[0]);
 		close(cmd->pipe[1]);
+		free_2dim_arr(path_arr);
+		free_2dim_arr(env_arr);
 	}
 	else if (pid == 0)
 	{

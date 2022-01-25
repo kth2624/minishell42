@@ -83,7 +83,6 @@ static void	exec_fork_case(t_cmd *cmd, t_lst **env_lst, t_cmd *prev)
 void exec_built_in(t_cmd *cmd, t_lst **env_lst, t_cmd *prev)
 {
 	//set_redirection(cmd, prev);
-	print_cmd(cmd);
 	if (cmd->is_pipe != 0)
 	{
 		exec_fork_case(cmd, env_lst, prev);

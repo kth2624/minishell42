@@ -31,5 +31,6 @@ t_cmd	*first_parsing(char *input, t_lst *env_lst)
 	fill_token_type(tokens);
 	convert_content(&tokens, env_lst);
 	cmd = make_cmd(tokens, env_lst);
+	free_token(tokens);
 	return (cmd);
 }

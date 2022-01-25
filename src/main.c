@@ -96,7 +96,6 @@ int	minishell(char *envp[])
 		close_fd(cmd);
 		free(input);
 		free_cmd(cmd);
-		//free_env_lst(env_lst);
 	}
 	return (1);
 }
