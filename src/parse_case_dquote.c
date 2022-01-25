@@ -8,7 +8,8 @@ static int	get_env_str_len(char *input, int *idx, t_lst *env_lst)
 
 	key_len = 0;
 	len = 0;
-	while (input[*idx + key_len] && input[*idx + key_len] != ' ' && input[*idx + key_len] != '$' && input[*idx + key_len] != '"' && \
+	while (input[*idx + key_len] && input[*idx + key_len] != ' ' && \
+	input[*idx + key_len] != '$' && input[*idx + key_len] != '"' && \
 	input[*idx + key_len] != '\'')
 		key_len++;
 	key = ft_substr(input, *idx, key_len);
@@ -35,10 +36,10 @@ static int	cnt_dquote_len(char *input, int idx, t_lst *env_lst)
 	while (input[i] != '"' && input[i])
 	{
 		if (input[i] == '$')
-			{
-				i++;
-				len += get_env_str_len(input, &i, env_lst);
-			}
+		{
+			i++;
+			len += get_env_str_len(input, &i, env_lst);
+		}
 		else
 		{
 			len++;
@@ -50,10 +51,10 @@ static int	cnt_dquote_len(char *input, int idx, t_lst *env_lst)
 
 static void	fill_str(char *input, int *i, t_lst *env_lst, char **str)
 {
-	int	idx;
+	int		idx;
 	char	*env_str;
-	int	len;
-	int	e_idx;
+	int		len;
+	int		e_idx;
 
 	idx = 0;
 	len = cnt_dquote_len(input, *i, env_lst);

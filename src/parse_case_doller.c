@@ -1,7 +1,6 @@
-
 #include "minishell.h"
 
-char *replace_doller(char *arg, t_lst *env_lst)
+char	*replace_doller(char *arg, t_lst *env_lst)
 {
 	while (env_lst)
 	{
@@ -18,7 +17,7 @@ char *replace_doller(char *arg, t_lst *env_lst)
 
 int	cnt_doller_len(char *input, int *idx)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	(*idx)++;
@@ -28,14 +27,15 @@ int	cnt_doller_len(char *input, int *idx)
 	return (len);
 }
 
-char *parse_case_doller(char *input, int *i, t_lst *env_lst)
+char	*parse_case_doller(char *input, int *i, t_lst *env_lst)
 {
-	int len;
-	char *temp;
+	int		len;
+	char	*temp;
 
 	len = 0;
 	(*i)++;
-	while (input[*i + len] && input[*i + len] != ' ' && input[*i + len] != '$' && input[*i + len] != '"' && input[*i + len] != '\'')
+	while (input[*i + len] && input[*i + len] != ' ' && \
+	input[*i + len] != '$' && input[*i + len] != '"' && input[*i + len] != '\'')
 		len++;
 	temp = replace_doller(ft_substr(input, *i, len), env_lst);
 	*i += len;

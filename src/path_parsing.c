@@ -71,8 +71,10 @@ char	*path_is_valid(char *arg, char **path_arr)
 	int			idx;
 
 	idx = 0;
-	if (ft_strcmp(arg, "echo") == 0 || ft_strcmp(arg, "cd") == 0 || ft_strcmp(arg, "pwd") == 0 || ft_strcmp(arg, "unset") == 0 || \
-	ft_strcmp(arg, "export") == 0 || ft_strcmp(arg, "env") == 0 || ft_strcmp(arg, "exit") == 0)
+	if (ft_strcmp(arg, "echo") == 0 || ft_strcmp(arg, "cd") == 0 \
+	|| ft_strcmp(arg, "pwd") == 0 || ft_strcmp(arg, "unset") == 0 || \
+	ft_strcmp(arg, "export") == 0 || ft_strcmp(arg, "env") == 0 \
+	|| ft_strcmp(arg, "exit") == 0)
 		return (arg);
 	while (path_arr[idx])
 	{

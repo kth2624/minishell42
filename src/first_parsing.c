@@ -2,10 +2,10 @@
 
 int	get_cmd_size(t_cmd *cmd)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(cmd)
+	while (cmd)
 	{
 		cmd = cmd->next;
 		i++;
@@ -17,7 +17,7 @@ t_cmd	*first_parsing(char *input, t_lst *env_lst)
 {
 	t_token	*tokens;
 	t_cmd	*cmd;
-	int size;
+	int		size;
 
 	if (!input[0] || !ft_isprint(input[0]))
 		return (0);

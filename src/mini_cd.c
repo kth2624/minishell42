@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 static void	init_old_pwd_val(t_lst *env_lst, char *old_pwd)

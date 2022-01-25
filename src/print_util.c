@@ -1,16 +1,16 @@
 #include "minishell.h"
 
-void    print_token(t_token *tokens)
+void	print_token(t_token *tokens)
 {
-    t_token	*temp;
+	t_token	*temp;
 
-    temp = tokens;
-    while (temp)
-    {
-        printf("token->content : %s\n", temp->content);
+	temp = tokens;
+	while (temp)
+	{
+		printf("token->content : %s\n", temp->content);
 		printf("token->type : %d\n", temp->type);
-        temp = temp->next;
-    }
+		temp = temp->next;
+	}
 }
 
 void	print_2dim_arr(char **arr)

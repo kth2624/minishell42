@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 t_lst	*mini_lstnew(char *key, char *value, int idx)

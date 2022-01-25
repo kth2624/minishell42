@@ -19,7 +19,8 @@ static int	get_env_str_len(char *input, int *idx, t_lst *env_lst)
 
 	key_len = 0;
 	len = 0;
-	while (input[*idx + key_len] && input[*idx + key_len] != ' ' && input[*idx + key_len] != '$')
+	while (input[*idx + key_len] && input[*idx + key_len] != ' ' && \
+	input[*idx + key_len] != '$')
 		key_len++;
 	key = ft_substr(input, *idx, key_len);
 	*idx += key_len;
@@ -45,10 +46,10 @@ static int	cnt_none_len(char *input, int idx, t_lst *env_lst)
 	while (is_mini_printable(input[i]) && input[i])
 	{
 		if (input[i] == '$')
-			{
-				i++;
-				len += get_env_str_len(input, &i, env_lst);
-			}
+		{
+			i++;
+			len += get_env_str_len(input, &i, env_lst);
+		}
 		else
 		{
 			len++;

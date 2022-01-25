@@ -2,7 +2,7 @@
 
 static int	cnt_quote_len(char *input, int *idx)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	(*idx)++;
@@ -13,10 +13,10 @@ static int	cnt_quote_len(char *input, int *idx)
 	return (len);
 }
 
-char *parse_case_quote(char *input, int *i)
+char	*parse_case_quote(char *input, int *i)
 {
-	int len;
-	char *temp;
+	int		len;
+	char	*temp;
 
 	len = 0;
 	(*i)++;
