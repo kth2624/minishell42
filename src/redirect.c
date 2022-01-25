@@ -23,7 +23,8 @@ static int	redirect_error(t_token *curr, int fd_in)
 {
 	if (!curr->next)
 	{
-		write(2, "minishell42: syntax error near unexpected token `newline'\n", 59);
+		write(2, "minishell42: syntax error \
+		near unexpected token `newline'\n", 59);
 		return (1);
 	}
 	if (fd_in < 0)

@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-extern int	g_status;
-
 int	exec_path(t_cmd *cmd, t_lst *env_lst, t_cmd *prev)
 {
 	int		ret;
@@ -16,23 +14,25 @@ int	exec_path(t_cmd *cmd, t_lst *env_lst, t_cmd *prev)
 	pid = fork();
 	if (pid > 0)
 	{
+		handle_signal_child();
 		waitpid(pid, &g_status, 0);
 		if (prev)
 			close(prev->pipe[0]);
 		close(cmd->pipe[1]);
 		free_2dim_arr(path_arr);
 		free_2dim_arr(env_arr);
+		handle_signal();
 	}
 	else if (pid == 0)
 	{
 		//set_redirection(cmd, prev);
 		if (cmd->fd_in != 0)
 			dup2(cmd->fd_in, 0);
-		if (prev && prev->is_pipe == 1)
+		else if (prev && prev->is_pipe == 1)
 			dup2(prev->pipe[0], 0);
 		if (cmd->fd_out != 1)
 			dup2(cmd->fd_out, 1);
-		if (cmd->is_pipe == 1)
+		else if (cmd->is_pipe == 1)
 			dup2(cmd->pipe[1], 1);
 		ret = execve(path, cmd->argv, env_arr);
 		if (ret == -1)

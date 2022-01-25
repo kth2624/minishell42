@@ -1,5 +1,25 @@
 #include "minishell.h"
 
+static void	child_handler(int signo)
+{
+	if (signo == SIGINT)
+	{
+		write(2, "^C\n", 3);
+		g_status = 130;
+	}
+	if (signo == SIGQUIT)
+	{
+		write(2, "^\\Quit: 3\n", ft_strlen("^\\Quit: 3\n"));
+		g_status = 131;
+	}
+}
+
+void	handle_signal_child(void)
+{
+	signal(SIGINT, child_handler);
+	signal(SIGQUIT, child_handler);
+}
+
 static void	sig_handler(int signo)
 {
 	if (signo == SIGINT)
