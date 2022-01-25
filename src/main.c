@@ -27,9 +27,7 @@ int	exec_func(t_cmd *cmd, t_lst **env_lst)
 	char	**path_arr;
 	t_cmd	*prev;
 
-	if (!cmd)
-		return (1);
-	if (!cmd->argv || !env_lst)
+	if (!cmd || !cmd->argv || !env_lst || cmd->fd_in < 0 || cmd->fd_out < 0)
 		return (1);
 	prev = 0;
 	while (cmd)
@@ -90,7 +88,7 @@ int	minishell(char *envp[])
 			exit(0);
 		}
 		cmd = first_parsing(input, env_lst);
-		print_cmd(cmd);
+		//print_cmd(cmd);
 		exec_func(cmd, &env_lst);
 		add_history(input);
 		close_fd(cmd);

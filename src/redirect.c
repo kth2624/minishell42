@@ -19,32 +19,48 @@ static void	handle_redirection4(t_token *curr, int *fd_in, int *fd_out)
 	*fd_in = temp[0];
 }
 
-static int	redirect_error(t_token *curr, int fd_in)
+static int	redirect_syntax_error(t_token *curr, int *fd_in)
 {
-	if (!curr->next)
+	t_token	*head;
+
+	head = curr;
+	while (head)
 	{
-		write(2, "minishell42: syntax error near unexpected token `newline'\n", 59);
-		return (1);
+		if (head->type == REDIRECT1 || head->type == REDIRECT2 || head->type == REDIRECT3 || head->type == REDIRECT4)
+		{
+			if (!head->next)
+			{
+				*fd_in = -1;
+				write(2, "minishell42: syntax error near unexpected token `newline'\n", 59);
+				return (1);
+			}
+		}
+		head = head->next;
 	}
+	return (0);
+}
+
+static int	redirect_file_error(t_token *curr, int fd_in)
+{
 	if (fd_in < 0)
 	{
 		write(2, "minishell42: ", 14);
 		write(2, curr->next->content, ft_strlen(curr->next->content));
-		write(2, "No such file or directory\n", 27);
+		write(2, ": No such file or directory\n", 29);
 		return (1);
 	}
 	return (0);
 }
 
-void	check_redirection(t_token *tokens, int *fd_in, int *fd_out)
+int	check_redirection(t_token *tokens, int *fd_in, int *fd_out)
 {
 	t_token	*curr;
 
 	curr = tokens;
+	if (redirect_syntax_error(curr, fd_in) == 1)
+		return (1);
 	while (curr && curr->type != PIPE)
 	{
-		if (redirect_error(curr, *fd_in) != 0)
-			break ;
 		if (curr->type == REDIRECT1)
 		{
 			if (*fd_out != 1)
@@ -57,6 +73,7 @@ void	check_redirection(t_token *tokens, int *fd_in, int *fd_out)
 			if (*fd_in != 0)
 				close(*fd_in);
 			*fd_in = open(curr->next->content, O_RDONLY);
+			redirect_file_error(curr, *fd_in);
 		}
 		else if (curr->type == REDIRECT3)
 		{

@@ -90,7 +90,7 @@ int		exec_built_in_func(char *argv[], t_lst **env_lst);
 int		is_built_in(char *argv[]);
 void	exec_built_in(t_cmd *cmd, t_lst **env_lst, t_cmd *prev);
 /*redirect.c*/
-void	check_redirection(t_token *tokens, int *fd_in, int *fd_out);
+int		check_redirection(t_token *tokens, int *fd_in, int *fd_out);
 void	set_redirection(t_cmd *cmd, t_cmd *prev);
 /* memory_free.c*/
 void	free_2dim_arr(char **str);
