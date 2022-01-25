@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:12:43 by tkim              #+#    #+#             */
-/*   Updated: 2022/01/22 16:27:29 by tkim             ###   ########.fr       */
+/*   Updated: 2022/01/24 19:09:09 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ char **make_argv(t_token *token, t_lst *env_lst);
 t_cmd   *make_cmd(t_token *tokens, t_lst *env_lst);
 
 int	check_redirection(t_token *tokens, int *fd_in, int *fd_out);
+
 int handle_signal(void);
 char	*path_is_valid(char *arg, char **path_arr);
 /*print_util.c*/

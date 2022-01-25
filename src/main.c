@@ -1,5 +1,19 @@
 #include "minishell.h"
 
+void	*close_pipe(t_cmd *cmd)
+{
+	while(cmd)
+	{
+		close(cmd->pipe[0]);
+		close(cmd->pipe[1]);
+		if(cmd->fd_in != 0)
+			close(cmd->fd_in);
+		if(cmd->fd_out != 1)
+			close(cmd->fd_out);
+		cmd = cmd->next;
+	}
+}
+
 int	exec_func(t_cmd *cmd, t_lst **env_lst)
 {
 	char	**env_arr;
@@ -16,23 +30,14 @@ int	exec_func(t_cmd *cmd, t_lst **env_lst)
 	//print_cmd(cmd);
 	prev = 0;
 	exec_built_in_func(cmd->argv, env_lst);
-	/*
+	
 	while(cmd)
 	{
 		path_arr = path_parsing(cmd->argv[0], *env_lst);
 		pid = fork();
 		if(pid == 0)
 		{
-			//	   fd[0][0]. [1]	fd[1][0] .[1]
-			// echo hi | cat < a > b | ls
-			// echo 프로세스의 입력 : 표준 입력
-			//				출력 : fd[0][1]
-			// cat 프로세스의 입력  : fd[0][0] 이 아니라 a의 fd
-			//			   출력  : fd[1][1] 이 아니라 b이 fd
-			// ls 프로세스의 입력   : fd[1][0]
-			//			  출력   : 표준 출력
-
-			if (cmd->fd_in!= 0) 
+			if (cmd->fd_in!= 0) {
 				dup2(cmd->fd_in, 0);
 			else if (prev && prev->is_pipe == 1) 
 				dup2(prev->pipe[0], 0);
@@ -40,6 +45,11 @@ int	exec_func(t_cmd *cmd, t_lst **env_lst)
 				dup2(cmd->fd_out, 1);
 			else if(cmd->is_pipe == 1) 
 				dup2(cmd->pipe[1], 1);
+			}
+			if(cmd->fd_in != 0)
+				close(cmd->fd_in);
+			if(cmd->fd_out != 1)
+				close(cmd->fd_out);
 			if (exec_built_in_func(cmd->argv, env_lst) == 1)
 			{
 				path = path_is_valid(cmd->argv[0], path_arr);
@@ -59,7 +69,7 @@ int	exec_func(t_cmd *cmd, t_lst **env_lst)
 		prev = cmd;
 		free_2dim_arr(path_arr);
 		cmd = cmd->next;
-	}*/
+	}
 	return (0);
 }
 
@@ -83,6 +93,7 @@ int	minishell(char *envp[])
 		cmd = first_parsing(input, env_lst);
 		exec_func(cmd, &env_lst);
 		add_history(input);
+		close_pipe(cmd);
 		free(input);
 		free_cmd(cmd);
 		//free_env_lst(env_lst);
