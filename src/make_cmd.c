@@ -52,7 +52,7 @@ static int	cnt_pipe(t_token *tokens)
 t_cmd	*set_cmd(t_token *tokens)
 {
 	t_cmd	*cmd;
-	t_token *token;
+	t_token	*token;
 	int		len;
 	t_cmd	*new;
 
@@ -72,10 +72,10 @@ t_cmd	*set_cmd(t_token *tokens)
 	return (cmd);
 }
 
-t_cmd   *make_cmd(t_token *tokens, t_lst *env_lst)
+t_cmd	*make_cmd(t_token *tokens, t_lst *env_lst)
 {
 	t_cmd	*cmd;
-	t_token *token;
+	t_token	*token;
 	t_cmd	*head;
 
 	cmd = set_cmd(tokens);

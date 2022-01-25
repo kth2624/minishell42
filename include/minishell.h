@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:12:43 by tkim              #+#    #+#             */
-/*   Updated: 2022/01/25 14:20:32 by tkim             ###   ########.fr       */
+/*   Updated: 2022/01/25 15:29:40 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
-
 /* set_envp.c */
 int		init_env_lst(t_lst **env_lst, char *envp[]);
 t_lst	*split_key_value(char *str, int lst_idx);
@@ -71,7 +70,6 @@ int		mini_lstaddback(t_lst **lst, t_lst *new);
 int		mini_lstlen(t_lst *lst);
 int		mini_tokenadd_back(t_token **lst, t_token *new);
 t_token	*mini_tokennew(char *content);
-
 /* built_in_func */
 int		mini_echo(char *argv[], int flag);
 int		mini_cd(char *argv[], t_lst *env_lst);
@@ -80,7 +78,6 @@ int		mini_env(t_lst *env_lst);
 int		mini_export(t_lst **env_lst, char *argv[]);
 int		mini_unset(t_lst **env_lst, char *argv[]);
 int		mini_exit(char *argv[]);
-
 /* first_parsing.c*/
 t_cmd	*first_parsing(char *input, t_lst *env_lst);
 /* path_parsing.c*/
@@ -90,32 +87,24 @@ int		exec_path(char *path, char *argv[], char *env_arr[]);
 int		exec_built_in_func(char *argv[], t_lst **env_lst);
 /* memory_free.c*/
 void	free_2dim_arr(char **str);
-void    free_token(t_token *tokens);
-void    free_cmd(t_cmd *cmd);
+void	free_token(t_token *tokens);
+void	free_cmd(t_cmd *cmd);
 void	free_env_lst(t_lst *env_lst);
-
-// int	cnt_quote_len(char *input, int *idx);
-int	cnt_doller_len(char *input, int *idx);
-//int	cnt_none_len(char *input, int idx);
-//int	cnt_dquote_len(char *input, int *idx);
-char *replace_doller(char *arg, t_lst *env_lst);
-int	is_mini_printable(char c);
-
+int		cnt_doller_len(char *input, int *idx);
+char	*replace_doller(char *arg, t_lst *env_lst);
+int		is_mini_printable(char c);
 char	*mini_strjoin(char *s1, char *s2);
-char *parse_case_none(char *input, int *i, t_lst *env_lst);
-char *parse_case_quote(char *input, int *i);
-char *parse_case_dquote(char *input, int *i, t_lst *env_lst);
-char *parse_case_doller(char *input, int *i, t_lst *env_lst);
-
-int	is_valid_quote(char *input);
+char	*parse_case_none(char *input, int *i, t_lst *env_lst);
+char	*parse_case_quote(char *input, int *i);
+char	*parse_case_dquote(char *input, int *i, t_lst *env_lst);
+char	*parse_case_doller(char *input, int *i, t_lst *env_lst);
+int		is_valid_quote(char *input);
 /*make_argv.c*/
-char **make_argv(t_token *token, t_lst *env_lst);
+char	**make_argv(t_token *token, t_lst *env_lst);
 /*make_cmd.c*/
-t_cmd   *make_cmd(t_token *tokens, t_lst *env_lst);
-
+t_cmd	*make_cmd(t_token *tokens, t_lst *env_lst);
 void	check_redirection(t_token *tokens, int *fd_in, int *fd_out);
-
-int handle_signal(void);
+int		handle_signal(void);
 char	*path_is_valid(char *arg, char **path_arr);
 /*print_util.c*/
 void	print_token(t_token *tokens);
@@ -125,8 +114,6 @@ void	print_2dim_arr(char **arr);
 t_token	*tokenize(char *input);
 void	fill_token_type(t_token *tokens);
 /*change_env.c*/
-void    convert_content(t_token **tokens, t_lst *env_lst);
-
-
+void	convert_content(t_token **tokens, t_lst *env_lst);
 
 #endif

@@ -2,13 +2,13 @@
 
 void	*close_pipe(t_cmd *cmd)
 {
-	while(cmd)
+	while (cmd)
 	{
 		close(cmd->pipe[0]);
 		close(cmd->pipe[1]);
-		if(cmd->fd_in != 0)
+		if (cmd->fd_in != 0)
 			close(cmd->fd_in);
-		if(cmd->fd_out != 1)
+		if (cmd->fd_out != 1)
 			close(cmd->fd_out);
 		cmd = cmd->next;
 	}
@@ -27,7 +27,6 @@ int	exec_func(t_cmd *cmd, t_lst **env_lst)
 		return (1);
 	if (!cmd->argv || !env_lst)
 		return (1);
-	//print_cmd(cmd);
 	prev = 0;
 	while(cmd)
 	{

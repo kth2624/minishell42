@@ -13,11 +13,11 @@ void	free_2dim_arr(char **str)
 	free(str);
 }
 
-void    free_token(t_token *tokens)
+void	free_token(t_token *tokens)
 {
-    t_token  *token;
+	t_token	*token;
 
-    token = tokens;
+	token = tokens;
 	while (token)
 	{
 		free(token->content);
@@ -26,11 +26,11 @@ void    free_token(t_token *tokens)
 	}
 }
 
-void    free_cmd(t_cmd *cmd)
+void	free_cmd(t_cmd *cmd)
 {
-    t_cmd   *tmp;
+	t_cmd	*tmp;
 
-    tmp = cmd;
+	tmp = cmd;
 	while (tmp)
 	{
 		free_2dim_arr(tmp->argv);
