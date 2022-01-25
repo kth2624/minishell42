@@ -6,8 +6,10 @@ void	*close_fd(t_cmd *cmd)
 {
 	while (cmd)
 	{
-		close(cmd->pipe[0]);
-		close(cmd->pipe[1]);
+		if (cmd->pipe[0] != 0)
+			close(cmd->pipe[0]);
+		if (cmd->pipe[1] != 1)
+			close(cmd->pipe[1]);
 		if (cmd->fd_in != 0)
 			close(cmd->fd_in);
 		if (cmd->fd_out != 1)

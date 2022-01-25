@@ -18,6 +18,8 @@ void	print_2dim_arr(char **arr)
 	int	idx;
 
 	idx = 0;
+	if (!arr)
+		return ;
 	while (arr[idx])
 	{
 		printf("arr[%d] : %s\n", idx, arr[idx]);
