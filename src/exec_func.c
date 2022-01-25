@@ -47,7 +47,7 @@ void	check_redirection(t_token *tokens, int *fd_in, int *fd_out)
 			open(curr->next->content, O_WRONLY | O_APPEND | O_CREAT, 0644);
 		}
 		else if (curr->type == REDIRECT4)
-			handle_redirection4(curr, *fd_in, *fd_out);
+			handle_redirection4(curr, fd_in, fd_out);
 		curr = curr->next;
 	}
 }
