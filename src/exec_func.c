@@ -22,26 +22,26 @@ void	check_redirection(t_token *tokens, int *fd_in, int *fd_out)
 	{
 		if (curr->type == REDIRECT1)
 		{
-			if(fd_out != 1)
-				close(fd_out);
+			if(*fd_out != 1)
+				close(*fd_out);
 			*fd_out = open(curr->next->content, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		}
 		else if (curr->type == REDIRECT2)
 		{
-			if(fd_in != 0)
-				close(fd_in);
+			if(*fd_in != 0)
+				close(*fd_in);
 			*fd_in = open(curr->next->content, O_RDONLY);
 		}
 		else if (curr->type == REDIRECT3)
 		{
-			if(fd_out != 1)
-				close(fd_out);
+			if(*fd_out != 1)
+				close(*fd_out);
 			*fd_out = open(curr->next->content, O_WRONLY | O_APPEND | O_CREAT, 0644);
 		}
 		else if (curr->type == REDIRECT4)
 		{
-			if(fd_in != 0)
-				close(fd_in);
+			if(*fd_in != 0)
+				close(*fd_in);
 			pipe(temp);
 			input = readline("> ");
 			while(input && ft_strcmp(input, curr->next->content) != 0)
@@ -92,6 +92,5 @@ int	exec_built_in_func(char *argv[], t_lst **env_lst)
 		mini_exit(argv);
 	else
 		return (1);
-	// return (0);
 	exit(0);
 }
