@@ -82,9 +82,16 @@ int		mini_exit(char *argv[]);
 t_cmd	*first_parsing(char *input, t_lst *env_lst);
 /* path_parsing.c*/
 char	**path_parsing(char *arg, t_lst *env_lst);
+char	*path_is_valid(char *arg, char **path_arr);
 /* exec_func.c*/
-int		exec_path(char *path, char *argv[], char *env_arr[]);
+int		exec_path(t_cmd *cmd, t_lst *env_lst, t_cmd *prev);
+/*built_in.c*/
 int		exec_built_in_func(char *argv[], t_lst **env_lst);
+int		is_built_in(char *argv[]);
+void	exec_built_in(t_cmd *cmd, t_lst **env_lst, t_cmd *prev);
+/*redirect.c*/
+void	check_redirection(t_token *tokens, int *fd_in, int *fd_out);
+void	set_redirection(t_cmd *cmd, t_cmd *prev);
 /* memory_free.c*/
 void	free_2dim_arr(char **str);
 void	free_token(t_token *tokens);
@@ -103,9 +110,8 @@ int		is_valid_quote(char *input);
 char	**make_argv(t_token *token, t_lst *env_lst);
 /*make_cmd.c*/
 t_cmd	*make_cmd(t_token *tokens, t_lst *env_lst);
-void	check_redirection(t_token *tokens, int *fd_in, int *fd_out);
+/*handle_signal.c*/
 int		handle_signal(void);
-char	*path_is_valid(char *arg, char **path_arr);
 /*print_util.c*/
 void	print_token(t_token *tokens);
 void	print_cmd(t_cmd *cmd);
@@ -115,5 +121,7 @@ t_token	*tokenize(char *input);
 void	fill_token_type(t_token *tokens);
 /*change_env.c*/
 void	convert_content(t_token **tokens, t_lst *env_lst);
+void	*close_fd(t_cmd *cmd);
+
 
 #endif

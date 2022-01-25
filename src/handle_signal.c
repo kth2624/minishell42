@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	sig_handler(int signo)
+static void	sig_handler(int signo)
 {
 	if (signo == SIGINT)
 	{
