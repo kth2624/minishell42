@@ -81,11 +81,7 @@ static void	fill_str(char *input, int *i, t_lst *env_lst, char **str)
 			free(env_str);
 		}
 		else
-		{
-			(*str)[idx] = input[*i];
-			idx++;
-			(*i)++;
-		}
+			(*str)[idx++] = input[(*i)++];
 	}
 }
 
