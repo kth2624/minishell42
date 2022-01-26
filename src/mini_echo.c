@@ -18,6 +18,7 @@ static int	write_side_case_with_option(char *argv[], char **split_str)
 	}
 	len = ft_strlen(split_str[idx]);
 	write(1, split_str[idx], len);
+	free_2dim_arr(split_str);
 	return (1);
 }
 
@@ -38,6 +39,7 @@ static int	write_side_case(char *argv[], char **split_str)
 		idx++;
 	}
 	printf("\n");
+	free_2dim_arr(split_str);
 	return (1);
 }
 
@@ -94,6 +96,5 @@ int	mini_echo(char *argv[], int flag)
 		write_without_option(argv, split_str);
 	else if (flag == 1)
 		write_with_option(argv, split_str);
-	free_2dim_arr(split_str);
 	return (0);
 }
