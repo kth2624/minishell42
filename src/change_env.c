@@ -19,7 +19,6 @@ void	change_env_and_quote(t_token *token, t_lst *env_lst)
 		else if (content[idx] == '"')
 			temp = mini_strjoin(temp, \
 			parse_case_dquote(content, &idx, env_lst), 0, 0);
-		//printf("temp : %s\n", temp);
 		idx++;
 	}
 	free(token->content);

@@ -15,6 +15,7 @@ char	*mini_strjoin(char *s1, char *s2, int idx, int r_idx)
 	ret = (char *)malloc(sizeof(char) * (len + 1));
 	if (!ret)
 		return (0);
+	ret[len] = 0;
 	while (s1[idx])
 		ret[r_idx++] = s1[idx++];
 	free(s1);
@@ -22,7 +23,6 @@ char	*mini_strjoin(char *s1, char *s2, int idx, int r_idx)
 	while (s2[idx])
 		ret[r_idx++] = s2[idx++];
 	free(s2);
-	ret[r_idx] = '\0';
 	return (ret);
 }
 
