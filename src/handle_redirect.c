@@ -34,6 +34,7 @@ static int	redirect_syntax_error(t_token *curr, int *fd_in)
 				*fd_in = -1;
 				write(2, "minishell42: syntax error near\
  unexpected token `newline'\n", 59);
+				g_status = 258;
 				return (1);
 			}
 		}

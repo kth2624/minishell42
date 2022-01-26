@@ -4,10 +4,8 @@ char	*replace_doller(char *arg, t_lst *env_lst)
 {
 	char	*ret;
 
-	if (ft_strcmp(arg, "?") == 0)
-	{
+	if (arg[0] == '?')
 		return (ft_itoa(g_status));
-	}
 	while (env_lst)
 	{
 		if (ft_strcmp(env_lst->key, arg) == 0)

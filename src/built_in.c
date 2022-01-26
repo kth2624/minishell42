@@ -61,7 +61,8 @@ static void	exec_fork_case(t_cmd *cmd, t_lst **env_lst, t_cmd *prev)
 	else if (pid > 0)
 	{
 		waitpid(pid, &g_status, 0);
-		g_status = WEXITSTATUS(g_status);
+		// if (!WIFSIGNALED(g_status))
+			g_status = WEXITSTATUS(g_status);
 		if (prev)
 			close(prev->pipe[0]);
 		close(cmd->pipe[1]);
