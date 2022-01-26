@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-int	g_status;
-
 void	*close_fd(t_cmd *cmd)
 {
 	while (cmd)

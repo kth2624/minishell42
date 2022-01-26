@@ -1,5 +1,21 @@
 #include "minishell.h"
 
+static int	print_err(char *path)
+{
+	printf("minishell42: %s: command not found\n", path);
+	return (127);
+}
+
+static void	set_g_status(void)
+{
+	if (g_status == 2)
+		g_status = 130;
+	else if (g_status == 3)
+		g_status = 131;
+	else
+		g_status = WEXITSTATUS(g_status);
+}
+
 int	exec_path(t_cmd *cmd, t_cmd *prev, char **env_arr, char **path_arr)
 {
 	int		pid;
@@ -11,6 +27,7 @@ int	exec_path(t_cmd *cmd, t_cmd *prev, char **env_arr, char **path_arr)
 	{
 		handle_signal_child();
 		waitpid(pid, &g_status, 0);
+		set_g_status();
 		if (prev)
 			close(prev->pipe[0]);
 		close(cmd->pipe[1]);
@@ -20,10 +37,7 @@ int	exec_path(t_cmd *cmd, t_cmd *prev, char **env_arr, char **path_arr)
 	{
 		set_redirect_and_pipe(cmd, prev);
 		if (execve(path, cmd->argv, env_arr) == -1)
-		{
-			printf("minishell42: %s: command not found\n", path);
-			exit(1);
-		}
+			exit(print_err(path));
 	}
 	else
 		printf("%s\n", strerror(errno));
