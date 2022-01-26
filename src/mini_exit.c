@@ -31,7 +31,6 @@ static long long	ft_atoll(char *str)
 
 static int	nan_error(long long arg_num, char *arg_str)
 {
-	printf("arg_num : %lld arg_str : %s\n", arg_num, arg_str);
 	if (arg_num == LONG_MAX)
 	{
 		if (ft_strcmp(arg_str, "9223372036854775807") != 0)
@@ -75,7 +74,7 @@ int	mini_exit(char *argv[])
 	int	exit_arg;
 
 	if (!argv)
-		exit(0);
+		exit(g_status);
 	argc = 0;
 	while (argv[argc])
 		argc++;

@@ -59,7 +59,7 @@ int	minishell(char *envp[])
 		if (!input)
 		{
 			printf("exit\n");
-			exit(0);
+			exit(g_status);
 		}
 		cmd = first_parsing(input, env_lst);
 		exec_func(cmd, &env_lst);
