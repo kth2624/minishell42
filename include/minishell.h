@@ -16,7 +16,6 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdlib.h>
-# include <string.h>
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -86,14 +85,14 @@ t_cmd	*first_parsing(char *input, t_lst *env_lst);
 char	**path_parsing(char *arg, t_lst *env_lst);
 char	*path_is_valid(char *arg, char **path_arr);
 /* exec_func.c*/
-int		exec_path(t_cmd *cmd, t_lst *env_lst, t_cmd *prev);
+int		exec_path(t_cmd *cmd, t_cmd *prev, char **env_arr, char **path_arr);
 /*built_in.c*/
 int		exec_built_in_func(char *argv[], t_lst **env_lst);
 int		is_built_in(char *argv[]);
 void	exec_built_in(t_cmd *cmd, t_lst **env_lst, t_cmd *prev);
 /*redirect.c*/
-int		check_redirection(t_token *tokens, int *fd_in, int *fd_out);
-void	set_redirection(t_cmd *cmd, t_cmd *prev);
+void	check_redirection(t_token *tokens, int *fd_in, int *fd_out);
+void	set_redirect_and_pipe(t_cmd *cmd, t_cmd *prev);
 /* memory_free.c*/
 void	free_2dim_arr(char **str);
 void	free_token(t_token *tokens);

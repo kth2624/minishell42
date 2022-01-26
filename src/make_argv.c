@@ -16,19 +16,11 @@ char	*mini_strjoin(char *s1, char *s2, int idx, int r_idx)
 	if (!ret)
 		return (0);
 	while (s1[idx])
-	{
-		ret[r_idx] = s1[idx];
-		idx++;
-		r_idx++;
-	}
+		ret[r_idx++] = s1[idx++];
 	free(s1);
 	idx = 0;
 	while (s2[idx])
-	{
-		ret[r_idx] = s2[idx];
-		r_idx++;
-		idx++;
-	}
+		ret[r_idx++] = s2[idx++];
 	free(s2);
 	ret[r_idx] = '\0';
 	return (ret);

@@ -52,18 +52,9 @@ static void	exec_fork_case(t_cmd *cmd, t_lst **env_lst, t_cmd *prev)
 	int	pid;
 
 	pid = fork();
-	//set_redirection(cmd);
 	if (pid == 0)
 	{
-		set_redirection(cmd, prev);
-		if (cmd->fd_in != 0)
-			dup2(cmd->fd_in, 0);
-		else if (prev && prev->is_pipe == 1)
-			dup2(prev->pipe[0], 0);
-		if (cmd->fd_out != 1)
-			dup2(cmd->fd_out, 1);
-		else if (cmd->is_pipe == 1)
-			dup2(cmd->pipe[1], 1);
+		set_redirect_and_pipe(cmd, prev);
 		g_status = exec_built_in_func(cmd->argv, env_lst);
 		exit(g_status);
 	}
@@ -83,11 +74,8 @@ void	exec_built_in(t_cmd *cmd, t_lst **env_lst, t_cmd *prev)
 	int	temp[2];
 
 	pipe(temp);
-	print_cmd(cmd);
 	if (cmd->is_pipe != 0)
-	{
 		exec_fork_case(cmd, env_lst, prev);
-	}
 	else
 	{
 		dup2(0, temp[0]);

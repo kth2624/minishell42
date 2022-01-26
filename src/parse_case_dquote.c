@@ -49,6 +49,16 @@ static int	cnt_dquote_len(char *input, int idx, t_lst *env_lst)
 	return (len);
 }
 
+static void	doller_case(int *idx, char *env_str, char *str)
+{
+	int		e_idx;
+
+	e_idx = 0;
+	while (env_str[e_idx])
+		(*str)[(*idx)++] = env_str[e_idx++];
+	free(env_str);
+}
+
 static void	fill_str(char *input, int *i, t_lst *env_lst, char **str)
 {
 	int		idx;
@@ -67,7 +77,7 @@ static void	fill_str(char *input, int *i, t_lst *env_lst, char **str)
 			if (!env_str)
 				return ;
 			while (env_str[e_idx])
-				(*str)[idx++] = env_str[e_idx++];
+			 	(*str)[idx++] = env_str[e_idx++];
 			free(env_str);
 		}
 		else
