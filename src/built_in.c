@@ -2,7 +2,7 @@
 
 int	is_built_in(char *argv[])
 {
-	if (ft_strcmp(argv[0], "echo") == 0)
+	if (ft_strncmp(argv[0], "echo", 4) == 0)
 		return (1);
 	else if (ft_strcmp(argv[0], "cd") == 0)
 		return (1);
@@ -25,7 +25,7 @@ int	exec_built_in_func(char *argv[], t_lst **env_lst)
 	int	ret;
 
 	ret = 0;
-	if (ft_strcmp(argv[0], "echo") == 0)
+	if (ft_strncmp(argv[0], "echo", 4) == 0)
 	{
 		if (ft_strcmp(argv[1], "-n") == 0)
 			ret = mini_echo(argv, 1);

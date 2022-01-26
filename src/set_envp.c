@@ -13,7 +13,7 @@ t_lst	*split_key_value(char *str, int lst_idx)
 	if (str[idx] == 0)
 	{
 		key = str;
-		value = ft_strdup("");
+		value = "";
 	}
 	else
 	{

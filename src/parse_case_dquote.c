@@ -49,14 +49,16 @@ static int	cnt_dquote_len(char *input, int idx, t_lst *env_lst)
 	return (len);
 }
 
-static void	doller_case(int *idx, char *env_str, char *str)
+static int	doller_case(int *idx, char *env_str, char **str)
 {
 	int		e_idx;
 
 	e_idx = 0;
+	if (!env_str)
+		return (1);
 	while (env_str[e_idx])
 		(*str)[(*idx)++] = env_str[e_idx++];
-	free(env_str);
+	return (0);
 }
 
 static void	fill_str(char *input, int *i, t_lst *env_lst, char **str)
@@ -64,7 +66,6 @@ static void	fill_str(char *input, int *i, t_lst *env_lst, char **str)
 	int		idx;
 	char	*env_str;
 	int		len;
-	int		e_idx;
 
 	idx = 0;
 	len = cnt_dquote_len(input, *i, env_lst);
@@ -72,27 +73,20 @@ static void	fill_str(char *input, int *i, t_lst *env_lst, char **str)
 	{
 		if (input[*i] == '$')
 		{
-			e_idx = 0;
 			env_str = parse_case_doller(input, i, env_lst);
-			if (!env_str)
+			if (doller_case(&idx, env_str, str) == 1)
 				return ;
-			while (env_str[e_idx])
-			 	(*str)[idx++] = env_str[e_idx++];
-			free(env_str);
 		}
 		else
 			(*str)[idx++] = input[(*i)++];
 	}
 	if (input[*i] == '$')
 	{
-		e_idx = 0;
 		env_str = parse_case_doller(input, i, env_lst);
-		if (!env_str)
+		if (doller_case(&idx, env_str, str) == 1)
 			return ;
-		while (env_str[e_idx])
-			(*str)[idx++] = env_str[e_idx++];
-		free(env_str);
 	}
+	free(env_str);
 }
 
 char	*parse_case_dquote(char *input, int *i, t_lst *env_lst)
@@ -106,6 +100,7 @@ char	*parse_case_dquote(char *input, int *i, t_lst *env_lst)
 	if (!temp)
 		return (0);
 	temp[len] = 0;
-	fill_str(input, i, env_lst, &temp);
+	if (len != 0)
+		fill_str(input, i, env_lst, &temp);
 	return (temp);
 }

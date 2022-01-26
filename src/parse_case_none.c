@@ -20,7 +20,8 @@ static int	get_env_str_len(char *input, int *idx, t_lst *env_lst)
 	key_len = 0;
 	len = 0;
 	while (input[*idx + key_len] && input[*idx + key_len] != ' ' && \
-	input[*idx + key_len] != '$')
+	input[*idx + key_len] != '$' && input[*idx + key_len] != '"' && \
+	input[*idx + key_len] != '\'')
 		key_len++;
 	key = ft_substr(input, *idx, key_len);
 	*idx += key_len;

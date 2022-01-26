@@ -25,7 +25,7 @@ int	exec_func(t_cmd *cmd, t_lst **env_lst)
 	t_cmd	*prev;
 
 	if (!cmd || !cmd->argv || !env_lst || cmd->fd_in < 0 || cmd->fd_out < 0 || \
-	ft_strcmp(cmd->argv[0], "") == 0)
+	 !cmd->argv[0] || ft_strcmp(cmd->argv[0], "") == 0)
 		return (1);
 	prev = 0;
 	while (cmd)
