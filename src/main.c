@@ -46,7 +46,7 @@ int	exec_func(t_cmd *cmd, t_lst **env_lst)
 	{
 		path_arr = path_parsing(cmd->argv[0], *env_lst);
 		pid = fork();
-		
+
 			if (exec_built_in_func(cmd->argv, env_lst) == 1)
 			{
 				path = path_is_valid(cmd->argv[0], path_arr);
@@ -80,7 +80,7 @@ int	minishell(char *envp[])
 	init_env_lst(&env_lst, envp);
 	while (1)
 	{
-		//handle_signal();
+		handle_signal();
 		input = readline("minishell42 $ ");
 		if (!input)
 		{

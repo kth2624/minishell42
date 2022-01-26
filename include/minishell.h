@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:12:43 by tkim              #+#    #+#             */
-/*   Updated: 2022/01/25 15:55:14 by tkim             ###   ########.fr       */
+/*   Updated: 2022/01/26 01:21:11 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@
 # define REDIRECT4 4
 # define WORD -1
 # define FILE -2
+
+int	g_status;
 
 typedef struct s_lst
 {
@@ -112,6 +114,7 @@ char	**make_argv(t_token *token, t_lst *env_lst);
 t_cmd	*make_cmd(t_token *tokens, t_lst *env_lst);
 /*handle_signal.c*/
 int		handle_signal(void);
+void	handle_signal_child(void);
 /*print_util.c*/
 void	print_token(t_token *tokens);
 void	print_cmd(t_cmd *cmd);
@@ -122,6 +125,5 @@ void	fill_token_type(t_token *tokens);
 /*change_env.c*/
 void	convert_content(t_token **tokens, t_lst *env_lst);
 void	*close_fd(t_cmd *cmd);
-
 
 #endif

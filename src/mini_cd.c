@@ -63,8 +63,8 @@ int	mini_cd(char *argv[], t_lst *env_lst)
 	path = argv[1];
 	if (!path || ft_strcmp(path, "~") == 0)
 	{
-	 	free(path);
-	 	path = set_home_path(env_lst);
+		free(path);
+		path = set_home_path(env_lst);
 	}
 	if (!path)
 	{
