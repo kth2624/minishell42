@@ -2,7 +2,7 @@ NAME = minishell
 
 #클러스터 경로 : /Users/seongjki/.brew/Cellar/readline/8.1.1
 CC = gcc
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -Werror
 #LINK = -L/Users/seongjki/.brew/Cellar/readline/8.1.1/lib -L./libft/ -lft -lreadline
 LINK = -L/opt/homebrew/Cellar/readline/8.1.1/lib/ -L./libft/ -lft -lreadline
 #INCLUDE = -I./libft -I./include -I/Users/seongjki/.brew/Cellar/readline/8.1.1/include/

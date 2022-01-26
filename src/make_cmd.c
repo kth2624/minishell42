@@ -72,7 +72,7 @@ t_cmd	*set_cmd(t_token *tokens)
 	return (cmd);
 }
 
-t_cmd	*make_cmd(t_token *tokens, t_lst *env_lst)
+t_cmd	*make_cmd(t_token *tokens)
 {
 	t_cmd	*cmd;
 	t_token	*token;
@@ -83,7 +83,7 @@ t_cmd	*make_cmd(t_token *tokens, t_lst *env_lst)
 	head = cmd;
 	while (token)
 	{
-		head->argv = make_argv(token, env_lst);
+		head->argv = make_argv(token);
 		check_redirection(token, &head->fd_in, &head->fd_out);
 		pipe(head->pipe);
 		while (token && token->type != PIPE)

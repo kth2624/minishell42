@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	*close_fd(t_cmd *cmd)
+void	close_fd(t_cmd *cmd)
 {
 	while (cmd)
 	{
