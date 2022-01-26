@@ -50,8 +50,10 @@ static int	redirect_file_error(t_token *curr, int fd_in)
 		write(2, "minishell42: ", 14);
 		write(2, curr->next->content, ft_strlen(curr->next->content));
 		write(2, ": No such file or directory\n", 29);
+		g_status = 1;
 		return (1);
 	}
+	g_status = 0;
 	return (0);
 }
 
