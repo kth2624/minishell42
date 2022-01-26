@@ -73,7 +73,7 @@ static void	fill_argv(t_token *token, char **str)
 	}
 }
 
-char	**make_argv(t_token *token, t_lst *env_lst)
+char	**make_argv(t_token *token)
 {
 	char	**argv;
 	int		len;

@@ -6,7 +6,7 @@
 /*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:12:43 by tkim              #+#    #+#             */
-/*   Updated: 2022/01/26 01:21:11 by tkim             ###   ########.fr       */
+/*   Updated: 2022/01/27 01:39:15 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ t_cmd	*first_parsing(char *input, t_lst *env_lst);
 char	**path_parsing(char *arg, t_lst *env_lst);
 char	*path_is_valid(char *arg, char **path_arr);
 /* exec_func.c*/
-int		exec_path(t_cmd *cmd, t_cmd *prev, char **env_arr, char **path_arr);
+void	exec_path(t_cmd *cmd, t_cmd *prev, char **env_arr, char **path_arr);
+void	set_g_status(void);
 /*built_in.c*/
 int		exec_built_in_func(char *argv[], t_lst **env_lst);
 int		is_built_in(char *argv[]);
@@ -108,9 +109,9 @@ char	*parse_case_dquote(char *input, int *i, t_lst *env_lst);
 char	*parse_case_doller(char *input, int *i, t_lst *env_lst);
 int		is_valid_quote(char *input);
 /*make_argv.c*/
-char	**make_argv(t_token *token, t_lst *env_lst);
+char	**make_argv(t_token *token);
 /*make_cmd.c*/
-t_cmd	*make_cmd(t_token *tokens, t_lst *env_lst);
+t_cmd	*make_cmd(t_token *tokens);
 /*handle_signal.c*/
 int		handle_signal(void);
 void	handle_signal_child(void);
@@ -123,6 +124,6 @@ t_token	*tokenize(char *input);
 void	fill_token_type(t_token *tokens);
 /*change_env.c*/
 void	convert_content(t_token **tokens, t_lst *env_lst);
-void	*close_fd(t_cmd *cmd);
+void	close_fd(t_cmd *cmd);
 
 #endif

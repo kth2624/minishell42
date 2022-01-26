@@ -4,7 +4,6 @@ t_cmd	*first_parsing(char *input, t_lst *env_lst)
 {
 	t_token	*tokens;
 	t_cmd	*cmd;
-	int		size;
 
 	if (!input[0] || !ft_isprint(input[0]))
 		return (0);
@@ -17,7 +16,7 @@ t_cmd	*first_parsing(char *input, t_lst *env_lst)
 	tokens = tokenize(input);
 	convert_content(&tokens, env_lst);
 	fill_token_type(tokens);
-	cmd = make_cmd(tokens, env_lst);
+	cmd = make_cmd(tokens);
 	free_token(tokens);
 	return (cmd);
 }
