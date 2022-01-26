@@ -11,6 +11,7 @@ int	exec_path(t_cmd *cmd, t_cmd *prev, char **env_arr, char **path_arr)
 	{
 		handle_signal_child();
 		waitpid(pid, &g_status, 0);
+		g_status = WEXITSTATUS(g_status);
 		if (prev)
 			close(prev->pipe[0]);
 		close(cmd->pipe[1]);
@@ -22,7 +23,7 @@ int	exec_path(t_cmd *cmd, t_cmd *prev, char **env_arr, char **path_arr)
 		if (execve(path, cmd->argv, env_arr) == -1)
 		{
 			printf("minishell42: %s: command not found\n", path);
-			exit(1);
+			exit(127);
 		}
 	}
 	else

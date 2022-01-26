@@ -67,12 +67,12 @@ t_cmd	*first_parsing(char *input, t_lst *env_lst)
 	}
 	tokens = 0;
 	tokens = tokenize(input);
-	print_token(tokens);
+	// print_token(tokens);
 	convert_content(&tokens, env_lst);
 //	recheck_tokens(tokens);
 //	print_token(tokens);
 	fill_token_type(tokens);
-	print_token(tokens);
+	// print_token(tokens);
 	cmd = make_cmd(tokens, env_lst);
 	free_token(tokens);
 	return (cmd);

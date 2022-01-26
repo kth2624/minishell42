@@ -61,6 +61,7 @@ static void	exec_fork_case(t_cmd *cmd, t_lst **env_lst, t_cmd *prev)
 	else if (pid > 0)
 	{
 		waitpid(pid, &g_status, 0);
+		g_status = WEXITSTATUS(g_status);
 		if (prev)
 			close(prev->pipe[0]);
 		close(cmd->pipe[1]);
@@ -84,7 +85,7 @@ void	exec_built_in(t_cmd *cmd, t_lst **env_lst, t_cmd *prev)
 			dup2(cmd->fd_in, 0);
 		if (cmd->fd_out != 1)
 			dup2(cmd->fd_out, 1);
-		exec_built_in_func(cmd->argv, env_lst);
+		g_status = exec_built_in_func(cmd->argv, env_lst);
 		dup2(temp[0], 0);
 		dup2(temp[1], 1);
 		close(temp[0]);
