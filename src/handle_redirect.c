@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void	handle_heredoc(t_token *curr, int *fd_in, int *fd_out)
+static void	handle_heredoc(t_token *curr, int *fd_in)
 {
 	int		temp[2];
 	char	*input;
@@ -79,7 +79,7 @@ static void	check_type_and_open_file(t_token *curr, int *fd_in, int *fd_out)
 		open(curr->next->content, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	}
 	else if (curr->type == REDIRECT4)
-		handle_heredoc(curr, fd_in, fd_out);
+		handle_heredoc(curr, fd_in);
 }
 
 void	check_redirection(t_token *tokens, int *fd_in, int *fd_out)

@@ -6,7 +6,7 @@ static int	print_err(char *path)
 	return (127);
 }
 
-static void	set_g_status(void)
+void	set_g_status(void)
 {
 	if (g_status == 2)
 		g_status = 130;
@@ -16,7 +16,7 @@ static void	set_g_status(void)
 		g_status = WEXITSTATUS(g_status);
 }
 
-int	exec_path(t_cmd *cmd, t_cmd *prev, char **env_arr, char **path_arr)
+void	exec_path(t_cmd *cmd, t_cmd *prev, char **env_arr, char **path_arr)
 {
 	int		pid;
 	char	*path;

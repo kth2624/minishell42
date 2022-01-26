@@ -39,8 +39,6 @@ static int	cnt_none_len(char *input, int idx, t_lst *env_lst)
 {
 	int		len;
 	int		i;
-	char	*key;
-	int		key_len;
 
 	i = idx;
 	len = 0;
