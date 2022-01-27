@@ -90,7 +90,6 @@ char	**path_parsing(char *arg, t_lst *env_lst)
 {
 	char	**path_arr;
 	char	*path;
-	char	*ret;
 
 	if (!arg)
 		return (0);

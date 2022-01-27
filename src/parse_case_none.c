@@ -20,7 +20,8 @@ static int	get_env_str_len(char *input, int *idx, t_lst *env_lst)
 	key_len = 0;
 	len = 0;
 	while (input[*idx + key_len] && input[*idx + key_len] != ' ' && \
-	input[*idx + key_len] != '$')
+	input[*idx + key_len] != '$' && input[*idx + key_len] != '"' && \
+	input[*idx + key_len] != '\'')
 		key_len++;
 	key = ft_substr(input, *idx, key_len);
 	*idx += key_len;
@@ -38,8 +39,6 @@ static int	cnt_none_len(char *input, int idx, t_lst *env_lst)
 {
 	int		len;
 	int		i;
-	char	*key;
-	int		key_len;
 
 	i = idx;
 	len = 0;
@@ -81,11 +80,7 @@ static void	fill_str(char *input, int *i, t_lst *env_lst, char **str)
 			free(env_str);
 		}
 		else
-		{
-			(*str)[idx] = input[*i];
-			idx++;
-			(*i)++;
-		}
+			(*str)[idx++] = input[(*i)++];
 	}
 }
 

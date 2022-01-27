@@ -15,22 +15,14 @@ char	*mini_strjoin(char *s1, char *s2, int idx, int r_idx)
 	ret = (char *)malloc(sizeof(char) * (len + 1));
 	if (!ret)
 		return (0);
+	ret[len] = 0;
 	while (s1[idx])
-	{
-		ret[r_idx] = s1[idx];
-		idx++;
-		r_idx++;
-	}
+		ret[r_idx++] = s1[idx++];
 	free(s1);
 	idx = 0;
 	while (s2[idx])
-	{
-		ret[r_idx] = s2[idx];
-		r_idx++;
-		idx++;
-	}
+		ret[r_idx++] = s2[idx++];
 	free(s2);
-	ret[r_idx] = '\0';
 	return (ret);
 }
 
@@ -81,7 +73,7 @@ static void	fill_argv(t_token *token, char **str)
 	}
 }
 
-char	**make_argv(t_token *token, t_lst *env_lst)
+char	**make_argv(t_token *token)
 {
 	char	**argv;
 	int		len;

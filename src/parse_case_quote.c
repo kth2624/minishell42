@@ -1,18 +1,5 @@
 #include "minishell.h"
 
-static int	cnt_quote_len(char *input, int *idx)
-{
-	int	len;
-
-	len = 0;
-	(*idx)++;
-	while (input[*idx] && input[*idx] != '\'')
-		(*idx)++;
-	len++;
-	(*idx)++;
-	return (len);
-}
-
 char	*parse_case_quote(char *input, int *i)
 {
 	int		len;

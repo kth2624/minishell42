@@ -2,12 +2,17 @@
 
 char	*replace_doller(char *arg, t_lst *env_lst)
 {
+	char	*ret;
+
+	if (arg[0] == '?')
+		return (ft_itoa(g_status));
 	while (env_lst)
 	{
 		if (ft_strcmp(env_lst->key, arg) == 0)
 		{
 			free(arg);
-			return (ft_strdup(env_lst->value));
+			ret = ft_strdup(env_lst->value);
+			return (ret);
 		}
 		env_lst = env_lst->next;
 	}

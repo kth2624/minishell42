@@ -32,7 +32,7 @@ int	unset_func(t_lst **env_lst, char *key)
 		}
 		curr = curr->next;
 	}
-	return (1);
+	return (0);
 }
 
 int	mini_unset(t_lst **env_lst, char *argv[])

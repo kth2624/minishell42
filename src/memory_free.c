@@ -5,6 +5,8 @@ void	free_2dim_arr(char **str)
 	int	idx;
 
 	idx = 0;
+	if (!str)
+		return ;
 	while (str[idx])
 	{
 		free(str[idx]);

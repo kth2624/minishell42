@@ -73,15 +73,15 @@ void	fill_token_type(t_token *tokens)
 	pre_token = 0;
 	while (curr_token)
 	{
-		if (strcmp(curr_token->content, ">") == 0)
+		if (ft_strcmp(curr_token->content, ">") == 0)
 			curr_token->type = REDIRECT1;
-		else if (strcmp(curr_token->content, "<") == 0)
+		else if (ft_strcmp(curr_token->content, "<") == 0)
 			curr_token->type = REDIRECT2;
-		else if (strcmp(curr_token->content, ">>") == 0)
+		else if (ft_strcmp(curr_token->content, ">>") == 0)
 			curr_token->type = REDIRECT3;
-		else if (strcmp(curr_token->content, "<<") == 0)
+		else if (ft_strcmp(curr_token->content, "<<") == 0)
 			curr_token->type = REDIRECT4;
-		else if (strcmp(curr_token->content, "|") == 0)
+		else if (ft_strcmp(curr_token->content, "|") == 0)
 			curr_token->type = PIPE;
 		else
 			curr_token->type = WORD;
@@ -111,9 +111,7 @@ t_token	*tokenize(char *input)
 				len++;
 		}
 		else
-		{
 			make_token(input, &idx, &len, &tokens);
-		}
 	}
 	return (tokens);
 }
