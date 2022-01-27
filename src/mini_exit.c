@@ -54,17 +54,47 @@ static int	nan_error(long long arg_num, char *arg_str)
 	return (arg_num);
 }
 
-static int	check_error(int argc, char *argv[])
+static int	check_numeric_arg(int argc, char *argv[])
+{
+	int	argv_idx;
+	int	str_idx;
+
+	argv_idx = 1;
+	while (argv_idx < argc)
+	{
+		str_idx = 0;
+		while (argv[str_idx])
+		{
+			if (!ft_isdigit(argv[argv_idx][str_idx]))
+			{
+				write(2, "bash: exit: ", 13);
+				write(2, argv[argv_idx], ft_strlen(argv[argv_idx]));
+				write(2, ": numeric argument required\n", 29);
+				return (255);
+			}
+			str_idx++;
+		}
+		argv_idx++;
+	}
+	return (-1);
+}
+
+static long long	check_error(int argc, char *argv[])
 {
 	long long	arg_num;
 
 	arg_num = 0;
-	if (argc > 2)
-		write(2, "minishell42: exit: too many arguments\n", 39);
 	if (argc < 2)
 		return (arg_num);
+	if (check_numeric_arg(argc, argv) > 0)
+		return (255);
 	arg_num = ft_atoll(argv[1]);
 	arg_num = nan_error(arg_num, argv[1]);
+	if (argc > 2)
+	{
+		write(2, "minishell42: exit: too many arguments\n", 39);
+		return (-2);
+	}
 	return (arg_num);
 }
 
@@ -79,6 +109,11 @@ int	mini_exit(char *argv[])
 	while (argv[argc])
 		argc++;
 	exit_arg = check_error(argc, argv);
+	if (exit_arg == -2)
+	{
+		g_status = 1;
+		return (1);
+	}
 	exit_arg = (char)exit_arg;
 	exit(exit_arg);
 }
