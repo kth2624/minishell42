@@ -1,9 +1,21 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: tkim <tkim@student.42.fr>                  +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/01/27 12:57:28 by tkim              #+#    #+#              #
+#    Updated: 2022/01/27 12:57:29 by tkim             ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = minishell
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-LINK = -L/Users/seongjki/.brew/Cellar/readline/8.1.1/lib -L./libft/ -lft -lreadline
-INCLUDE = -I./libft -I./include -I/Users/seongjki/.brew/Cellar/readline/8.1.1/include/
+LINK = -L/Users/tkim/.brew/Cellar/readline/8.1.1/lib -L./libft/ -lft -lreadline
+INCLUDE = -I./libft -I./include -I/Users/tkim/.brew/Cellar/readline/8.1.1/include/
 SRC_DIR = ./src/
 SRC_NAME = lst_utils.c mini_cd.c mini_echo.c mini_env.c mini_export.c mini_pwd.c mini_unset.c mini_exit.c main.c \
 	first_parsing.c set_envp.c path_parsing.c exec_func.c \
@@ -22,9 +34,9 @@ $(LIB):
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 clean:
-	rm -f $(OBJ) $(TEST_OBJ)
+	rm -f $(OBJ)
 	make -C ./libft/ clean
 fclean: clean
-	rm -f $(NAME) test
+	rm -f $(NAME)
 re: fclean all
 

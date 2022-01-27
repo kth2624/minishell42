@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: tkim <tkim@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 17:12:43 by tkim              #+#    #+#             */
-/*   Updated: 2022/01/27 01:39:15 by tkim             ###   ########.fr       */
+/*   Updated: 2022/01/27 12:57:49 by tkim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <errno.h>
+# include <string.h>
 # include "libft.h"
 # include <sys/types.h>
 # include <sys/stat.h>
