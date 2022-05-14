@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tkim <tkim@student.42.fr>                  +#+  +:+       +#+         #
+#    By: tkim <tkim@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/27 12:57:28 by tkim              #+#    #+#              #
-#    Updated: 2022/01/27 12:57:29 by tkim             ###   ########.fr        #
+#    Updated: 2022/01/31 15:40:52 by tkim             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,8 @@ NAME = minishell
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-LINK = -L/Users/tkim/.brew/Cellar/readline/8.1.1/lib -L./libft/ -lft -lreadline
-INCLUDE = -I./libft -I./include -I/Users/tkim/.brew/Cellar/readline/8.1.1/include/
+LINK = -L/opt/homebrew/opt/readline/lib -L./libft/ -lft -lreadline
+INCLUDE = -I./libft -I./include -I/opt/homebrew/opt/readline/include
 SRC_DIR = ./src/
 SRC_NAME = lst_utils.c mini_cd.c mini_echo.c mini_env.c mini_export.c mini_pwd.c mini_unset.c mini_exit.c main.c \
 	first_parsing.c set_envp.c path_parsing.c exec_func.c \
